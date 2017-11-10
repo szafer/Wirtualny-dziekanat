@@ -11,6 +11,8 @@ import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.sencha.gxt.widget.core.client.Component;
 
+import pl.edu.us.client.details.DetailPresenter;
+
 public abstract class BasePresenter<V extends View, Proxy_ extends Proxy<?>> extends Presenter<V, Proxy_> implements
 		HasHandlers {
 
@@ -30,6 +32,8 @@ public abstract class BasePresenter<V extends View, Proxy_ extends Proxy<?>> ext
 
 	@Override
 	protected void revealInParent() {
-		RevealContentEvent.fire(this, ContentPagePresenter.TYPE_CONTENT, this);
+		RevealContentEvent.fire(this, //DetailPresenter.TAB_CONTENT, 
+		    ContentPagePresenter.TYPE_CONTENT, 
+		    this);
 	}
 }

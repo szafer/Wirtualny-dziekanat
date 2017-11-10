@@ -2,6 +2,8 @@ package pl.edu.us.client.main;
 
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
@@ -110,9 +112,10 @@ public class MenuBuilder {
 
 			@Override
 			public void onSelection(SelectionEvent<Item> arg0) {
-				// Window.Location.replace("Logout.html");
+			    Cookies.removeCookie("loggedUser");
 				shownextpage("");
-				placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.main).build());
+				Window.Location.replace("Logout.html");
+//				placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.main).build());
 			}
 		});
 		return item;

@@ -29,7 +29,7 @@
 	<set-configuration-property name="gin.ginjector.modules"
 		value="pl.edu.us.client.ClientModule" />
 
-	<!-- <set-property name="user.agent" value="gecko1_8" /> -->
-	<set-property name="gxt.user.agent" value="gecko1_8" />
+<!-- 	<set-property name="user.agent" value="safari" /> -->
+	<set-property name="gxt.user.agent" value="safari3" />
 	<!-- <set-property name="user.agent.os" value="windows" /> -->
 </module>

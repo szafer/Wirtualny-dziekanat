@@ -7,27 +7,29 @@
 	}
 	</ui:style>
 	<g:HTMLPanel>
-		<header>
+		<body background="../Usosweb/us.jpeg">
+			<header>
+				<div>
+					<!-- <div class="{res.style.container}"> -->
+					<h1>Wirtualny dziekanat</h1>
+				</div>
+			</header>
+			<!-- <div class="{res.style.container} {res.style.box}"> -->
 			<div>
-				<!-- <div class="{res.style.container}"> -->
-				<h1>Symulacja przychodów</h1>
-			</div>
-		</header>
-		<!-- <div class="{res.style.container} {res.style.box}"> -->
-		<div>
-			<p>
-				<strong>Wpisz login:</strong>
-			</p>
-			<g:TextBox ui:field="login" />
-			<p>
-				<strong>Wpisz hasło:</strong>
-			</p>
+				<p>
+					<strong>Wpisz login:</strong>
+				</p>
+				<g:TextBox ui:field="login" />
+				<p>
+					<strong>Wpisz hasło:</strong>
+				</p>
 
-			<g:PasswordTextBox ui:field="pass" />
-			<p>
-				<g:Button ui:field="button" visible="false">Powrót</g:Button>
-				<g:Button ui:field="button_1">Loguj</g:Button>
-			</p>
-		</div>
+				<g:PasswordTextBox ui:field="pass" />
+				<p>
+					<g:Button ui:field="button" visible="false">Powrót</g:Button>
+					<g:Button ui:field="button_1">Loguj</g:Button>
+				</p>
+			</div>
+		</body>
 	</g:HTMLPanel>
 </ui:UiBinder> 

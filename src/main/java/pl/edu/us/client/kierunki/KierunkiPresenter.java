@@ -12,9 +12,13 @@ import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
+import com.gwtplatform.mvp.client.proxy.RevealContentEvent;
+import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
 
 import pl.edu.us.client.NameTokens;
+import pl.edu.us.client.details.DetailPresenter;
 import pl.edu.us.client.main.BasePresenter;
+import pl.edu.us.client.main.ContentPagePresenter;
 import pl.edu.us.shared.model.Kierunek;
 import pl.edu.us.shared.services.kierunki.KierunekService;
 import pl.edu.us.shared.services.kierunki.KierunekServiceAsync;
@@ -98,8 +102,17 @@ public class KierunkiPresenter extends BasePresenter<KierunkiPresenter.MyView, K
 
 	@Override
 	public void wykonajZamknij() {
-		// placeManager.revealPlace(new
-		// PlaceRequest.Builder().nameToken(NameTokens.app).build());
+	    
+	    removeFromParentSlot();
+	    removeFromSlot(null, this);
+	    //Slot(DetailPresenter.TAB_CONTENT, this);
+//C	    onUnbind();
+//	    Close
+//	       RevealContentEvent.fire(this, ContentPagePresenter.TYPE_CONTENT, this);
+
+//	    clearSlot(ContentPagePresenter.TYPE_CONTENT);
+//		 placeManager.revealPlace(new
+//		 PlaceRequest.Builder().nameToken(NameTokens.app).build());
 
 	}
 }

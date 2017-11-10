@@ -48,7 +48,7 @@ public class ContentPageView extends ViewWithUiHandlers<ContentPageUiHandlers> i
 
 	@Override
 	public void removeFromSlot(Object slot, IsWidget content) {
-
+	    super.removeFromSlot(slot, content);
 	}
 
 	@Override

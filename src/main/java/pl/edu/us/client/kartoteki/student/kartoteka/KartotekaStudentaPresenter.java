@@ -15,6 +15,7 @@ import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 
 import pl.edu.us.client.NameTokens;
 import pl.edu.us.client.main.BasePresenter;
+import pl.edu.us.client.main.ContentPagePresenter;
 import pl.edu.us.shared.model.Kierunek;
 import pl.edu.us.shared.model.Student;
 import pl.edu.us.shared.services.kierunki.KierunekService;
@@ -125,6 +126,6 @@ public class KartotekaStudentaPresenter extends
 	@Override
 	public void wykonajZamknij() {
 		// TODO Auto-generated method stub
-		// clearSlot(ContentPagePresenter.TYPE_CONTENT);
+		 clearSlot(ContentPagePresenter.TYPE_CONTENT);
 	}
 }

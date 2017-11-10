@@ -9,9 +9,42 @@ h1 {
   margin: 40px 0px 70px;
   text-align: center;
 }
+body, html {
+    height: 100%;
+}
+.bg {
+    /* The image used */
+    background-image: url("us.jpeg");
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+/*     background-size: cover; */
+}
+
+.caption {
+  position: absolute;
+  left: 0;
+  top: 30%;
+  width: 100%;
+  text-align: center;
+  color: #000;
+}
+
+.caption span.border {
+  background-color: #111;
+  color: #fff;
+  padding: 18px;
+  font-size: 25px;
+  letter-spacing: 10px;
+}
+
 .myDecoratedPanelStyle 
 {
- background-image:url(../gwsh01.jpg);
+ background-image:url(../us.jpeg);
    background-color:#ffffff;
 }
 .sendButton {

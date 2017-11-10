@@ -2,6 +2,7 @@ package pl.edu.us.client.main;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.PasswordTextBox;
@@ -118,6 +119,7 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MyView, MainP
 				@Override
 				public void onSuccess(User result) {
 					if (result != null) {
+					    Cookies.setCookie("loggedUser", result.getLogin());
 						placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.app).build());
 					}
 				}

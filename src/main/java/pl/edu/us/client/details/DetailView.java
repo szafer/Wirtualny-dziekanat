@@ -14,9 +14,11 @@ public class DetailView implements View, DetailPresenter.MyView {
 		panel.setHeadingHtml("ContentPanel");
 		panel.setHeaderVisible(false);
 		panel.setHeight("100%");
-		panel.setBodyStyle("background-image: url(../us.jpeg)");
+		panel.setBodyStyle("background-image: url(us.jpeg)");
+		panel.getBody().addClassName("bg");//wyśrodkowanie logo
+//		panel.setStylePrimaryName("bg");		
 		// panel.setBodyStyle("background-color: red;");
-		panel.setId("myDecoratedPanelStyle"); // setFrame(true);
+		panel.setId("widokPoniżejMenuBara"); // setFrame(true);
 
 	}
 
@@ -39,7 +41,7 @@ public class DetailView implements View, DetailPresenter.MyView {
 
 	@Override
 	public void removeFromSlot(Object slot, IsWidget content) {
-		
+		panel.setWidget(null);
 	}
 
 	@Override

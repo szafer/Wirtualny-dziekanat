@@ -33,7 +33,6 @@ public class KartotekaStudentaView extends BaseView<KartotekaStudentaUiHandlers>
 			@Override
 			public void onSelect(SelectEvent event) {
 				getUiHandlers().wykonajAnuluj();
-				;
 			}
 		});
 		panel.getZamknij().addSelectHandler(new SelectHandler() {
@@ -41,7 +40,6 @@ public class KartotekaStudentaView extends BaseView<KartotekaStudentaUiHandlers>
 			@Override
 			public void onSelect(SelectEvent event) {
 				getUiHandlers().wykonajZamknij();
-				;
 			}
 		});
 		panel.getLista().getGrid().getSelectionModel()
