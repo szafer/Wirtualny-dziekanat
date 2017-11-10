@@ -11,6 +11,14 @@ local.properties
 .loadpath
 .recommenders
 
+# Dodatkowy ignore
+.settings
+.tern-project
+.gwt
+src/main/webapp/WEB-INF/deploy/
+.project
+.classpath
+
 # External tool builders
 .externalToolBuilders/
 
