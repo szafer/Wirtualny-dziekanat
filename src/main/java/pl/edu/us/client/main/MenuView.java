@@ -7,22 +7,19 @@ import com.sencha.gxt.widget.core.client.menu.MenuBar;
 
 public class MenuView extends ViewWithUiHandlers<MenuUiHandlers> implements MenuPresenter.MyView {
 
-	private final MenuBar menu;
+    private final MenuBar menu;
 
-	@Inject
-	MenuView(MenuBuilder menuBuilder) {
-		menu = menuBuilder.build();
-	}
+    @Inject
+    MenuView(MenuBuilder menuBuilder) {
+        menu = menuBuilder.build();//TODO budować widok w zależności od zalogowanego uzytkownika
+    }
 
-	@Override
-	public Widget asWidget() {
-		// TODO Auto-generated method stub
-		return getMenu();
-	}
+    @Override
+    public Widget asWidget() {
+        return getMenu();
+    }
 
-	private MenuBar getMenu() {
-
-		return menu;
-
-	}
+    private MenuBar getMenu() {
+        return menu;
+    }
 }

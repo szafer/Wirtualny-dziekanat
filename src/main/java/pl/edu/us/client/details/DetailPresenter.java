@@ -14,7 +14,11 @@ import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 
 import pl.edu.us.client.NameTokens;
 import pl.edu.us.client.main.ContentPagePresenter;
-
+/**
+ * 
+ * @author marek
+ *  Klasa do usuniecia- aktualnie nie uzywane
+ */
 public class DetailPresenter extends Presenter<DetailPresenter.MyView, DetailPresenter.MyProxy> {
 
 

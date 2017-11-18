@@ -12,38 +12,37 @@ import pl.edu.us.client.NameTokens;
 import pl.edu.us.client.main.BasePresenter;
 
 public class OcenyStudentaPresenter extends
-		BasePresenter<OcenyStudentaPresenter.MyView, OcenyStudentaPresenter.MyProxy> implements OcenyStudentaUiHandlers {
+    BasePresenter<OcenyStudentaPresenter.MyView, OcenyStudentaPresenter.MyProxy> implements OcenyStudentaUiHandlers {
 
-	public interface MyView extends View, HasUiHandlers<OcenyStudentaUiHandlers> {
-	}
+    public interface MyView extends View, HasUiHandlers<OcenyStudentaUiHandlers> {
+    }
 
-	@ProxyCodeSplit
-	@NameToken(NameTokens.ocenyStudenta)
-	public interface MyProxy extends ProxyPlace<OcenyStudentaPresenter> {
-	}
+    @ProxyCodeSplit
+    @NameToken(NameTokens.ocenyStudenta)
+    public interface MyProxy extends ProxyPlace<OcenyStudentaPresenter> {
+    }
 
-	@Inject
-	public OcenyStudentaPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
-		super(eventBus, view, proxy);
-		getView().setUiHandlers(this);
+    @Inject
+    public OcenyStudentaPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
+        super(eventBus, view, proxy);
+        getView().setUiHandlers(this);
 
-	}
+    }
 
-	@Override
-	public void wykonajZapisz() {
-		// TODO Auto-generated method stub
+    @Override
+    public void wykonajZapisz() {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public void wykonajAnuluj() {
-		// TODO Auto-generated method stub
+    @Override
+    public void wykonajAnuluj() {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public void wykonajZamknij() {
-		// TODO Auto-generated method stub
-
-	}
+    @Override
+    public void wykonajZamknij() {
+        removeFromParentSlot();
+    }
 }

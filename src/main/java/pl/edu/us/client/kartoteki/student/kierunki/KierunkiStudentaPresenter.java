@@ -44,7 +44,6 @@ public class KierunkiStudentaPresenter extends
 
 	@Override
 	public void wykonajZamknij() {
-		// TODO Auto-generated method stub
-
+        removeFromParentSlot();
 	}
 }

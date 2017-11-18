@@ -28,6 +28,7 @@ public class LogoutButton extends Button {
             @Override
             public void onClick(ClickEvent event) {
                 Cookies.removeCookie("loggedUser");
+                shownextpage("");
                 Window.Location.replace("Logout.html");
             }
         });
@@ -50,4 +51,10 @@ public class LogoutButton extends Button {
     public void setLogoutUrl(final String logoutUrl) {
         this.logoutUrl = logoutUrl;
     }
+
+    private native void shownextpage(String message) /*-{
+		//      $wnd.close();
+		$wnd.alert("Nastąpiło wylogowanie z aplikacji");
+		//      $wnd.location = "Logout.html";
+    }-*/;
 }

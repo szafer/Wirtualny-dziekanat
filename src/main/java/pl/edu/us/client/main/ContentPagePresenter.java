@@ -50,10 +50,9 @@ public class ContentPagePresenter extends Presenter<ContentPagePresenter.MyView,
 
     @Override
     protected void onBind() {
-        // TODO Auto-generated method stub
         super.onBind();
         setInSlot(TYPE_MENU, menuPresenter);
-        setInSlot(TYPE_CONTENT, detailPresenter);
+//        setInSlot(TYPE_CONTENT, detailPresenter);
     }
 
     @Override
