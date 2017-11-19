@@ -1,71 +1,107 @@
 /** Add css rules here for your application. */
-
-
 /** Example rules used by the template application (remove for your app) */
 h1 {
-  font-size: 2em;
-  font-weight: bold;
-  color: #777777;
-  margin: 40px 0px 70px;
-  text-align: center;
+	font-size: 2em;
+	font-weight: bold;
+	color: #777777;
+	margin: 40px 0px 70px;
+	text-align: center;
 }
+
 body, html {
-    height: 100%;
+	/* Full height */
+	height: 100%;
 }
+
 .bg {
-    /* The image used */
-    background-image: url("us.jpeg");
+	/* The image used */
+	background-image: url("us.jpeg");
+	/* Full height */
+	height: 100%;
+	/* Center and scale the image nicely */
+	background-position: center;
+	background-repeat: no-repeat;
+	/*     background-size: cover; */
+}
 
-    /* Full height */
-    height: 100%;
+.mainbg {
+	background-image: url("us.jpeg");
+	height: 150px;
+	/* Center and scale the image nicely */
+	background-position: center;
+	background-repeat: no-repeat;
+}
 
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-/*     background-size: cover; */
+#top, #bottom {
+	background: #183883;
+	color: #ffffff;
+	position: relative;
+	z-index: 5;
+	text-align: right;
+}
+
+.passremind {
+	background: none !important;
+	border: none;
+	padding: 0 !important;
+	/*optional*/
+	/*     font-family:arial,sans-serif; input has OS specific font-family */
+	color: #069;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.row {
+	min-height: 1em;
+	margin: 0 auto;
+	/*     max-width: 62.5em; */
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	height: 50px;
 }
 
 .caption {
-  position: absolute;
-  left: 0;
-  top: 30%;
-  width: 100%;
-  text-align: center;
-  color: #000;
+	position: absolute;
+	left: 0;
+	top: 30%;
+	width: 100%;
+	text-align: center;
+	color: #000;
 }
 
 .caption span.border {
-  background-color: #111;
-  color: #fff;
-  padding: 18px;
-  font-size: 25px;
-  letter-spacing: 10px;
+	background-color: #111;
+	color: #fff;
+	padding: 18px;
+	font-size: 25px;
+	letter-spacing: 10px;
 }
 
-.myDecoratedPanelStyle 
-{
- background-image:url(../us.jpeg);
-   background-color:#ffffff;
+.myDecoratedPanelStyle {
+	background-image: url(../us.jpeg);
+	background-color: #ffffff;
 }
+
 .sendButton {
-  display: block;
-  font-size: 16pt;
+	display: block;
+	font-size: 16pt;
 }
 
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
-  width: 400px;
+	width: 400px;
 }
 
 .dialogVPanel {
-  margin: 5px;
+	margin: 5px;
 }
 
 .serverResponseLabelError {
-  color: red;
+	color: red;
 }
 
 /** Set ids using widget.getElement().setId("idOfElement") */
 #closeButton {
-  margin: 15px 6px 6px;
+	margin: 15px 6px 6px;
 }

@@ -25,6 +25,8 @@ import pl.edu.us.client.main.MainPageView;
 import pl.edu.us.client.main.MenuBuilder;
 import pl.edu.us.client.main.MenuPresenter;
 import pl.edu.us.client.main.MenuView;
+import pl.edu.us.client.passremind.PassRemindPresenter;
+import pl.edu.us.client.passremind.PassRemindView;
 import pl.edu.us.client.symulacja.przychodykoszty.PrzychodyKosztyPresenter;
 import pl.edu.us.client.symulacja.przychodykoszty.PrzychodyKosztyView;
 import pl.edu.us.client.symulacja.przychodykosztykierunki.PKKierunkiPresenter;
@@ -34,46 +36,48 @@ import pl.edu.us.client.symulacja.przychodykosztyroczne.PKRoczneView;
 
 public class ClientModule extends AbstractPresenterModule {
 
-	@Override
-	protected void configure() {
-		install(new DefaultModule(AppPlaceManager.class));
+    @Override
+    protected void configure() {
+        install(new DefaultModule(AppPlaceManager.class));
 
-		// Constants
-		bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.main);
+        // Constants
+        bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.main);
 
-		bind(MenuBuilder.class).in(Singleton.class);
-		// Presenters główny
-		bindPresenter(MainPagePresenter.class, MainPagePresenter.MyView.class, MainPageView.class,
-				MainPagePresenter.MyProxy.class);
+        bind(MenuBuilder.class).in(Singleton.class);
+        // Presenter główny
+        bindPresenter(MainPagePresenter.class, MainPagePresenter.MyView.class, MainPageView.class,
+            MainPagePresenter.MyProxy.class);
 
-		bindSingletonPresenterWidget(MenuPresenter.class, MenuPresenter.MyView.class, MenuView.class);
+        bindPresenter(PassRemindPresenter.class, PassRemindPresenter.MyView.class, PassRemindView.class, PassRemindPresenter.MyProxy.class);
+        
+        bindSingletonPresenterWidget(MenuPresenter.class, MenuPresenter.MyView.class, MenuView.class);
 
-		bindPresenter(ContentPagePresenter.class, ContentPagePresenter.MyView.class, ContentPageView.class,
-				ContentPagePresenter.MyProxy.class);
+        bindPresenter(ContentPagePresenter.class, ContentPagePresenter.MyView.class, ContentPageView.class,
+            ContentPagePresenter.MyProxy.class);
 
-		bindPresenter(DetailPresenter.class, DetailPresenter.MyView.class, DetailView.class,
-				DetailPresenter.MyProxy.class);
+        bindPresenter(DetailPresenter.class, DetailPresenter.MyView.class, DetailView.class,
+            DetailPresenter.MyProxy.class);
 
-		bindPresenter(AdminPresenter.class, AdminPresenter.MyView.class, AdminView.class, AdminPresenter.MyProxy.class);
-		// Studenci
-		bindPresenter(KartotekaStudentaPresenter.class, KartotekaStudentaPresenter.MyView.class,
-				KartotekaStudentaView.class, KartotekaStudentaPresenter.MyProxy.class);
-		bindPresenter(OcenyStudentaPresenter.class, OcenyStudentaPresenter.MyView.class, OcenyStudentaView.class,
-				OcenyStudentaPresenter.MyProxy.class);
-		bindPresenter(KierunkiStudentaPresenter.class, KierunkiStudentaPresenter.MyView.class,
-				KierunkiStudentaView.class, KierunkiStudentaPresenter.MyProxy.class);
-		// Studia
-		bindPresenter(KierunkiPresenter.class, KierunkiPresenter.MyView.class, KierunkiView.class,
-				KierunkiPresenter.MyProxy.class);
+        bindPresenter(AdminPresenter.class, AdminPresenter.MyView.class, AdminView.class, AdminPresenter.MyProxy.class);
+        // Studenci
+        bindPresenter(KartotekaStudentaPresenter.class, KartotekaStudentaPresenter.MyView.class,
+            KartotekaStudentaView.class, KartotekaStudentaPresenter.MyProxy.class);
+        bindPresenter(OcenyStudentaPresenter.class, OcenyStudentaPresenter.MyView.class, OcenyStudentaView.class,
+            OcenyStudentaPresenter.MyProxy.class);
+        bindPresenter(KierunkiStudentaPresenter.class, KierunkiStudentaPresenter.MyView.class,
+            KierunkiStudentaView.class, KierunkiStudentaPresenter.MyProxy.class);
+        // Studia
+        bindPresenter(KierunkiPresenter.class, KierunkiPresenter.MyView.class, KierunkiView.class,
+            KierunkiPresenter.MyProxy.class);
 
-		bindPresenter(PracownikPresenter.class, PracownikPresenter.MyView.class, PracownikView.class,
-				PracownikPresenter.MyProxy.class);
-		// Symulacja
-		bindPresenter(PrzychodyKosztyPresenter.class, PrzychodyKosztyPresenter.MyView.class, PrzychodyKosztyView.class,
-				PrzychodyKosztyPresenter.MyProxy.class);
-		bindPresenter(PKRocznePresenter.class, PKRocznePresenter.MyView.class, PKRoczneView.class,
-				PKRocznePresenter.MyProxy.class);
-		bindPresenter(PKKierunkiPresenter.class, PKKierunkiPresenter.MyView.class, PKKierunkiView.class,
-				PKKierunkiPresenter.MyProxy.class);
-	}
+        bindPresenter(PracownikPresenter.class, PracownikPresenter.MyView.class, PracownikView.class,
+            PracownikPresenter.MyProxy.class);
+        // Symulacja
+        bindPresenter(PrzychodyKosztyPresenter.class, PrzychodyKosztyPresenter.MyView.class, PrzychodyKosztyView.class,
+            PrzychodyKosztyPresenter.MyProxy.class);
+        bindPresenter(PKRocznePresenter.class, PKRocznePresenter.MyView.class, PKRoczneView.class,
+            PKRocznePresenter.MyProxy.class);
+        bindPresenter(PKKierunkiPresenter.class, PKKierunkiPresenter.MyView.class, PKKierunkiView.class,
+            PKKierunkiPresenter.MyProxy.class);
+    }
 }

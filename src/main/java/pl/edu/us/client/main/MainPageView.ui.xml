@@ -2,12 +2,16 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
-	.important {
+		.important {
 		font-weight: bold;
-	}
+		}
 	</ui:style>
 	<g:HTMLPanel>
-		<body background="../Usosweb/us.jpeg">
+		<body>
+			<div id="top" class="row">
+				<strong>Nie masz konta?</strong>
+				<g:Button ui:field="button">Zarejestrój</g:Button>
+			</div>
 			<header>
 				<div>
 					<!-- <div class="{res.style.container}"> -->
@@ -26,9 +30,21 @@
 
 				<g:PasswordTextBox ui:field="pass" />
 				<p>
-					<g:Button ui:field="button" visible="false">Powrót</g:Button>
+					<!-- <div class="passremind"> -->
+
+					<!-- <button> your button that looks like a link</button> -->
+					<!-- <p> -->
+					<!-- <strong>Przypomnienie hasła</strong> -->
+					<!-- </p> -->
+					<!-- </div> -->
+					<g:Anchor ui:field="passremind" href="Usosweb.html#!passremind">Przypomnienie hasła</g:Anchor>
+
+				</p>
+				<p>
 					<g:Button ui:field="button_1">Loguj</g:Button>
 				</p>
+			</div>
+			<div class="mainbg">
 			</div>
 		</body>
 	</g:HTMLPanel>
