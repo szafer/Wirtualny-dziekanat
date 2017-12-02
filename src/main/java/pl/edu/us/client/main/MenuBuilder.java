@@ -14,6 +14,7 @@ import com.sencha.gxt.widget.core.client.menu.MenuBarItem;
 import com.sencha.gxt.widget.core.client.menu.MenuItem;
 
 import pl.edu.us.client.NameTokens;
+import pl.edu.us.shared.enums.Rola;
 
 public class MenuBuilder {
 
@@ -33,13 +34,25 @@ public class MenuBuilder {
     }
 
     public MenuBar build() {
+        String r = Cookies.getCookie("userRole");
+        Rola rola = Rola.dajRole(Integer.valueOf(r));
         MenuBar menuBar = new MenuBar();
-        menuBar.add(buildDefMenu());
-        menuBar.add(buildAdminMenu());
-        menuBar.add(buildPracownikMenu());
-        menuBar.add(buildStudentMenu());
-        menuBar.add(buildSymulacjaMenu());
-        menuBar.add(buildWydrukiMenu());
+        if (rola != null) {
+            if (rola == Rola.ADMIN) {
+                menuBar.add(buildDefMenu());
+                menuBar.add(buildAdminMenu());
+                menuBar.add(buildPracownikMenu());
+                menuBar.add(buildStudentMenu());
+                menuBar.add(buildSymulacjaMenu());
+                menuBar.add(buildWydrukiMenu());
+            } else if (rola == Rola.NAUCZYCIEL) {
+                menuBar.add(buildPracownikMenu());
+                menuBar.add(buildWydrukiMenu());
+            } else {
+                menuBar.add(buildStudentMenu());
+                menuBar.add(buildWydrukiMenu());
+            }
+        }
         menuBar.add(buildZamknijMenu());
 //        menuBar.add(new LogoutButton());//Jakiś problem z LogoutButton - na razie nie używać
         return menuBar;
@@ -116,6 +129,7 @@ public class MenuBuilder {
             @Override
             public void onSelection(SelectionEvent<Item> arg0) {
                 Cookies.removeCookie("loggedUser");
+                Cookies.removeCookie("userRole");
                 shownextpage("");
                 Window.Location.replace("Logout.html");
             }

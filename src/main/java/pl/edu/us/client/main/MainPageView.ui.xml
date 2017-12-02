@@ -9,8 +9,8 @@
 	<g:HTMLPanel>
 		<body>
 			<div id="top" class="row">
-				<strong>Nie masz konta?</strong>
-				<g:Button ui:field="button">Zarejestrój</g:Button>
+				<strong>Nie masz konta?  </strong>
+				<g:Button ui:field="btnRejestruj">Zarejestruj się</g:Button>
 			</div>
 			<header>
 				<div>
@@ -41,11 +41,13 @@
 
 				</p>
 				<p>
-					<g:Button ui:field="button_1">Loguj</g:Button>
+					<g:Button ui:field="btnLoguj">Loguj</g:Button>
 				</p>
 			</div>
 			<div class="mainbg">
 			</div>
+<!-- 			<div id="bottom" class="row"> -->
+<!-- 			</div> -->
 		</body>
 	</g:HTMLPanel>
 </ui:UiBinder> 

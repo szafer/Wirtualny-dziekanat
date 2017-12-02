@@ -1,11 +1,10 @@
 package pl.edu.us.client.passremind;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dev.util.msg.Message;
 import com.google.gwt.event.shared.GwtEvent.Type;
-import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -19,10 +18,9 @@ import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gwtplatform.mvp.client.proxy.RevealRootContentEvent;
-import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
+import com.sencha.gxt.widget.core.client.box.MessageBox;
 
 import pl.edu.us.client.NameTokens;
-import pl.edu.us.shared.model.User;
 import pl.edu.us.shared.services.user.UserService;
 import pl.edu.us.shared.services.user.UserServiceAsync;
 
@@ -37,7 +35,7 @@ public class PassRemindPresenter extends Presenter<PassRemindPresenter.MyView, P
 
     public interface MyView extends View, HasUiHandlers<PassRemindUiHandlers> {
 
-        TextBox getLogin();
+        TextBox getEmail();
 
     }
 
@@ -75,32 +73,24 @@ public class PassRemindPresenter extends Presenter<PassRemindPresenter.MyView, P
 
     @Override
     public void onWyslijClicked() {
-// placeManager.revealPlace(new
-// PlaceRequest.Builder().nameToken(NameTokens.app).build());
-// TODO odkomentowac
-        String login = getView().getLogin().getValue();
-        String pass = null;//getView().getPass().getValue();
-        if (login.isEmpty() || pass.isEmpty()) {
-            getView().getLogin().setValue("");
-            return;
-        } else {
-            userService.getUser(login, pass, new AsyncCallback<User>() {
+        final String to = getView().getEmail().getValue();
+        userService.getPassByEmail(to, new AsyncCallback<String>() {
 
-                @Override
-                public void onFailure(Throwable caught) {
-                    System.out.println("fail");
-                    getView().getLogin().setValue("");
-                    shownextpage("Niepoprawna nazwa użytkownika lub hasło.");
-                }
+            @Override
+            public void onFailure(Throwable caught) {
+                System.out.println("fail");
+                getView().getEmail().setValue("");
+                shownextpage("Nie znaleziono użytkownika o takim adresie email.");
+            }
 
-                @Override
-                public void onSuccess(User result) {
-                    if (result != null) {
-                        Cookies.setCookie("loggedUser", result.getLogin());
-                        placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.app).build());
-                    }
+            @Override
+            public void onSuccess(String result) {
+                if (result != null) {
+                    getView().getEmail().setValue("");
+                    shownextpage("Na adres: " + to + " zostało wysłane hasło.");
                 }
-            });
-        }
+            }
+        });
     }
+
 }

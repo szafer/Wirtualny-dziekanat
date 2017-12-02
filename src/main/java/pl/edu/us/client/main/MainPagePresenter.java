@@ -2,6 +2,7 @@ package pl.edu.us.client.main;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -27,103 +28,83 @@ import pl.edu.us.shared.services.user.UserService;
 import pl.edu.us.shared.services.user.UserServiceAsync;
 
 public class MainPagePresenter extends Presenter<MainPagePresenter.MyView, MainPagePresenter.MyProxy> implements
-		MainPageUiHandlers {
+    MainPageUiHandlers {
 
-	@ContentSlot
-	public static final Type<RevealContentHandler<?>> TYPE_MENU = new Type<RevealContentHandler<?>>();
+    @ContentSlot
+    public static final Type<RevealContentHandler<?>> TYPE_MENU = new Type<RevealContentHandler<?>>();
 
-	@ContentSlot
-	public static final Type<RevealContentHandler<?>> TYPE_CONTENT = new Type<RevealContentHandler<?>>();
+    @ContentSlot
+    public static final Type<RevealContentHandler<?>> TYPE_CONTENT = new Type<RevealContentHandler<?>>();
 
-	public interface MyView extends View, HasUiHandlers<MainPageUiHandlers> {
+    public interface MyView extends View, HasUiHandlers<MainPageUiHandlers> {
 
-		TextBox getLogin();
+        TextBox getLogin();
 
-		PasswordTextBox getPass();
-	}
+        PasswordTextBox getPass();
+    }
 
-	private final PlaceManager placeManager;
+    private final PlaceManager placeManager;
 
-	@ProxyCodeSplit
-	@NameToken(NameTokens.main)
-	public interface MyProxy extends ProxyPlace<MainPagePresenter> {
-	}
+    @ProxyCodeSplit
+    @NameToken(NameTokens.main)
+    public interface MyProxy extends ProxyPlace<MainPagePresenter> {
+    }
 
-	private final UserServiceAsync userService = GWT.create(UserService.class);
+    private final UserServiceAsync userService = GWT.create(UserService.class);
 
-	@Inject
-	public MainPagePresenter(EventBus eventBus, MyView view, MyProxy proxy, PlaceManager placeManager) {
-		super(eventBus, view, proxy);
-		this.placeManager = placeManager;
+    @Inject
+    public MainPagePresenter(EventBus eventBus, MyView view, MyProxy proxy, PlaceManager placeManager) {
+        super(eventBus, view, proxy);
+        this.placeManager = placeManager;
 
-		getView().setUiHandlers(this);
-	}
+        getView().setUiHandlers(this);
+    }
 
-	@Override
-	protected void revealInParent() {
-		RevealRootContentEvent.fire(this, this);
-	}
+    @Override
+    protected void revealInParent() {
+        RevealRootContentEvent.fire(this, this);
+    }
 
-	private native void shownextpage(String message) /*-{
+    private native void shownextpage(String message) /*-{
 		$wnd.close();
 		$wnd.alert(message);
 		//		$wnd.location = "Logout.html";
-	}-*/;
+    }-*/;
 
-	public void onPowrotClicked() {
-		// Window.open("Logout.html", "_", "");
-		Window.Location.replace("Logout.html");
-		// shownextpage("");
-		// Window.Location.replace(Window.open(url, "_blank", null););
-		// userService.logout(new AsyncCallback<User>() {
-		//
-		// @Override
-		// public void onFailure(Throwable arg0) {
-		// System.out.println("Nie udało się pobrać kierunków");
-		//
-		// }
-		//
-		// @Override
-		// public void onSuccess(User arg0) {
-		// System.out.println("Udało się pobrać kierunków");
-		//
-		// }
-		//
-		// });
-	}
+    public void onZarejestrujClicked() {
+//        Window.Location.replace("Usosweb.html#!rejestracja");
+        placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.rejestracja).build());
 
+    }
 
+    @Override
+    public void onLogujClicked() {
+        String login = getView().getLogin().getValue();
+        String pass = getView().getPass().getValue();
+        if (login.isEmpty() || pass.isEmpty()) {
+            getView().getLogin().setValue("");
+            getView().getPass().setValue("");
+            return;
+        } else {
+            userService.getUser(login, pass, new AsyncCallback<User>() {
 
-	@Override
-	public void onLogujClicked() {
-		// placeManager.revealPlace(new
-		// PlaceRequest.Builder().nameToken(NameTokens.app).build());
-		// TODO odkomentowac
-		String login = getView().getLogin().getValue();
-		String pass = getView().getPass().getValue();
-		if (login.isEmpty() || pass.isEmpty()) {
-			getView().getLogin().setValue("");
-			getView().getPass().setValue("");
-			return;
-		} else {
-			userService.getUser(login, pass, new AsyncCallback<User>() {
+                @Override
+                public void onFailure(Throwable caught) {
+                    System.out.println("fail");
+                    getView().getLogin().setValue("");
+                    getView().getPass().setValue("");
+                    shownextpage("Niepoprawna nazwa użytkownika lub hasło.");
+                }
 
-				@Override
-				public void onFailure(Throwable caught) {
-					System.out.println("fail");
-					getView().getLogin().setValue("");
-					getView().getPass().setValue("");
-					shownextpage("Niepoprawna nazwa użytkownika lub hasło.");
-				}
-
-				@Override
-				public void onSuccess(User result) {
-					if (result != null) {
-					    Cookies.setCookie("loggedUser", result.getLogin());
-						placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.app).build());
-					}
-				}
-			});
-		}
-	}
+                @Override
+                public void onSuccess(User result) {
+                    if (result != null) {
+                        Cookies.setCookie("loggedUser", result.getLogin());
+                        Cookies.setCookie("userRole", String.valueOf(result.getRola().ordinal()));
+                        placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.app).build());
+                    }
+                }
+            });
+        }
+    }
 }

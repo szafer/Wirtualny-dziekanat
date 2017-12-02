@@ -73,7 +73,7 @@ public class PassRemindView extends Composite implements View,
     }
 
     @Override
-    public TextBox getLogin() {
+    public TextBox getEmail() {
         return email;
     }
 

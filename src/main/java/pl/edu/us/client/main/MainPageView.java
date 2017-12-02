@@ -16,73 +16,71 @@ import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.View;
 
 public class MainPageView extends Composite implements View,
-		MainPagePresenter.MyView, HasUiHandlers<MainPageUiHandlers> {
+    MainPagePresenter.MyView, HasUiHandlers<MainPageUiHandlers> {
 
-	private static MainPageViewUiBinder uiBinder = GWT
-			.create(MainPageViewUiBinder.class);
+    private static MainPageViewUiBinder uiBinder = GWT
+        .create(MainPageViewUiBinder.class);
 
-	@UiField
-	TextBox login;
-	@UiField
-	PasswordTextBox pass;
-	@UiField Button button;
-	@UiField Button button_1;
+    @UiField
+    TextBox login;
+    @UiField
+    PasswordTextBox pass;
+    @UiField
+    Button btnRejestruj;
+    @UiField
+    Button btnLoguj;
 
-	private MainPageUiHandlers handlers;
-	
-	interface MainPageViewUiBinder extends UiBinder<Widget, MainPageView> {
-	}
+    private MainPageUiHandlers handlers;
 
-	@Inject
-	public MainPageView() {
-		initWidget(uiBinder.createAndBindUi(this));
-	}
+    interface MainPageViewUiBinder extends UiBinder<Widget, MainPageView> {
+    }
 
-	@Override
-	public Widget asWidget() {
-		return this;
-	}
+    @Inject
+    public MainPageView() {
+        initWidget(uiBinder.createAndBindUi(this));
+    }
 
-	
-	
-	@Override
-	public void setUiHandlers(MainPageUiHandlers uiHandlers) {
-		this.handlers = uiHandlers;
-	}
-	
-	
-	@UiHandler("button")
-	void onButtonClick(ClickEvent event) {
-		handlers.onPowrotClicked();
-	}
+    @Override
+    public Widget asWidget() {
+        return this;
+    }
 
-	@UiHandler("button_1")
-	void onButton_1Click(ClickEvent event) {
-		handlers.onLogujClicked();
-	}
+    @Override
+    public void setUiHandlers(MainPageUiHandlers uiHandlers) {
+        this.handlers = uiHandlers;
+    }
 
-	@Override
-	public void addToSlot(Object slot, IsWidget content) {
-	}
+    @UiHandler("btnRejestruj")
+    void onButtonClick(ClickEvent event) {
+        handlers.onZarejestrujClicked();
+    }
 
-	@Override
-	public void removeFromSlot(Object slot, IsWidget content) {
-		
-	}
+    @UiHandler("btnLoguj")
+    void onButton_1Click(ClickEvent event) {
+        handlers.onLogujClicked();
+    }
 
-	@Override
-	public void setInSlot(Object slot, IsWidget content) {
+    @Override
+    public void addToSlot(Object slot, IsWidget content) {
+    }
 
-		
-	}
+    @Override
+    public void removeFromSlot(Object slot, IsWidget content) {
 
-	@Override
-	public TextBox getLogin() {
-		return login;
-	}
+    }
 
-	@Override
-	public PasswordTextBox getPass() {
-		return pass;
-	}
+    @Override
+    public void setInSlot(Object slot, IsWidget content) {
+
+    }
+
+    @Override
+    public TextBox getLogin() {
+        return login;
+    }
+
+    @Override
+    public PasswordTextBox getPass() {
+        return pass;
+    }
 }

@@ -27,6 +27,8 @@ import pl.edu.us.client.main.MenuPresenter;
 import pl.edu.us.client.main.MenuView;
 import pl.edu.us.client.passremind.PassRemindPresenter;
 import pl.edu.us.client.passremind.PassRemindView;
+import pl.edu.us.client.registeruser.RejestracjaPresenter;
+import pl.edu.us.client.registeruser.RejestracjaView;
 import pl.edu.us.client.symulacja.przychodykoszty.PrzychodyKosztyPresenter;
 import pl.edu.us.client.symulacja.przychodykoszty.PrzychodyKosztyView;
 import pl.edu.us.client.symulacja.przychodykosztykierunki.PKKierunkiPresenter;
@@ -49,6 +51,10 @@ public class ClientModule extends AbstractPresenterModule {
             MainPagePresenter.MyProxy.class);
 
         bindPresenter(PassRemindPresenter.class, PassRemindPresenter.MyView.class, PassRemindView.class, PassRemindPresenter.MyProxy.class);
+  
+        bindPresenter(RejestracjaPresenter.class, RejestracjaPresenter.MyView.class,
+            RejestracjaView.class, RejestracjaPresenter.MyProxy.class);
+       
         
         bindSingletonPresenterWidget(MenuPresenter.class, MenuPresenter.MyView.class, MenuView.class);
 

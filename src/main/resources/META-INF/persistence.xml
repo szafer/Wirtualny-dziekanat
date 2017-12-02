@@ -3,74 +3,50 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 	version="2.0">
 
-	<!-- <persistence-unit name="MyPersistenceUnit" -->
-	<!-- transaction-type="RESOURCE_LOCAL"> -->
-	<!-- <provider>org.hibernate.ejb.HibernatePersistence</provider> -->
-	<!-- <class>pl.edu.us.shared.model.User</class> -->
-	<!-- <class>pl.edu.us.shared.model.Student</class> -->
-	<!-- <class>pl.edu.us.shared.model.Przedmiot</class> -->
-	<!-- <class>pl.edu.us.shared.model.Pracownik</class> -->
-	<!-- <class>pl.edu.us.shared.model.Ocena</class> -->
-	<!-- <class>pl.edu.us.shared.model.Rola</class> -->
-	<!-- <class>pl.edu.us.shared.model.Kierunek</class> -->
-	<!-- <class>pl.edu.us.shared.model.ViPrzychod</class> -->
-	<!-- <class>pl.edu.us.shared.model.ViKierunek</class> -->
-	<!-- <class>pl.edu.us.shared.model.ViKoszt</class> -->
-	<!-- <class>pl.edu.us.shared.model.OkresStudiow</class> -->
-	<!-- <class>pl.edu.us.shared.model.Semestr</class> -->
-	<!-- <class>pl.edu.us.shared.model.SemestrPrzedmiot</class> -->
-	<!-- <properties> -->
-	<!-- <property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect" 
-		/> -->
-	<!-- <property name="hibernate.connection.driver_class" value="oracle.jdbc.OracleDriver" 
-		/> -->
-	<!-- <property name="hibernate.connection.url" value="jdbc:oracle:thin:@localhost:1521:xe" 
-		/> -->
-	<!-- <property name="hibernate.connection.username" value="PZI" /> -->
-	<!-- <property name="hibernate.connection.password" value="PZI" /> -->
-	<!-- <property name="hibernate.c3p0.min_size" value="5" /> -->
-	<!-- <property name="hibernate.c3p0.max_size" value="20" /> -->
-	<!-- <property name="hibernate.c3p0.max_statements" value="50" /> -->
-	<!-- <property name="hibernate.c3p0.idle_test_period" value="3000" /> -->
-	<!-- <property name="hibernate.enable_lazy_load_no_trans" value="true" /> -->
-	<!-- <property name="hibernate.integration.envers.enabled" value="false" 
-		/> -->
-	<!-- <property name="hibernate.hbm2ddl.auto" value="create-drop" /> -->
-	<!-- </properties> -->
-	<!-- </persistence-unit> -->
-
-
 	<persistence-unit name="MyPersistenceUnit"
-		transaction-type="RESOURCE_LOCAL">
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<jta-data-source>java:jboss/datasources/UniDS</jta-data-source>
+	transaction-type="RESOURCE_LOCAL">
+	<provider>org.hibernate.ejb.HibernatePersistence</provider>
+	<class>pl.edu.us.shared.model.User</class>
+
+	<properties>
+		<property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect" />
+		<property name="hibernate.connection.driver_class" value="oracle.jdbc.OracleDriver" />
+		<property name="hibernate.connection.url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="hibernate.connection.username" value="PZI" />
+		<property name="hibernate.connection.password" value="PZI" />
+		<!-- <property name="hibernate.c3p0.min_size" value="5" /> -->
+		<!-- <property name="hibernate.c3p0.max_size" value="20" /> -->
+		<!-- <property name="hibernate.c3p0.max_statements" value="50" /> -->
+		<!-- <property name="hibernate.c3p0.idle_test_period" value="3000" /> -->
+		<property name="hibernate.enable_lazy_load_no_trans" value="true" />
+		<property name="hibernate.integration.envers.enabled" value="false" />
+		<property name="hibernate.show_sql" value="true" />
+
+		<!-- <property name="hibernate.hbm2ddl.auto" value="create-drop" /> -->
+	</properties>
+</persistence-unit>
+
+
+<!-- 	<persistence-unit name="MyPersistenceUnit" -->
+<!-- 		transaction-type="RESOURCE_LOCAL"> -->
+<!-- 		<provider>org.hibernate.ejb.HibernatePersistence</provider> -->
+<!-- 		<jta-data-source>java:jboss/datasources/UniDS</jta-data-source> -->
 <!-- 		<exclude-unlisted-classes>false</exclude-unlisted-classes> -->
 
-		<class>pl.edu.us.shared.model.User</class>
-<!-- 		<class>pl.edu.us.shared.model.Student</class> -->
-<!-- 		<class>pl.edu.us.shared.model.Przedmiot</class> -->
-<!-- 		<class>pl.edu.us.shared.model.Pracownik</class> -->
-<!-- 		<class>pl.edu.us.shared.model.Ocena</class> -->
-<!-- 		<class>pl.edu.us.shared.model.Rola</class> -->
-<!-- 		<class>pl.edu.us.shared.model.Kierunek</class> -->
-<!-- 		<class>pl.edu.us.shared.model.ViPrzychod</class> -->
-<!-- 		<class>pl.edu.us.shared.model.ViKierunek</class> -->
-<!-- 		<class>pl.edu.us.shared.model.ViKoszt</class> -->
-<!-- 		<class>pl.edu.us.shared.model.OkresStudiow</class> -->
-<!-- 		<class>pl.edu.us.shared.model.Semestr</class> -->
-<!-- 		<class>pl.edu.us.shared.model.SemestrPrzedmiot</class> -->
-		<properties>
-			<property name="hibernate.show_sql" value="true" />
-			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:xe" />
-			<property name="javax.persistence.jdbc.user" value="PZI" />
-			<property name="javax.persistence.jdbc.password" value="PZI" />
-			<property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect" />
-			<property name="hibernate.transaction.manager_lookup_class"
-				value="org.hibernate.transaction.JBossTransactionManagerLookup" />
-			<property name="hibernate.integration.envers.enabled" value="false" />
+<!-- 		<class>pl.edu.us.shared.model.User</class> -->
+	
+<!-- 		<properties> -->
+<!-- 			<property name="hibernate.show_sql" value="true" /> -->
+<!-- 			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver" /> -->
+<!-- 			<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:xe" /> -->
+<!-- 			<property name="javax.persistence.jdbc.user" value="PZI" /> -->
+<!-- 			<property name="javax.persistence.jdbc.password" value="PZI" /> -->
+<!-- 			<property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect" /> -->
+<!-- 			<property name="hibernate.transaction.manager_lookup_class" -->
+<!-- 				value="org.hibernate.transaction.JBossTransactionManagerLookup" /> -->
+<!-- 			<property name="hibernate.integration.envers.enabled" value="false" /> -->
 
-		</properties>
-	</persistence-unit>
+<!-- 		</properties> -->
+<!-- 	</persistence-unit> -->
 
 </persistence>

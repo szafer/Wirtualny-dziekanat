@@ -10,12 +10,16 @@ import pl.edu.us.shared.model.User;
 @RemoteServiceRelativePath("usosweb/userService")
 public interface UserService extends RemoteService {
 
-	User getUser(String name, String password);
+    User getUser(String name, String password);
 
-	List<User> zapisz(List<User> doZapisu, List<User> doUsuniecia);
+    List<User> zapisz(List<User> doZapisu, List<User> doUsuniecia);
 
-	List<User> getUsers();
+    List<User> getUsers();
 
-	User logout();
+    User logout();
+
+    String getPassByEmail(String email);
+
+    User zarejestruj(User user) throws Exception;
 
 }
