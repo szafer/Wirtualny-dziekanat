@@ -77,6 +77,10 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MyView, MainP
 
     }
 
+    /**
+     * Uruchomione po naciśnieciu logowania, sprawdza czy wymagana jest zmiana hasłą
+     * jeśli nie - ilośc logowań jest dekrementowana, a 
+     */
     @Override
     public void onLogujClicked() {
         String login = getView().getLogin().getValue();
@@ -101,10 +105,33 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MyView, MainP
                     if (result != null) {
                         Cookies.setCookie("loggedUser", result.getLogin());
                         Cookies.setCookie("userRole", String.valueOf(result.getRola().ordinal()));
-                        placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.app).build());
+                        if (result.getAktywny()) {
+                            zmien(result);
+                        } else {
+                            placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.passchange).build());
+                        }
                     }
                 }
             });
         }
+    }
+
+    public void zmien(User user) {
+        user.setIloscLogowan(user.getIloscLogowan() - 1);
+        if (user.getIloscLogowan() <= 0) {
+            user.setAktywny(false);
+        }
+        userService.updateUser(user, new AsyncCallback<User>() {
+
+            @Override
+            public void onSuccess(User result) {
+                placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.app).build());
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+            }
+        });
+
     }
 }

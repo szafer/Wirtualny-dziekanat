@@ -19,4 +19,7 @@ public interface UserServiceAsync {
     void getPassByEmail(String email, AsyncCallback<String> callback);
     
     void zarejestruj(User user, AsyncCallback<User> callback);
+    
+    void updateUser(User user,  AsyncCallback<User> callback);
+    
 }

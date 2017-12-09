@@ -31,6 +31,7 @@ import com.sencha.gxt.widget.core.client.info.Info;
 import pl.edu.us.client.kartoteki.student.kartoteka.ErrorHandler;
 import pl.edu.us.client.main.handlers.FieldHandler;
 import pl.edu.us.client.main.handlers.FieldHandler.FieldListener;
+import pl.edu.us.client.main.handlers.PassChangeHander;
 import pl.edu.us.shared.enums.Plec;
 import pl.edu.us.shared.enums.Rola;
 import pl.edu.us.shared.model.User;
@@ -182,11 +183,11 @@ public class RejestracjaPanel extends FramedPanel implements /* IsWidget, */Edit
 
         password = new PasswordField();
         password.setAllowBlank(false);
-        password.addValueChangeHandler(new FieldHandler<String>(this));
+        password.addValueChangeHandler(new PassChangeHander<String>(this));
 
         passwordRepeat = new PasswordField();
         passwordRepeat.setAllowBlank(false);
-        passwordRepeat.addValueChangeHandler(new FieldHandler<String>(this));
+        passwordRepeat.addValueChangeHandler(new PassChangeHander<String>(this));
 
         password.addValueChangeHandler(new ValueChangeHandler<String>() {
 

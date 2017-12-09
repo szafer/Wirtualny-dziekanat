@@ -25,6 +25,8 @@ import pl.edu.us.client.main.MainPageView;
 import pl.edu.us.client.main.MenuBuilder;
 import pl.edu.us.client.main.MenuPresenter;
 import pl.edu.us.client.main.MenuView;
+import pl.edu.us.client.passchange.PassChangePresenter;
+import pl.edu.us.client.passchange.PassChangeView;
 import pl.edu.us.client.passremind.PassRemindPresenter;
 import pl.edu.us.client.passremind.PassRemindView;
 import pl.edu.us.client.registeruser.RejestracjaPresenter;
@@ -51,7 +53,8 @@ public class ClientModule extends AbstractPresenterModule {
             MainPagePresenter.MyProxy.class);
 
         bindPresenter(PassRemindPresenter.class, PassRemindPresenter.MyView.class, PassRemindView.class, PassRemindPresenter.MyProxy.class);
-  
+        bindPresenter(PassChangePresenter.class, PassChangePresenter.MyView.class, PassChangeView.class, PassChangePresenter.MyProxy.class);
+        
         bindPresenter(RejestracjaPresenter.class, RejestracjaPresenter.MyView.class,
             RejestracjaView.class, RejestracjaPresenter.MyProxy.class);
        

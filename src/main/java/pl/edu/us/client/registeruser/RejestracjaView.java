@@ -106,6 +106,8 @@ public class RejestracjaView extends ViewWithUiHandlers<RejestracjaUiHandlers>
         u.setLogin(panel.getLogin().getValue());
         u.setPassword(panel.getPassword().getValue());
         u.setRola(panel.getRola().getValue());
+        u.setIloscLogowan(1);
+        u.setAktywny(true);
         model.setUser(u);
     }
 

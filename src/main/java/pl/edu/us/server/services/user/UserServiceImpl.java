@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     public void destroy() {
     }
 
-    // @Transactional(readOnly = true)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public User getUser(String name, String password) {
         try {
             User u = (User) userDAO.getEntityManager().createNamedQuery(User.DAJ_USERA)
@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService {
         if (u != null) {
 //            return null;
 //            try {
-                throw new Exception("Taki login występuje już w systemie");
+            throw new Exception("Taki login występuje już w systemie");
 //            } catch (Exception e) {
 //                // TODO Auto-generated catch block
 //                e.printStackTrace();
@@ -129,5 +129,12 @@ public class UserServiceImpl implements UserService {
 //        userDAO.getEntityManager().flush();
         return user;
 
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public User updateUser(User user) {
+        userDAO.merge(user);
+        return null;
     }
 }

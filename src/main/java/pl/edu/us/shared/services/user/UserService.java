@@ -22,4 +22,6 @@ public interface UserService extends RemoteService {
 
     User zarejestruj(User user) throws Exception;
 
+    User updateUser(User user);
+
 }

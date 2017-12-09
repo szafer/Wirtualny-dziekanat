@@ -4,8 +4,10 @@ public class NameTokens {
     //Nie ruszać
     public static final String main = "!main";
     public static final String app = "!app";
-    public static final String passremind = "!passremind";
+
     public static final String rejestracja = "!rejestracja";
+    public static final String passremind = "!passremind";
+    public static final String passchange = "!passchange";
 
     public static final String details = "!details";//FIXME nieuzywane
     public static final String def = "!def";//FIXME nieuzywane
