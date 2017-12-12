@@ -6,7 +6,7 @@ package pl.edu.us.shared.enums;
  */
 public enum Rola {
 
-    ADMIN("Administrator"), STUDENT("Student"), NAUCZYCIEL("Nauczyciel");
+    STUDENT("Student"), NAUCZYCIEL("Nauczyciel"), ADMIN("Administrator");
 
     private String kod;
 
