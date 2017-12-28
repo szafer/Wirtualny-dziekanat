@@ -6,7 +6,7 @@ import com.google.inject.Singleton;
 import com.sencha.gxt.data.shared.ListStore;
 
 import pl.edu.us.client.accesproperties.ViPrzychodProperties;
-import pl.edu.us.shared.model.ViPrzychod;
+import pl.edu.us.shared.model.old.ViPrzychod;
 
 @Singleton
 public class PrzychodyKosztyModel {

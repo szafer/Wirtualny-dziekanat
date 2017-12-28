@@ -33,11 +33,11 @@ import com.sencha.gxt.widget.core.client.grid.filters.GridFilters;
 import com.sencha.gxt.widget.core.client.info.Info;
 
 import pl.edu.us.client.accesproperties.KierunekProperties;
-import pl.edu.us.client.kartoteki.student.kartoteka.KartotekaStudentaModel;
+import pl.edu.us.client.uzytkownik.kartoteka.KartotekaUzytkownikowModel;
 import pl.edu.us.shared.enums.TypSemestru;
 
 public class KierunkiStudentaDialog<Kierunek> extends Dialog implements IsWidget, Editor<Kierunek> {
-	private final KartotekaStudentaModel model;
+	private final KartotekaUzytkownikowModel model;
 	private final Grid<Kierunek> grid;
 	ColumnConfig<Kierunek, String> nameCol;
 	ColumnConfig<Kierunek, Integer> rokOdCol;
@@ -52,7 +52,7 @@ public class KierunkiStudentaDialog<Kierunek> extends Dialog implements IsWidget
 	@SuppressWarnings("unchecked")
 	@Inject
 	public KierunkiStudentaDialog(ListStore<Kierunek> store, KierunekProperties props,
-			final KartotekaStudentaModel model) {
+			final KartotekaUzytkownikowModel model) {
 		this.store = store;
 		this.model = model;
 		setHeaderVisible(false);

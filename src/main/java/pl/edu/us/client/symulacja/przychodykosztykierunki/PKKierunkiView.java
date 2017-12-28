@@ -15,7 +15,7 @@ import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 
 import pl.edu.us.client.main.BaseView;
 import pl.edu.us.client.symulacja.przychodykosztykierunki.ui.PKKierunkiPanel;
-import pl.edu.us.shared.model.ViPrzychod;
+import pl.edu.us.shared.model.old.ViPrzychod;
 
 public class PKKierunkiView extends BaseView<PKKierunkiUiHandlers> implements PKKierunkiPresenter.MyView {
 

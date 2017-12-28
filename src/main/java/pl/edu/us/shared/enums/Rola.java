@@ -6,7 +6,7 @@ package pl.edu.us.shared.enums;
  */
 public enum Rola {
 
-    ADMIN("Administrator"), STUDENT("Student"), NAUCZYCIEL("Nauczyciel");
+    STUDENT("Student"), NAUCZYCIEL("Nauczyciel"), ADMIN("Administrator");
 
     private String kod;
 
@@ -28,15 +28,16 @@ public enum Rola {
     }
 
     public static Rola dajRole(int r) {
-        switch (r) {
-        case 0:
-            return ADMIN;
-        case 1:
-            return STUDENT;
-        case 2:
-            return NAUCZYCIEL;
-        default:
-            return null;
-        }
+        return Rola.values()[r];
+//        switch (r) {
+//        case 0:
+//            return STUDENT;
+//        case 1:
+//            return NAUCZYCIEL;
+//        case 2:
+//            return ADMIN;
+//        default:
+//            return null;
+//        }
     }
 }

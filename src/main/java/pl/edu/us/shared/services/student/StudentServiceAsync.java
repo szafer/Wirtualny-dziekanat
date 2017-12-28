@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import pl.edu.us.shared.model.Student;
+import pl.edu.us.shared.model.old.Student;
 
 public interface StudentServiceAsync {
 

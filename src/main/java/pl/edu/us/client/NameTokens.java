@@ -5,10 +5,12 @@ public class NameTokens {
     public static final String main = "!main";
     public static final String app = "!app";
 
+    //Dla wszystkich uzytkownikow
     public static final String rejestracja = "!rejestracja";
     public static final String passremind = "!passremind";
     public static final String passchange = "!passchange";
-
+    public static final String daneUzytkownika = "!daneUzytkownika";
+    
     public static final String details = "!details";//FIXME nieuzywane
     public static final String def = "!def";//FIXME nieuzywane
     //Definicje systemu
@@ -18,9 +20,9 @@ public class NameTokens {
     //Kartoteki pracowników
     public static final String pracownicy = "!pracownicy";
     //Kartoteki studentów
-    public static final String studenci = "!studenci";
+    public static final String kartotekaUzytkownikow = "!studenci";
     public static final String ocenyStudenta = "!ocenyStudenta";
-    public static final String kierunkiStudenta = "!kierunkiStudenta";
+    public static final String przedmioty = "!kierunkiStudenta";
     //Moduł symulacji
     public static final String przychodykoszty = "!przychodykoszty";
     public static final String przychodykosztyroczne = "!przychodykosztyroczne";

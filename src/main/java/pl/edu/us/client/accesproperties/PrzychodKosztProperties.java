@@ -7,7 +7,7 @@ import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.data.shared.PropertyAccess;
 
-import pl.edu.us.shared.model.PrzychodKoszt;
+import pl.edu.us.shared.model.old.PrzychodKoszt;
 
 public interface PrzychodKosztProperties extends PropertyAccess<PrzychodKoszt> {
 	@Path("id")

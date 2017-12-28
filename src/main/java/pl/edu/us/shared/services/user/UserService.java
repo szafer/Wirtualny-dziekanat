@@ -5,12 +5,13 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.model.User;
 
 @RemoteServiceRelativePath("usosweb/userService")
 public interface UserService extends RemoteService {
 
-    User getUser(String name, String password);
+    UserDTO getUser(String name, String password);
 
     List<User> zapisz(List<User> doZapisu, List<User> doUsuniecia);
 
@@ -22,6 +23,8 @@ public interface UserService extends RemoteService {
 
     User zarejestruj(User user) throws Exception;
 
-    User updateUser(User user);
+    UserDTO updateUser(UserDTO user);
+
+    User pobierzDaneUzytkownika(String name);
 
 }

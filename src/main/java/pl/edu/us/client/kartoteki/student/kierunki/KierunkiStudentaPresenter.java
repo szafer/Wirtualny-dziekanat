@@ -19,7 +19,7 @@ public class KierunkiStudentaPresenter extends
 	}
 
 	@ProxyCodeSplit
-	@NameToken(NameTokens.kierunkiStudenta)
+	@NameToken(NameTokens.przedmioty)
 	public interface MyProxy extends ProxyPlace<KierunkiStudentaPresenter> {
 	}
 

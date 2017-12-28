@@ -16,17 +16,11 @@ public class KierunkiView extends BaseView<KierunkiUiHandlers> implements Kierun
     public KierunkiView(KierunkiPanel panel, KierunkiModel model) {
         this.model = model;
         this.panel = panel;
-        // panel.setHeadingHtml("AdminPanel");
-        // panel.setHeight("100%");
-        // panel.setId("adminPanel");
-
-        // setFrame(true);
-        // setHeading("aaaaaaaaa");
     }
 
     @Override
     protected void bindCustomUiHandlers() {
-        panel.getZapisz().addSelectHandler(new SelectHandler() {
+        panel.getZapisz().addSelectHandler(new SelectHandler() { 
 
             @Override
             public void onSelect(SelectEvent event) {

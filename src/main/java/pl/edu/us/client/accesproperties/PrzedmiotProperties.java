@@ -5,7 +5,7 @@ import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.data.shared.PropertyAccess;
 
-import pl.edu.us.shared.model.Przedmiot;
+import pl.edu.us.shared.model.przedmioty.Przedmiot;
 
 public interface PrzedmiotProperties extends PropertyAccess<Przedmiot> {
 
@@ -14,7 +14,7 @@ public interface PrzedmiotProperties extends PropertyAccess<Przedmiot> {
 
 	ValueProvider<Przedmiot, String> nazwa();
 
-	ValueProvider<Przedmiot, Integer> godzinyWyklad();
-
-	ValueProvider<Przedmiot, Integer> godzinyCw();
+//	ValueProvider<Przedmiot, Integer> godzinyWyklad();
+//
+//	ValueProvider<Przedmiot, Integer> godzinyCw();
 }

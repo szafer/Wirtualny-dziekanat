@@ -6,7 +6,7 @@ import javax.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import pl.edu.us.shared.model.Kierunek;
+import pl.edu.us.shared.model.old.Kierunek;
 
 @Repository("kierunekDAO")
 public class KierunekDAO extends BaseDAO<Integer, Kierunek> {

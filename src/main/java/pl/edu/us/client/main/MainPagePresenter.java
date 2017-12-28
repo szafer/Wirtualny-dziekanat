@@ -2,9 +2,7 @@ package pl.edu.us.client.main;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.GwtEvent.Type;
-import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -23,6 +21,7 @@ import com.gwtplatform.mvp.client.proxy.RevealRootContentEvent;
 import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
 
 import pl.edu.us.client.NameTokens;
+import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.model.User;
 import pl.edu.us.shared.services.user.UserService;
 import pl.edu.us.shared.services.user.UserServiceAsync;
@@ -90,7 +89,7 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MyView, MainP
             getView().getPass().setValue("");
             return;
         } else {
-            userService.getUser(login, pass, new AsyncCallback<User>() {
+            userService.getUser(login, pass, new AsyncCallback<UserDTO>() {
 
                 @Override
                 public void onFailure(Throwable caught) {
@@ -101,7 +100,7 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MyView, MainP
                 }
 
                 @Override
-                public void onSuccess(User result) {
+                public void onSuccess(UserDTO result) {
                     if (result != null) {
                         Cookies.setCookie("loggedUser", result.getLogin());
                         Cookies.setCookie("userRole", String.valueOf(result.getRola().ordinal()));
@@ -116,15 +115,15 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MyView, MainP
         }
     }
 
-    public void zmien(User user) {
+    public void zmien(UserDTO user) {
         user.setIloscLogowan(user.getIloscLogowan() - 1);
         if (user.getIloscLogowan() <= 0) {
             user.setAktywny(false);
         }
-        userService.updateUser(user, new AsyncCallback<User>() {
+        userService.updateUser(user, new AsyncCallback<UserDTO>() {
 
             @Override
-            public void onSuccess(User result) {
+            public void onSuccess(UserDTO result) {
                 placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.app).build());
             }
 

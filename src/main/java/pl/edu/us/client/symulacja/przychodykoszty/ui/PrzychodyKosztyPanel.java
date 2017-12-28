@@ -16,7 +16,7 @@ import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.Verti
 import com.sencha.gxt.widget.core.client.form.IntegerField;
 
 import pl.edu.us.client.symulacja.przychodykoszty.PrzychodyKosztyModel;
-import pl.edu.us.shared.model.ViPrzychod;
+import pl.edu.us.shared.model.old.ViPrzychod;
 
 public class PrzychodyKosztyPanel extends ContentPanel {
 

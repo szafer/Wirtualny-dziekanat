@@ -7,8 +7,8 @@ import com.sencha.gxt.data.shared.ListStore;
 
 import pl.edu.us.client.accesproperties.KierunekProperties;
 import pl.edu.us.client.accesproperties.PrzedmiotProperties;
-import pl.edu.us.shared.model.Kierunek;
-import pl.edu.us.shared.model.Przedmiot;
+import pl.edu.us.shared.model.old.Kierunek;
+import pl.edu.us.shared.model.przedmioty.Przedmiot;
 
 @Singleton
 public class KierunkiModel {

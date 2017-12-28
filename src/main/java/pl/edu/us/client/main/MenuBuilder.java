@@ -18,14 +18,16 @@ import pl.edu.us.shared.enums.Rola;
 
 public class MenuBuilder {
 
+    private Menu daneOsoboweMenu;//pokazuje się zawsze
+    private Menu przedmiotyMenu; //pokazuje się zawsze
     private Menu adminMenu;
     private Menu zamknijMenu;
     private Menu studentMenu;
     private Menu defMenu;
     private Menu pracownikMenu;
     private Menu symulacjaMenu;
-    private Menu raportyMenu;
-    private MenuBarItem zamknijBarItem;
+    private Menu raportyMenu;//pokazuje się zawsze
+    private MenuBarItem zamknijBarItem;//pokazuje się zawsze
     private final PlaceManager placeManager;
 
     @Inject
@@ -35,8 +37,13 @@ public class MenuBuilder {
 
     public MenuBar build() {
         String r = Cookies.getCookie("userRole");
-        Rola rola = Rola.dajRole(Integer.valueOf(r));
+        Rola rola = Rola.values()[Integer.valueOf(r)];
+
+//            Rola.dajRole(Integer.valueOf(r));
         MenuBar menuBar = new MenuBar();
+//        menuBar.add(createMenuItem("Dane osobowe", NameTokens.daneUzytkownika));
+//        menuBar.add(createMenuItem("Przedmioty", NameTokens.przedmioty));
+        menuBar.add(buildDaneOsoboweMenu());
         if (rola != null) {
             if (rola == Rola.ADMIN) {
                 menuBar.add(buildDefMenu());
@@ -44,15 +51,13 @@ public class MenuBuilder {
                 menuBar.add(buildPracownikMenu());
                 menuBar.add(buildStudentMenu());
                 menuBar.add(buildSymulacjaMenu());
-                menuBar.add(buildWydrukiMenu());
             } else if (rola == Rola.NAUCZYCIEL) {
                 menuBar.add(buildPracownikMenu());
-                menuBar.add(buildWydrukiMenu());
             } else {
                 menuBar.add(buildStudentMenu());
-                menuBar.add(buildWydrukiMenu());
             }
         }
+        menuBar.add(buildWydrukiMenu());
         menuBar.add(buildZamknijMenu());
 //        menuBar.add(new LogoutButton());//Jakiś problem z LogoutButton - na razie nie używać
         return menuBar;
@@ -91,10 +96,23 @@ public class MenuBuilder {
 
         studentMenu = new Menu();
         MenuBarItem studentBarItem = new MenuBarItem("Studenci", studentMenu);
-        studentMenu.add(createMenuItem("Studenci", NameTokens.studenci));
-        studentMenu.add(createMenuItem("Kierunki Studenta", NameTokens.kierunkiStudenta));
+        studentMenu.add(createMenuItem("Studenci", NameTokens.kartotekaUzytkownikow));
         studentMenu.add(createMenuItem("Oceny Studenta", NameTokens.ocenyStudenta));
         return studentBarItem;
+    }
+
+    private MenuBarItem buildDaneOsoboweMenu() {
+        daneOsoboweMenu = new Menu();
+        MenuBarItem daneOsoboweBarItem = new MenuBarItem("Dane osobowe", daneOsoboweMenu);
+        daneOsoboweMenu.add(createMenuItem("Moje dane", NameTokens.daneUzytkownika));
+        return daneOsoboweBarItem;
+    }
+
+    private MenuBarItem buildPrzedmiotyMenu() {
+        przedmiotyMenu = new Menu();
+        MenuBarItem przedmiotyBarItem = new MenuBarItem("Dane osobowe", daneOsoboweMenu);
+        przedmiotyMenu.add(createMenuItem("Przedmioty", NameTokens.przedmioty));
+        return przedmiotyBarItem;
     }
 
     private MenuBarItem buildZamknijMenu() {

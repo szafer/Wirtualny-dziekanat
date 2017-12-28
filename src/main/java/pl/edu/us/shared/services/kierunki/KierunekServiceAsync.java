@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import pl.edu.us.shared.model.Kierunek;
+import pl.edu.us.shared.model.old.Kierunek;
 
 public interface KierunekServiceAsync {
 

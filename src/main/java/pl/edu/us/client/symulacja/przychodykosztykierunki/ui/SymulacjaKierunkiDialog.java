@@ -42,7 +42,7 @@ import com.sencha.gxt.widget.core.client.form.CheckBox;
 import com.sencha.gxt.widget.core.client.form.FieldLabel;
 
 import pl.edu.us.client.accesproperties.ViPrzychodProperties;
-import pl.edu.us.shared.model.ViPrzychod;
+import pl.edu.us.shared.model.old.ViPrzychod;
 
 public class SymulacjaKierunkiDialog extends Dialog {
 

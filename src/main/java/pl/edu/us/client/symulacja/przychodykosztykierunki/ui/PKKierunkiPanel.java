@@ -54,7 +54,7 @@ import pl.edu.us.client.accesproperties.ViPrzychodProperties;
 import pl.edu.us.client.symulacja.przychodykoszty.ui.SymulacjaRokDialog;
 import pl.edu.us.client.symulacja.przychodykoszty.ui.WyliczonePanel;
 import pl.edu.us.client.symulacja.przychodykosztykierunki.PKKierunkiModel;
-import pl.edu.us.shared.model.ViPrzychod;
+import pl.edu.us.shared.model.old.ViPrzychod;
 
 public class PKKierunkiPanel extends ContentPanel {
 

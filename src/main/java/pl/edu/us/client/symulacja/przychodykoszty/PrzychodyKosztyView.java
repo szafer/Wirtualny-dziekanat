@@ -14,7 +14,7 @@ import com.sencha.gxt.widget.core.client.selection.SelectionChangedEvent.Selecti
 
 import pl.edu.us.client.main.BaseView;
 import pl.edu.us.client.symulacja.przychodykoszty.ui.PrzychodyKosztyPanel;
-import pl.edu.us.shared.model.ViPrzychod;
+import pl.edu.us.shared.model.old.ViPrzychod;
 
 public class PrzychodyKosztyView extends BaseView<PrzychodyKosztyUiHandlers> implements PrzychodyKosztyPresenter.MyView {
 

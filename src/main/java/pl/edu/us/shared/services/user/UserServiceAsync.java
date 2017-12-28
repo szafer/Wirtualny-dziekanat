@@ -4,11 +4,12 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.model.User;
 
 public interface UserServiceAsync {
 
-    void getUser(String name, String password, AsyncCallback<User> callback);
+    void getUser(String name, String password, AsyncCallback<UserDTO> callback);
 
     void zapisz(List<User> doZapisu, List<User> doUsuniecia, AsyncCallback<List<User>> callback);
 
@@ -20,6 +21,7 @@ public interface UserServiceAsync {
     
     void zarejestruj(User user, AsyncCallback<User> callback);
     
-    void updateUser(User user,  AsyncCallback<User> callback);
+    void updateUser(UserDTO user,  AsyncCallback<UserDTO> asyncCallback);
     
+    void pobierzDaneUzytkownika(String name, AsyncCallback<User> callback);
 }

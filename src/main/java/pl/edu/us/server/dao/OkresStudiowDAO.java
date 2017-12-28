@@ -6,7 +6,7 @@ import javax.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import pl.edu.us.shared.model.OkresStudiow;
+import pl.edu.us.shared.model.old.OkresStudiow;
 
 @Repository("okresStudiowDAO")
 public class OkresStudiowDAO extends BaseDAO<Integer, OkresStudiow> {

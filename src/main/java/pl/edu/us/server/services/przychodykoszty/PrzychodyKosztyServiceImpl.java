@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.us.server.dao.ViPrzychodDAO;
-import pl.edu.us.shared.model.ViPrzychod;
+import pl.edu.us.shared.model.old.ViPrzychod;
 import pl.edu.us.shared.services.przychodykoszty.PrzychodyKosztyService;
 
 @Service("przychodyKosztyService")

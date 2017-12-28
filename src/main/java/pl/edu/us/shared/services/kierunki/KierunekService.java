@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-import pl.edu.us.shared.model.Kierunek;
+import pl.edu.us.shared.model.old.Kierunek;
 
 @RemoteServiceRelativePath("usosweb/kierunekService")
 public interface KierunekService extends RemoteService {

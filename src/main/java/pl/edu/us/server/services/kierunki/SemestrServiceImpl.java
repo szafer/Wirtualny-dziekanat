@@ -7,7 +7,7 @@ import javax.annotation.PreDestroy;
 
 import org.springframework.stereotype.Service;
 
-import pl.edu.us.shared.model.Semestr;
+import pl.edu.us.shared.model.old.Semestr;
 import pl.edu.us.shared.services.kierunki.SemestrService;
 
 @Service("semestrService")

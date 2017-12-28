@@ -25,7 +25,7 @@ import com.sencha.gxt.widget.core.client.grid.filters.NumericFilter;
 import com.sencha.gxt.widget.core.client.grid.filters.StringFilter;
 
 import pl.edu.us.client.accesproperties.KierunekProperties;
-import pl.edu.us.shared.model.Kierunek;
+import pl.edu.us.shared.model.old.Kierunek;
 
 public class KierunkiGridPanel extends ContentPanel implements IsWidget, Editor<Kierunek> {
 

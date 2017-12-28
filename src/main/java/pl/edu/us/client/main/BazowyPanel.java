@@ -5,6 +5,7 @@ import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
+import com.sencha.gxt.widget.core.client.container.HBoxLayoutContainer.HBoxLayoutAlign;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
@@ -81,6 +82,7 @@ public class BazowyPanel extends ContentPanel {
 		});
 		zamknij.setWidth(80);
 		toolbar.add(zamknij);
+		
 		borderLayoutContainer.setSouthWidget(toolbar, southData);
 		this.add(borderLayoutContainer);
 	}

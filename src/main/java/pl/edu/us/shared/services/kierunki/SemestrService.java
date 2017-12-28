@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-import pl.edu.us.shared.model.Semestr;
+import pl.edu.us.shared.model.old.Semestr;
 
 @RemoteServiceRelativePath("usoweb/semestrService")
 public interface SemestrService extends RemoteService {

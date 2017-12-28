@@ -15,7 +15,7 @@ import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 
 import pl.edu.us.client.NameTokens;
 import pl.edu.us.client.main.BasePresenter;
-import pl.edu.us.shared.model.Kierunek;
+import pl.edu.us.shared.model.old.Kierunek;
 import pl.edu.us.shared.services.kierunki.KierunekService;
 import pl.edu.us.shared.services.kierunki.KierunekServiceAsync;
 

@@ -13,7 +13,7 @@ import com.sencha.gxt.widget.core.client.container.VBoxLayoutContainer.VBoxLayou
 import com.sencha.gxt.widget.core.client.form.BigDecimalField;
 import com.sencha.gxt.widget.core.client.form.IntegerField;
 
-import pl.edu.us.shared.model.ViPrzychod;
+import pl.edu.us.shared.model.old.ViPrzychod;
 
 public class WyliczonePanel implements IsWidget, Editor<ViPrzychod> {
 

@@ -7,8 +7,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import net.sf.beanlib.hibernate3.Hibernate3DtoCopier;
-import pl.edu.us.shared.model.Adres;
-import pl.edu.us.shared.model.Pracownik;
+import pl.edu.us.shared.model.old.Adres;
+import pl.edu.us.shared.model.old.Pracownik;
 import pl.edu.us.shared.services.PracownikService;
 
 import org.springframework.stereotype.Service;

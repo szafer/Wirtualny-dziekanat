@@ -2,7 +2,7 @@ package pl.edu.us.shared.services;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import pl.edu.us.shared.model.Pracownik;
+import pl.edu.us.shared.model.old.Pracownik;
 
 public interface PracownikServiceAsync {
 

@@ -6,9 +6,9 @@ import java.util.List;
 import com.sencha.gxt.core.client.ValueProvider;
 
 import pl.edu.us.shared.enums.TypSemestru;
-import pl.edu.us.shared.model.Kierunek;
-import pl.edu.us.shared.model.OkresStudiow;
-import pl.edu.us.shared.model.Semestr;
+import pl.edu.us.shared.model.old.Kierunek;
+import pl.edu.us.shared.model.old.OkresStudiow;
+import pl.edu.us.shared.model.old.Semestr;
 
 public interface KierunekProperties extends AccProperties<Kierunek> {
 	//

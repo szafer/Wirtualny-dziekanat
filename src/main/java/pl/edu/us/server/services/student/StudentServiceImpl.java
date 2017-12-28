@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import pl.edu.us.server.dao.OkresStudiowDAO;
 import pl.edu.us.server.dao.StudentDAO;
-import pl.edu.us.shared.model.OkresStudiow;
-import pl.edu.us.shared.model.Student;
+import pl.edu.us.shared.model.old.OkresStudiow;
+import pl.edu.us.shared.model.old.Student;
 import pl.edu.us.shared.services.student.StudentService;
 
 @Service("studentService")
@@ -41,27 +41,27 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public List<Student> zapisz(List<Student> doZapisu, List<Student> doUsuniecia) {
-		for (Student u : doUsuniecia) {
-			if (u.getId() != null) {
-				Student s = studentDAO.findById(u.getId());
-				if (s != null)
-				studentDAO.remove(s);
-			}
-		}
-		for (Student u : doZapisu) {
-			Integer licznik = (Integer) okresStudiowDAO.findMaxId();
-			for (OkresStudiow ok : u.getOkresy()) {
-				if (ok.getId() == null) {
-					licznik++;
-					ok.setId(licznik);
-				}
-			}
-			Student s = studentDAO.findById(u.getId());
-			if (s == null) {
-				studentDAO.persist(u);
-			} else
-				studentDAO.merge(u);
-		}
+//		for (Student u : doUsuniecia) {
+//			if (u.getId() != null) {
+//				Student s = studentDAO.findById(u.getId());
+//				if (s != null)
+//				studentDAO.remove(s);
+//			}
+//		}
+//		for (Student u : doZapisu) {
+//			Integer licznik = (Integer) okresStudiowDAO.findMaxId();
+//			for (OkresStudiow ok : u.getOkresy()) {
+//				if (ok.getId() == null) {
+//					licznik++;
+//					ok.setId(licznik);
+//				}
+//			}
+//			Student s = studentDAO.findById(u.getId());
+//			if (s == null) {
+//				studentDAO.persist(u);
+//			} else
+//				studentDAO.merge(u);
+//		}
 		return getStudents();
 	}
 

@@ -13,9 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import pl.edu.us.server.dao.KierunekDAO;
 import pl.edu.us.server.dao.SemestrDAO;
-import pl.edu.us.shared.model.Kierunek;
-import pl.edu.us.shared.model.OkresStudiow;
-import pl.edu.us.shared.model.Semestr;
+import pl.edu.us.shared.model.old.Kierunek;
+import pl.edu.us.shared.model.old.OkresStudiow;
+import pl.edu.us.shared.model.old.Semestr;
 import pl.edu.us.shared.services.kierunki.KierunekService;
 
 @Service("kierunekService")

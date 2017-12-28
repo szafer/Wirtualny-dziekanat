@@ -11,8 +11,8 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import pl.edu.us.client.symulacja.przychodykoszty.ui.Data;
-import pl.edu.us.shared.model.PrzychodKoszt;
 import pl.edu.us.shared.model.User;
+import pl.edu.us.shared.model.old.PrzychodKoszt;
 
 public class TestData {
 

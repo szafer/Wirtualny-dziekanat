@@ -5,7 +5,7 @@ import com.sencha.gxt.widget.core.client.selection.SelectionChangedEvent;
 import com.sencha.gxt.widget.core.client.selection.SelectionChangedEvent.SelectionChangedHandler;
 
 import pl.edu.us.client.main.BaseView;
-import pl.edu.us.shared.model.Student;
+import pl.edu.us.shared.model.old.Student;
 
 public class OcenyStudentaView extends BaseView<OcenyStudentaUiHandlers> implements
 		OcenyStudentaPresenter.MyView {
@@ -20,17 +20,17 @@ public class OcenyStudentaView extends BaseView<OcenyStudentaUiHandlers> impleme
 
 	@Override
 	protected void bindCustomUiHandlers() {
-		panel.getLista().getGrid().getSelectionModel()
-				.addSelectionChangedHandler(new SelectionChangedHandler<Student>() {
-					@Override
-					public void onSelectionChanged(SelectionChangedEvent<Student> event) {
-						if (event.getSelection().size() > 0) {
-							model.setSelected(panel.getLista().getGrid().getSelectionModel().getSelectedItem());
-						} else {
-							model.setSelected(null);
-						}
-					}
-				});
+//		panel.getLista().getGrid().getSelectionModel()
+//				.addSelectionChangedHandler(new SelectionChangedHandler<Student>() {
+//					@Override
+//					public void onSelectionChanged(SelectionChangedEvent<Student> event) {
+//						if (event.getSelection().size() > 0) {
+//							model.setSelected(panel.getLista().getGrid().getSelectionModel().getSelectedItem());
+//						} else {
+//							model.setSelected(null);
+//						}
+//					}
+//				});
 	}
 
 	@Override

@@ -14,7 +14,7 @@ import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 
 import pl.edu.us.client.NameTokens;
 import pl.edu.us.client.main.BasePresenter;
-import pl.edu.us.shared.model.ViPrzychod;
+import pl.edu.us.shared.model.old.ViPrzychod;
 import pl.edu.us.shared.services.przychodykoszty.PrzychodyKosztyService;
 import pl.edu.us.shared.services.przychodykoszty.PrzychodyKosztyServiceAsync;
 

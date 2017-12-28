@@ -10,8 +10,6 @@ import pl.edu.us.client.details.DetailPresenter;
 import pl.edu.us.client.details.DetailView;
 import pl.edu.us.client.kartoteki.pracownik.PracownikPresenter;
 import pl.edu.us.client.kartoteki.pracownik.PracownikView;
-import pl.edu.us.client.kartoteki.student.kartoteka.KartotekaStudentaPresenter;
-import pl.edu.us.client.kartoteki.student.kartoteka.KartotekaStudentaView;
 import pl.edu.us.client.kartoteki.student.kierunki.KierunkiStudentaPresenter;
 import pl.edu.us.client.kartoteki.student.kierunki.KierunkiStudentaView;
 import pl.edu.us.client.kartoteki.student.oceny.OcenyStudentaPresenter;
@@ -25,18 +23,22 @@ import pl.edu.us.client.main.MainPageView;
 import pl.edu.us.client.main.MenuBuilder;
 import pl.edu.us.client.main.MenuPresenter;
 import pl.edu.us.client.main.MenuView;
-import pl.edu.us.client.passchange.PassChangePresenter;
-import pl.edu.us.client.passchange.PassChangeView;
-import pl.edu.us.client.passremind.PassRemindPresenter;
-import pl.edu.us.client.passremind.PassRemindView;
-import pl.edu.us.client.registeruser.RejestracjaPresenter;
-import pl.edu.us.client.registeruser.RejestracjaView;
 import pl.edu.us.client.symulacja.przychodykoszty.PrzychodyKosztyPresenter;
 import pl.edu.us.client.symulacja.przychodykoszty.PrzychodyKosztyView;
 import pl.edu.us.client.symulacja.przychodykosztykierunki.PKKierunkiPresenter;
 import pl.edu.us.client.symulacja.przychodykosztykierunki.PKKierunkiView;
 import pl.edu.us.client.symulacja.przychodykosztyroczne.PKRocznePresenter;
 import pl.edu.us.client.symulacja.przychodykosztyroczne.PKRoczneView;
+import pl.edu.us.client.uzytkownik.daneuzytkownika.DaneUzytkownikaPresenter;
+import pl.edu.us.client.uzytkownik.daneuzytkownika.DaneUzytkownikaView;
+import pl.edu.us.client.uzytkownik.hasloprzypomnienie.PassRemindPresenter;
+import pl.edu.us.client.uzytkownik.hasloprzypomnienie.PassRemindView;
+import pl.edu.us.client.uzytkownik.haslozmiana.PassChangePresenter;
+import pl.edu.us.client.uzytkownik.haslozmiana.PassChangeView;
+import pl.edu.us.client.uzytkownik.kartoteka.KartotekaUzytkownikowPresenter;
+import pl.edu.us.client.uzytkownik.kartoteka.KartotekaUzytkownikowView;
+import pl.edu.us.client.uzytkownik.rejestracja.RejestracjaPresenter;
+import pl.edu.us.client.uzytkownik.rejestracja.RejestracjaView;
 
 public class ClientModule extends AbstractPresenterModule {
 
@@ -54,11 +56,13 @@ public class ClientModule extends AbstractPresenterModule {
 
         bindPresenter(PassRemindPresenter.class, PassRemindPresenter.MyView.class, PassRemindView.class, PassRemindPresenter.MyProxy.class);
         bindPresenter(PassChangePresenter.class, PassChangePresenter.MyView.class, PassChangeView.class, PassChangePresenter.MyProxy.class);
-        
+
         bindPresenter(RejestracjaPresenter.class, RejestracjaPresenter.MyView.class,
             RejestracjaView.class, RejestracjaPresenter.MyProxy.class);
-       
-        
+
+        bindPresenter(DaneUzytkownikaPresenter.class, DaneUzytkownikaPresenter.MyView.class,
+            DaneUzytkownikaView.class, DaneUzytkownikaPresenter.MyProxy.class);
+
         bindSingletonPresenterWidget(MenuPresenter.class, MenuPresenter.MyView.class, MenuView.class);
 
         bindPresenter(ContentPagePresenter.class, ContentPagePresenter.MyView.class, ContentPageView.class,
@@ -69,8 +73,8 @@ public class ClientModule extends AbstractPresenterModule {
 
         bindPresenter(AdminPresenter.class, AdminPresenter.MyView.class, AdminView.class, AdminPresenter.MyProxy.class);
         // Studenci
-        bindPresenter(KartotekaStudentaPresenter.class, KartotekaStudentaPresenter.MyView.class,
-            KartotekaStudentaView.class, KartotekaStudentaPresenter.MyProxy.class);
+        bindPresenter(KartotekaUzytkownikowPresenter.class, KartotekaUzytkownikowPresenter.MyView.class,
+            KartotekaUzytkownikowView.class, KartotekaUzytkownikowPresenter.MyProxy.class);
         bindPresenter(OcenyStudentaPresenter.class, OcenyStudentaPresenter.MyView.class, OcenyStudentaView.class,
             OcenyStudentaPresenter.MyProxy.class);
         bindPresenter(KierunkiStudentaPresenter.class, KierunkiStudentaPresenter.MyView.class,

@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import com.sencha.gxt.core.client.ValueProvider;
 
-import pl.edu.us.shared.model.ViPrzychod;
+import pl.edu.us.shared.model.old.ViPrzychod;
 
 public interface ObjectProperties<T> extends AccProperties<T> {
 

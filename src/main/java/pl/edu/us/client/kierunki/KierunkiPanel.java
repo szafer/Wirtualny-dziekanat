@@ -15,7 +15,7 @@ import com.sencha.gxt.widget.core.client.grid.Grid.GridCell;
 import pl.edu.us.client.kierunki.ui.KierunkiGridPanel;
 import pl.edu.us.client.kierunki.ui.przedmioty.PrzedmiotyPanel;
 import pl.edu.us.client.main.BazowyPanel;
-import pl.edu.us.shared.model.Kierunek;
+import pl.edu.us.shared.model.old.Kierunek;
 
 public class KierunkiPanel extends BazowyPanel {
 	private PrzedmiotyPanel panel;
