@@ -10,16 +10,16 @@ import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.data.shared.PropertyAccess;
 
+import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.enums.Plec;
 import pl.edu.us.shared.enums.Rola;
-import pl.edu.us.shared.model.User;
 
 @Singleton
 public class RejestracjaModel {
 
     private final ListStore<Plec> storePlec;
     private final ListStore<Rola> storeRola;
-    private User user;
+    private UserDTO user;
 
     interface PlecProperties extends PropertyAccess<Plec> {
         ModelKeyProvider<Plec> kod();
@@ -61,11 +61,11 @@ public class RejestracjaModel {
         return rolaProp;
     }
 
-    public User getUser() {
+    public UserDTO getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserDTO user) {
         this.user = user;
     }
 }

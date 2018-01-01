@@ -10,19 +10,20 @@ public class NameTokens {
     public static final String passremind = "!passremind";
     public static final String passchange = "!passchange";
     public static final String daneUzytkownika = "!daneUzytkownika";
+    public static final String mojePrzedmioty = "!przedmioty";
     
     public static final String details = "!details";//FIXME nieuzywane
     public static final String def = "!def";//FIXME nieuzywane
-    //Definicje systemu
-    public static final String kierunki = "!kierunki";
+
     //Menu administratora
     public static final String admin = "!admin";
+    //Definicje systemu
+    public static final String przedmioty = "!przedmioty";
     //Kartoteki pracowników
     public static final String pracownicy = "!pracownicy";
     //Kartoteki studentów
     public static final String kartotekaUzytkownikow = "!studenci";
     public static final String ocenyStudenta = "!ocenyStudenta";
-    public static final String przedmioty = "!kierunkiStudenta";
     //Moduł symulacji
     public static final String przychodykoszty = "!przychodykoszty";
     public static final String przychodykosztyroczne = "!przychodykosztyroczne";

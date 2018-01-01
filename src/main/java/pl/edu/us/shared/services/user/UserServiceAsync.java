@@ -19,9 +19,9 @@ public interface UserServiceAsync {
 
     void getPassByEmail(String email, AsyncCallback<String> callback);
     
-    void zarejestruj(User user, AsyncCallback<User> callback);
+    void zarejestruj(UserDTO user, AsyncCallback<UserDTO> callback);
     
     void updateUser(UserDTO user,  AsyncCallback<UserDTO> asyncCallback);
     
-    void pobierzDaneUzytkownika(String name, AsyncCallback<User> callback);
+    void pobierzDaneUzytkownika(String name, AsyncCallback<UserDTO> callback);
 }

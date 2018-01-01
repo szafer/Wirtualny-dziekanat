@@ -15,7 +15,7 @@ import com.sencha.gxt.widget.core.client.container.Viewport;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 
-import pl.edu.us.shared.model.User;
+import pl.edu.us.shared.dto.UserDTO;
 
 public class RejestracjaView extends ViewWithUiHandlers<RejestracjaUiHandlers>
     implements RejestracjaPresenter.MyView {
@@ -92,7 +92,7 @@ public class RejestracjaView extends ViewWithUiHandlers<RejestracjaUiHandlers>
     }
 
     protected void ustawUsera() {
-        User u = new User();
+        UserDTO u = new UserDTO();
         u.setImie(panel.getImie().getValue());
         u.setNazwisko(panel.getNazwisko().getValue());
         u.setPlec(panel.getPlec().getValue());

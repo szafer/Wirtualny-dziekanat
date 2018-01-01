@@ -10,10 +10,12 @@ import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
+import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
+import com.sencha.gxt.widget.core.client.info.Info;
 
 import pl.edu.us.client.NameTokens;
 import pl.edu.us.client.main.BasePresenter;
-import pl.edu.us.shared.model.User;
+import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.services.user.UserService;
 import pl.edu.us.shared.services.user.UserServiceAsync;
 
@@ -26,6 +28,8 @@ public class DaneUzytkownikaPresenter extends
         DaneUzytkownikaModel getModel();
 
         DaneUzytkownikaPanel getPanel();
+
+        UserDTO dajUsera();
     }
 
     @ProxyCodeSplit
@@ -45,21 +49,23 @@ public class DaneUzytkownikaPresenter extends
     @Override
     protected void onReset() {
         super.onReset();
-//        getView().getModel().wyczysc();
+        getView().getModel().wyczysc();
         pobierzDaneUzytkownika();
     }
 
     private void pobierzDaneUzytkownika() {
-        userService.pobierzDaneUzytkownika(Cookies.getCookie("loggedUser"), new AsyncCallback<User>() {
+        userService.pobierzDaneUzytkownika(Cookies.getCookie("loggedUser"), new AsyncCallback<UserDTO>() {
 
             @Override
-            public void onSuccess(User result) {
-                getView().getPanel().bind(result);
+            public void onSuccess(UserDTO result) {
+                getView().getModel().setUser(result);
+                getView().getPanel().bind();
             }
 
             @Override
             public void onFailure(Throwable caught) {
-                getView().getPanel().bind(null);
+                getView().getModel().setUser(null);
+                getView().getPanel().bind();
                 alertMessage("Nie udało się pobrać danych");
             }
         });
@@ -73,25 +79,21 @@ public class DaneUzytkownikaPresenter extends
 
     @Override
     public void wykonajZapisz() {
-//        List<Student> doZapisu = new ArrayList<Student>();
-//        doZapisu.addAll(getView().getModel().getStudents().getAll());
-//        List<Student> doUsuniecia = new ArrayList<Student>();// getView().getModel().getStudents().getAll();
-//        doUsuniecia.addAll(getView().getModel().getDoUsunieccia().getAll());
-//        studentService.zapisz(doZapisu, doUsuniecia, new AsyncCallback<List<Student>>() {
-//
-//            @Override
-//            public void onFailure(Throwable caught) {
-//                // TODO Auto-generated method stub
-//                System.out.println(caught.getLocalizedMessage());
-//            }
-//
-//            @Override
-//            public void onSuccess(List<Student> result) {
-//                getView().getModel().getStudents().clear();
-//                getView().getModel().getDoUsunieccia().clear();
-//                pobierzStudentow();
-//            }
-//        });
+        userService.updateUser(getView().dajUsera(), new AsyncCallback<UserDTO>() {
+
+            @Override
+            public void onSuccess(UserDTO result) {
+                Info.display("Info", "Zmieniono dane użytkownika");
+                getView().getPanel().initialState();
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+                getView().getModel().setUser(null);
+                getView().getPanel().bind();
+                alertMessage("Nie udało się zaktualizować danych");
+            }
+        });
 
     }
 

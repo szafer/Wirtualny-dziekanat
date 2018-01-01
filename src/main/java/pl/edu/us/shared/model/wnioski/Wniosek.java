@@ -1,7 +1,5 @@
 package pl.edu.us.shared.model.wnioski;
 
-import java.sql.Blob;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -27,7 +25,10 @@ public class Wniosek implements Persistent<Integer> {
     private TypWniosku typ;
 
     @Column(name = "WZOR")
-    private byte[] wzor;
+    private Byte[] wzor;
+
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "wniosek")
+//    private List<UWniosek> wnioskiUzytkownika;
 
     public Wniosek() {
         // TODO Auto-generated constructor stub
@@ -51,14 +52,15 @@ public class Wniosek implements Persistent<Integer> {
         this.typ = typ;
     }
 
-    public byte[] getWzor() {
+    public Byte[] getWzor() {
         return wzor;
     }
 
-    public void setWzor(byte[] wzor) {
+    public void setWzor(Byte[] wzor) {
         this.wzor = wzor;
     }
 
+//    getW
 //    private static void savePersonWithPhoto(String photoFilePath) throws IOException, SQLException {
 //        Person person = new Person("Peter");
 //        File file = new File(photoFilePath);

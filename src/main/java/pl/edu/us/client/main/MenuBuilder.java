@@ -29,6 +29,7 @@ public class MenuBuilder {
     private Menu raportyMenu;//pokazuje się zawsze
     private MenuBarItem zamknijBarItem;//pokazuje się zawsze
     private final PlaceManager placeManager;
+    private Rola rola;
 
     @Inject
     MenuBuilder(final PlaceManager placeManager) {
@@ -37,20 +38,18 @@ public class MenuBuilder {
 
     public MenuBar build() {
         String r = Cookies.getCookie("userRole");
-        Rola rola = Rola.values()[Integer.valueOf(r)];
+        rola = Rola.values()[Integer.valueOf(r)];
 
-//            Rola.dajRole(Integer.valueOf(r));
         MenuBar menuBar = new MenuBar();
-//        menuBar.add(createMenuItem("Dane osobowe", NameTokens.daneUzytkownika));
-//        menuBar.add(createMenuItem("Przedmioty", NameTokens.przedmioty));
         menuBar.add(buildDaneOsoboweMenu());
+        menuBar.add(buildPrzedmiotyUzytkownikaMenu());
         if (rola != null) {
             if (rola == Rola.ADMIN) {
-                menuBar.add(buildDefMenu());
+//                menuBar.add(buildDefMenu());//TODO definicje przedmiotów tu czy w przedmiotach ?
                 menuBar.add(buildAdminMenu());
                 menuBar.add(buildPracownikMenu());
                 menuBar.add(buildStudentMenu());
-                menuBar.add(buildSymulacjaMenu());
+//                menuBar.add(buildSymulacjaMenu());
             } else if (rola == Rola.NAUCZYCIEL) {
                 menuBar.add(buildPracownikMenu());
             } else {
@@ -88,7 +87,7 @@ public class MenuBuilder {
     private MenuBarItem buildDefMenu() {
         defMenu = new Menu();
         MenuBarItem definicjeBarItem = new MenuBarItem("Definicje", defMenu);
-        defMenu.add(createMenuItem("Kierunki studiów", NameTokens.kierunki));
+        defMenu.add(createMenuItem("Kierunki studiów", NameTokens.przedmioty));
         return definicjeBarItem;
     }
 
@@ -108,10 +107,15 @@ public class MenuBuilder {
         return daneOsoboweBarItem;
     }
 
-    private MenuBarItem buildPrzedmiotyMenu() {
+    private MenuBarItem buildPrzedmiotyUzytkownikaMenu() {
         przedmiotyMenu = new Menu();
-        MenuBarItem przedmiotyBarItem = new MenuBarItem("Dane osobowe", daneOsoboweMenu);
-        przedmiotyMenu.add(createMenuItem("Przedmioty", NameTokens.przedmioty));
+        MenuBarItem przedmiotyBarItem = new MenuBarItem("Przedmioty", przedmiotyMenu);
+        String nazwa = "Moje przedmioty";
+        if (rola == Rola.ADMIN) {
+            nazwa = "Przypisanie ocen";
+            przedmiotyMenu.add(createMenuItem("Przedmioty", NameTokens.przedmioty));//Dodawanie i edycja przedmiotow
+        }
+        przedmiotyMenu.add(createMenuItem(nazwa, NameTokens.mojePrzedmioty));
         return przedmiotyBarItem;
     }
 

@@ -1,11 +1,11 @@
-package pl.edu.us.shared.dto;
+package pl.edu.us.shared.dto.wnioski;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.enums.StatusWniosku;
-import pl.edu.us.shared.model.User;
 
 public class UWniosekDTO implements Serializable {
 
@@ -18,7 +18,7 @@ public class UWniosekDTO implements Serializable {
 
     private UserDTO uzytkownik;
 
-//    private WniosekDTO wniosek;
+    private WniosekDTO wniosek;
 
     private Byte[] zlozonyWniosek;
 
@@ -90,4 +90,11 @@ public class UWniosekDTO implements Serializable {
         this.kwota = kwota;
     }
 
+    public WniosekDTO getWniosek() {
+        return wniosek;
+    }
+
+    public void setWniosek(WniosekDTO wniosek) {
+        this.wniosek = wniosek;
+    }
 }

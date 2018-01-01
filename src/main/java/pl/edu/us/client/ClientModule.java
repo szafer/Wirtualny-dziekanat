@@ -10,12 +10,8 @@ import pl.edu.us.client.details.DetailPresenter;
 import pl.edu.us.client.details.DetailView;
 import pl.edu.us.client.kartoteki.pracownik.PracownikPresenter;
 import pl.edu.us.client.kartoteki.pracownik.PracownikView;
-import pl.edu.us.client.kartoteki.student.kierunki.KierunkiStudentaPresenter;
-import pl.edu.us.client.kartoteki.student.kierunki.KierunkiStudentaView;
 import pl.edu.us.client.kartoteki.student.oceny.OcenyStudentaPresenter;
 import pl.edu.us.client.kartoteki.student.oceny.OcenyStudentaView;
-import pl.edu.us.client.kierunki.KierunkiPresenter;
-import pl.edu.us.client.kierunki.KierunkiView;
 import pl.edu.us.client.main.ContentPagePresenter;
 import pl.edu.us.client.main.ContentPageView;
 import pl.edu.us.client.main.MainPagePresenter;
@@ -23,6 +19,8 @@ import pl.edu.us.client.main.MainPageView;
 import pl.edu.us.client.main.MenuBuilder;
 import pl.edu.us.client.main.MenuPresenter;
 import pl.edu.us.client.main.MenuView;
+import pl.edu.us.client.przedmioty.PrzedmiotyPresenter;
+import pl.edu.us.client.przedmioty.PrzedmiotyView;
 import pl.edu.us.client.symulacja.przychodykoszty.PrzychodyKosztyPresenter;
 import pl.edu.us.client.symulacja.przychodykoszty.PrzychodyKosztyView;
 import pl.edu.us.client.symulacja.przychodykosztykierunki.PKKierunkiPresenter;
@@ -37,6 +35,8 @@ import pl.edu.us.client.uzytkownik.haslozmiana.PassChangePresenter;
 import pl.edu.us.client.uzytkownik.haslozmiana.PassChangeView;
 import pl.edu.us.client.uzytkownik.kartoteka.KartotekaUzytkownikowPresenter;
 import pl.edu.us.client.uzytkownik.kartoteka.KartotekaUzytkownikowView;
+import pl.edu.us.client.uzytkownik.mojeprzedmioty.MojePrzedmiotyPresenter;
+import pl.edu.us.client.uzytkownik.mojeprzedmioty.MojePrzedmiotyView;
 import pl.edu.us.client.uzytkownik.rejestracja.RejestracjaPresenter;
 import pl.edu.us.client.uzytkownik.rejestracja.RejestracjaView;
 
@@ -77,11 +77,11 @@ public class ClientModule extends AbstractPresenterModule {
             KartotekaUzytkownikowView.class, KartotekaUzytkownikowPresenter.MyProxy.class);
         bindPresenter(OcenyStudentaPresenter.class, OcenyStudentaPresenter.MyView.class, OcenyStudentaView.class,
             OcenyStudentaPresenter.MyProxy.class);
-        bindPresenter(KierunkiStudentaPresenter.class, KierunkiStudentaPresenter.MyView.class,
-            KierunkiStudentaView.class, KierunkiStudentaPresenter.MyProxy.class);
+        bindPresenter(MojePrzedmiotyPresenter.class, MojePrzedmiotyPresenter.MyView.class,
+            MojePrzedmiotyView.class, MojePrzedmiotyPresenter.MyProxy.class);
         // Studia
-        bindPresenter(KierunkiPresenter.class, KierunkiPresenter.MyView.class, KierunkiView.class,
-            KierunkiPresenter.MyProxy.class);
+        bindPresenter(PrzedmiotyPresenter.class, PrzedmiotyPresenter.MyView.class, PrzedmiotyView.class,
+            PrzedmiotyPresenter.MyProxy.class);
 
         bindPresenter(PracownikPresenter.class, PracownikPresenter.MyView.class, PracownikView.class,
             PracownikPresenter.MyProxy.class);

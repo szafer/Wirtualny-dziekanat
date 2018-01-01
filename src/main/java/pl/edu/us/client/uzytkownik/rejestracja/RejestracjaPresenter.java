@@ -17,7 +17,7 @@ import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gwtplatform.mvp.client.proxy.RevealRootContentEvent;
 
 import pl.edu.us.client.NameTokens;
-import pl.edu.us.shared.model.User;
+import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.services.user.UserService;
 import pl.edu.us.shared.services.user.UserServiceAsync;
 
@@ -61,10 +61,10 @@ public class RejestracjaPresenter extends Presenter<RejestracjaPresenter.MyView,
     public void onZarejestrujClicked() {
         //TODO walidacja po stronie klienta
         //dalej walidacja po stronie serwera
-        userService.zarejestruj(getView().getModel().getUser(), new AsyncCallback<User>() {
+        userService.zarejestruj(getView().getModel().getUser(), new AsyncCallback<UserDTO>() {
 
             @Override
-            public void onSuccess(User result) {
+            public void onSuccess(UserDTO result) {
                 getView().getPanel().clearForm();
                 alertMessage("Zarejestrowano użytkownika. Na podany adres email zostanie potwierdzenie odblokowania konta. ");
                 Window.Location.replace("Usosweb.html");

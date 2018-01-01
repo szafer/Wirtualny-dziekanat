@@ -21,10 +21,10 @@ public interface UserService extends RemoteService {
 
     String getPassByEmail(String email);
 
-    User zarejestruj(User user) throws Exception;
+    UserDTO zarejestruj(UserDTO user) throws Exception;
 
     UserDTO updateUser(UserDTO user);
 
-    User pobierzDaneUzytkownika(String name);
+    UserDTO pobierzDaneUzytkownika(String name);
 
 }

@@ -22,7 +22,7 @@ public abstract class BaseDAO<K, E> extends JpaDaoSupport {
 	}
 
 	public void saveOrUpdate(E entity) {
-		// if (entity.getClass().get)
+//		if (entity.class.getField("id").get)
 	}
 
 	public void persist(E entity) {
@@ -63,15 +63,29 @@ public abstract class BaseDAO<K, E> extends JpaDaoSupport {
 		});
 		return (Integer) res;
 	}
+    @SuppressWarnings({ "unchecked", "deprecation" })
+    public List<E> findAllDTO() {
+        Object res = getJpaTemplate().execute(new JpaCallback() {
 
+            public Object doInJpa(EntityManager em) throws PersistenceException {
+                Query q = em.createQuery("SELECT h FROM " + entityClass.getName() + " h");
+                List<E> hibernate2dto = (List<E>) new Hibernate3DtoCopier().hibernate2dtoFully(q.getResultList());
+                return hibernate2dto;
+            }
+
+        });
+
+        return (List<E>) res;
+    }
+    
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	public List<E> findAll() {
 		Object res = getJpaTemplate().execute(new JpaCallback() {
 
 			public Object doInJpa(EntityManager em) throws PersistenceException {
 				Query q = em.createQuery("SELECT h FROM " + entityClass.getName() + " h");
-				List<E> hibernate2dto = (List<E>) new Hibernate3DtoCopier().hibernate2dtoFully(q.getResultList());
-				return hibernate2dto;
+//				List<E> hibernate2dto = (List<E>) new Hibernate3DtoCopier().hibernate2dtoFully(q.getResultList());
+				return (List<E>)q.getResultList();
 			}
 
 		});

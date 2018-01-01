@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import pl.edu.us.shared.dto.przedmioty.UPrzedmiotDTO;
+import pl.edu.us.shared.dto.wnioski.UWniosekDTO;
 import pl.edu.us.shared.enums.Plec;
 import pl.edu.us.shared.enums.Rola;
 
@@ -28,9 +30,11 @@ public class UserDTO implements Serializable {
     private Boolean aktywny;
     private Integer iloscLogowan;
     private List<UWniosekDTO> wnioskiUzytkownika;
+    private List<UPrzedmiotDTO> przedmiotyUzytkownika;
 
     public UserDTO() {
-        // TODO Auto-generated constructor stub
+        this.aktywny = false;
+        this.iloscLogowan = 0;
     }
 
     public Integer getId() {
@@ -167,5 +171,18 @@ public class UserDTO implements Serializable {
 
     public void setWnioskiUzytkownika(List<UWniosekDTO> wnioskiUzytkownika) {
         this.wnioskiUzytkownika = wnioskiUzytkownika;
+    }
+
+    public List<UPrzedmiotDTO> getPrzedmiotyUzytkownika() {
+        return przedmiotyUzytkownika;
+    }
+
+    public void setPrzedmiotyUzytkownika(List<UPrzedmiotDTO> przedmiotyUzytkownika) {
+        this.przedmiotyUzytkownika = przedmiotyUzytkownika;
+    }
+
+    @Override
+    public String toString() {
+        return nazwisko + " " + imie;
     }
 }

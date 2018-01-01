@@ -24,6 +24,7 @@ import org.hibernate.annotations.Cascade;
 
 import pl.edu.us.shared.enums.Plec;
 import pl.edu.us.shared.enums.Rola;
+import pl.edu.us.shared.model.przedmioty.UPrzedmiot;
 import pl.edu.us.shared.model.wnioski.UWniosek;
 
 @NamedQueries(value = {
@@ -32,7 +33,7 @@ import pl.edu.us.shared.model.wnioski.UWniosek;
     @NamedQuery(name = User.NEXT_ID, query = "Select max(u.id) + 1 from User u"),
     @NamedQuery(name = User.POBIERZ_HASLO_PO_EMAIL, query = "Select u.password from User u where u.email = :email"),
     @NamedQuery(name = User.DAJ_USERA_PO_LOGINIE, query = "Select u from User u where u.login = :login"),
-    @NamedQuery(name = User.CZY_EMAIL_WYSTEPUJE, query = "Select 1 from User u where u.email = :email")
+    @NamedQuery(name = User.CZY_EMAIL_WYSTEPUJE, query = "Select 1 from User u where u.email = :email"),
 })
 @Entity
 @Table(name = "UZYTKOWNIK")
@@ -46,10 +47,10 @@ public class User extends Person {
     public static final String POBIERZ_HASLO_PO_EMAIL = "User.POBIERZ_HASLO_PO_EMAIL";
     public static final String DAJ_USERA_PO_LOGINIE = "User.DAJ_USERA_PO_LOGINIE";
     public static final String CZY_EMAIL_WYSTEPUJE = "User.CZY_EMAIL_WYSTEPUJE";
-
-    public static final String ID = "id";
-    public static final String IMIE = "imie";
-    public static final String NAZWISKO = "nazwisko";
+    
+//    public static final String ID = "id";
+//    public static final String IMIE = "imie";
+//    public static final String NAZWISKO = "nazwisko";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GEN_USER")
@@ -100,11 +101,10 @@ public class User extends Person {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "uzytkownik", cascade = CascadeType.ALL)
     @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private List<UWniosek> wnioskiUzytkownika;
-//
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinTable(name = "U_PRZEDMIOT", joinColumns = { @JoinColumn(name = "UZYTKOWNIK_ID", nullable = false, updatable = false) }, inverseJoinColumns = {
-//        @JoinColumn(name = "PRZEDMIOT_ID", nullable = false, updatable = false) })
-//    private List<Przedmiot> przedmioty;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "uzytkownik", cascade = CascadeType.ALL)
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+    private List<UPrzedmiot> przedmiotyUzytkownika;
 
     public User() {
         this.aktywny = false;
@@ -252,12 +252,12 @@ public class User extends Person {
     public void setWnioskiUzytkownika(List<UWniosek> wnioskiUzytkownika) {
         this.wnioskiUzytkownika = wnioskiUzytkownika;
     }
-//
-//    public List<Przedmiot> getPrzedmioty() {
-//        return przedmioty;
-//    }
-//
-//    public void setPrzedmioty(List<Przedmiot> przedmioty) {
-//        this.przedmioty = przedmioty;
-//    }
+
+    public List<UPrzedmiot> getPrzedmiotyUzytkownika() {
+        return przedmiotyUzytkownika;
+    }
+
+    public void setPrzedmiotyUzytkownika(List<UPrzedmiot> przedmiotyUzytkownika) {
+        this.przedmiotyUzytkownika = przedmiotyUzytkownika;
+    }
 }

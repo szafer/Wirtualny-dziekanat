@@ -1,4 +1,4 @@
-package pl.edu.us.client.kierunki.ui;
+package pl.edu.us.client.przedmioty.ui;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

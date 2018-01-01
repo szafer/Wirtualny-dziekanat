@@ -5,16 +5,12 @@ import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.data.shared.PropertyAccess;
 
-import pl.edu.us.shared.model.przedmioty.Przedmiot;
+import pl.edu.us.shared.dto.przedmioty.PrzedmiotDTO;
 
-public interface PrzedmiotProperties extends PropertyAccess<Przedmiot> {
+public interface PrzedmiotProperties extends PropertyAccess<PrzedmiotDTO> {
 
-	@Path("id")
-	ModelKeyProvider<Przedmiot> key();
+    @Path("id")
+    ModelKeyProvider<PrzedmiotDTO> key();
 
-	ValueProvider<Przedmiot, String> nazwa();
-
-//	ValueProvider<Przedmiot, Integer> godzinyWyklad();
-//
-//	ValueProvider<Przedmiot, Integer> godzinyCw();
+    ValueProvider<PrzedmiotDTO, String> nazwa();
 }

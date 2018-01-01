@@ -5,6 +5,7 @@ import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
+import com.sencha.gxt.widget.core.client.container.BoxLayoutContainer.BoxLayoutPack;
 import com.sencha.gxt.widget.core.client.container.HBoxLayoutContainer.HBoxLayoutAlign;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
@@ -14,7 +15,7 @@ public class BazowyPanel extends ContentPanel {
 
 	private BorderLayoutContainer borderLayoutContainer;
 	private BorderLayoutData southData;
-	private ToolBar toolbar;
+	
 	public TextButton nowy, usun, zatwierdz, zapisz, anuluj, zamknij;
 	@Inject
 	public BazowyPanel() {
@@ -26,7 +27,10 @@ public class BazowyPanel extends ContentPanel {
 		borderLayoutContainer = new BorderLayoutContainer();
 		borderLayoutContainer.setBorders(true);
 		southData = new BorderLayoutData(30);
-		toolbar = new ToolBar();
+
+		ContentPanel panelEnd = new ContentPanel();
+		panelEnd.setButtonAlign(BoxLayoutPack.END);
+		panelEnd.setHeaderVisible(false);
 		nowy = new TextButton("Nowy");
 		nowy.setBorders(true);
 		nowy.addSelectHandler(new SelectHandler() {
@@ -36,7 +40,7 @@ public class BazowyPanel extends ContentPanel {
 			}
 		});
 		nowy.setWidth(80);
-		toolbar.add(nowy);
+		panelEnd.addButton(nowy);
 		usun = new TextButton("Usuń");
 		usun.setBorders(true);
 		usun.addSelectHandler(new SelectHandler() {
@@ -46,11 +50,11 @@ public class BazowyPanel extends ContentPanel {
 			}
 		});
 		usun.setWidth(80);
-		toolbar.add(usun);
+		panelEnd.addButton(usun);
 		zatwierdz = new TextButton("Zatwierdź");
 		zatwierdz.setBorders(true);
 		zatwierdz.setWidth(80);
-		toolbar.add(zatwierdz);
+		panelEnd.addButton(zatwierdz);
 
 		zapisz = new TextButton("Zapisz");
 		zapisz.setBorders(true);
@@ -61,7 +65,7 @@ public class BazowyPanel extends ContentPanel {
 			}
 		});
 		zapisz.setWidth(80);
-		toolbar.add(zapisz);
+		panelEnd.addButton(zapisz);
 		anuluj = new TextButton("Anuluj");
 		anuluj.setBorders(true);
 		anuluj.addSelectHandler(new SelectHandler() {
@@ -71,7 +75,7 @@ public class BazowyPanel extends ContentPanel {
 			}
 		});
 		anuluj.setWidth(80);
-		toolbar.add(anuluj);
+		panelEnd.addButton(anuluj);
 		zamknij = new TextButton("Zamknij");
 		zamknij.setBorders(true);
 		zamknij.addSelectHandler(new SelectHandler() {
@@ -81,9 +85,9 @@ public class BazowyPanel extends ContentPanel {
 			}
 		});
 		zamknij.setWidth(80);
-		toolbar.add(zamknij);
-		
-		borderLayoutContainer.setSouthWidget(toolbar, southData);
+		panelEnd.addButton(zamknij);
+
+		borderLayoutContainer.setSouthWidget(panelEnd, southData);
 		this.add(borderLayoutContainer);
 	}
 

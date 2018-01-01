@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -39,9 +40,9 @@ public class UWniosek implements Persistent<Integer> {
     @JoinColumn(name = "UZYTKOWNIK_ID")
     private User uzytkownik;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "WNIOSEK_ID")
-//    private Wniosek wniosek;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "WNIOSEK_ID")
+    private Wniosek wniosek;
 
     @Column(name = "WNIOSEK_ZLOZONY")
     private Byte[] zlozonyWniosek;
@@ -61,9 +62,6 @@ public class UWniosek implements Persistent<Integer> {
     @Column(name = "KWOTA")
     private BigDecimal kwota;
 
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "STYPENDIUM_ID")
-//    private Stypendia stypendia;
     public UWniosek() {
         // TODO Auto-generated constructor stub
     }
@@ -86,13 +84,13 @@ public class UWniosek implements Persistent<Integer> {
         this.uzytkownik = uzytkownik;
     }
 
-//    public Wniosek getWniosek() {
-//        return wniosek;
-//    }
-//
-//    public void setWniosek(Wniosek wniosek) {
-//        this.wniosek = wniosek;
-//    }
+    public Wniosek getWniosek() {
+        return wniosek;
+    }
+
+    public void setWniosek(Wniosek wniosek) {
+        this.wniosek = wniosek;
+    }
 
     public Byte[] getZlozonyWniosek() {
         return zlozonyWniosek;

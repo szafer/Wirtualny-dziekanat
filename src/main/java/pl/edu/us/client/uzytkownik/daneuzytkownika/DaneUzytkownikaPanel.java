@@ -180,7 +180,9 @@ public class DaneUzytkownikaPanel extends FramedPanel implements /* IsWidget, */
         return f.getValue() != null && f.isValid();
     }
 
-    public void bind(User u) {
+    public void bind() {
+        initialState();
+        UserDTO u = model.getUser();
         if (u != null) {
             login.setValue(u.getLogin());
             imie.setValue(u.getImie());
@@ -194,9 +196,16 @@ public class DaneUzytkownikaPanel extends FramedPanel implements /* IsWidget, */
             plec.setValue(u.getPlec());
             email.setValue(u.getEmail());
             rola.setValue(u.getRola());
+            password.setValue(u.getPassword());
+            passwordRepeat.setValue(u.getPassword());
         } else {
             clearForm();
         }
+    }
+
+    public void initialState() {
+        mainPanel.getZapisz().setEnabled(false);
+        mainPanel.getAnuluj().setEnabled(false);
     }
 
     private void addListeners() {
@@ -233,4 +242,49 @@ public class DaneUzytkownikaPanel extends FramedPanel implements /* IsWidget, */
             && (nrDomu.getValue() == null || fieldIsValid(nrDomu))
             && (nrMieszkania.getValue() == null || fieldIsValid(nrMieszkania)));
     }
+
+    public TextField getImie() {
+        return imie;
+    }
+
+    public TextField getNazwisko() {
+        return nazwisko;
+    }
+
+    public ComboBox<Plec> getPlec() {
+        return plec;
+    }
+
+    public DateField getDataUrodzenia() {
+        return dataUrodzenia;
+    }
+
+    public TextField getUlica() {
+        return ulica;
+    }
+
+    public TextField getNrDomu() {
+        return nrDomu;
+    }
+
+    public TextField getNrMieszkania() {
+        return nrMieszkania;
+    }
+
+    public TextField getMiasto() {
+        return miasto;
+    }
+
+    public TextField getKodPocztowy() {
+        return kodPocztowy;
+    }
+
+    public TextField getEmail() {
+        return email;
+    }
+
+    public PasswordField getPassword() {
+        return password;
+    }
+
 }

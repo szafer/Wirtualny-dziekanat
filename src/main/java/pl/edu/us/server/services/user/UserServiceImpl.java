@@ -35,8 +35,6 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public UserDTO getUser(String name, String password) {
-//         List<Student> hibernate2dto = (List<Student>) new
-//         return hibernate2dto;
         try {
             User u = (User) userDAO.getEntityManager().createNamedQuery(User.DAJ_USERA)
                 .setParameter("login", name)
@@ -74,7 +72,9 @@ public class UserServiceImpl implements UserService {
     public List<User> getUsers() {
         return userDAO.findAll();
     }
-
+/**
+ * nieuzywane
+ */
     @Override
     public User logout() {
         Main m = new Main();
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public User zarejestruj(User user) throws Exception {
+    public UserDTO zarejestruj(UserDTO user) throws Exception {
         User u = null;
         Boolean wystepuje = false;
         try {
@@ -125,8 +125,9 @@ public class UserServiceImpl implements UserService {
         if (wystepuje != null && wystepuje) {
             throw new Exception("Taki email występuje już w systemie");
         }
-        userDAO.persist(user);
-
+        u = new ModelMapper().map(user, User.class);
+        userDAO.persist(u);
+        user.setId(u.getId());
         return user;
 
     }
@@ -135,22 +136,23 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public UserDTO updateUser(UserDTO u) {
         User user = new ModelMapper().map(u, User.class);
-
         userDAO.merge(user);
         return null;
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public User pobierzDaneUzytkownika(String name) {
+    public UserDTO pobierzDaneUzytkownika(String name) {
         try {
             User u = (User) userDAO.getEntityManager().createNamedQuery(User.DAJ_USERA_PO_LOGINIE)
                 .setParameter("login", name)
                 .getSingleResult();
-            return u;
+            return new ModelMapper().map(u, UserDTO.class);
         } catch (Exception e) {
             System.out.println(e.getCause().toString());
             return null;
         }
     }
+    
+    
 }

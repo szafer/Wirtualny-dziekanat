@@ -10,23 +10,22 @@ import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.data.shared.PropertyAccess;
 
+import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.enums.Plec;
 import pl.edu.us.shared.enums.Rola;
-import pl.edu.us.shared.model.User;
 
 @Singleton
 public class DaneUzytkownikaModel {
 
     private final ListStore<Plec> storePlec;
     private final ListStore<Rola> storeRola;
-    private User user;
+    private UserDTO user;
 
-    
-	interface PlecProperties extends PropertyAccess<Plec> {
-		ModelKeyProvider<Plec> kod();
+    interface PlecProperties extends PropertyAccess<Plec> {
+        ModelKeyProvider<Plec> kod();
 
-		LabelProvider<Plec> nazwa();
-	}
+        LabelProvider<Plec> nazwa();
+    }
 
     interface RolaProperties extends PropertyAccess<Rola> {
         ModelKeyProvider<Rola> kod();
@@ -37,13 +36,13 @@ public class DaneUzytkownikaModel {
     PlecProperties plecProp = GWT.create(PlecProperties.class);
     RolaProperties rolaProp = GWT.create(RolaProperties.class);
 
-	@Inject
-	public DaneUzytkownikaModel() {
-	    storePlec = new ListStore<Plec>(plecProp.kod());
+    @Inject
+    public DaneUzytkownikaModel() {
+        storePlec = new ListStore<Plec>(plecProp.kod());
         storePlec.addAll(Arrays.asList(Plec.values()));
         storeRola = new ListStore<Rola>(rolaProp.kod());
         storeRola.addAll(Arrays.asList(Rola.STUDENT, Rola.NAUCZYCIEL));
-	}
+    }
 
     public ListStore<Plec> getStorePlec() {
         return storePlec;
@@ -61,11 +60,15 @@ public class DaneUzytkownikaModel {
         return rolaProp;
     }
 
-    public User getUser() {
+    public UserDTO getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserDTO user) {
         this.user = user;
+    }
+
+    public void wyczysc() {
+        user = null;
     }
 }
