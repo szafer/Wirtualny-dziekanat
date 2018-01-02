@@ -16,7 +16,7 @@ public interface PrzedmiotyService extends RemoteService{
 
     void zapisz(List<UPrzedmiotDTO> doZapisu);
 
-    List<PrzedmiotDTO> zapisz(List<PrzedmiotDTO> doZapisu, List<PrzedmiotDTO> doUsuniecia);
+    List<PrzedmiotDTO> zapisz(List<PrzedmiotDTO> doZapisu, List<UPrzedmiotDTO> doUsuniecia);
 
     List<PrzedmiotDTO> getKierunki();
 

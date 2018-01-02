@@ -1,9 +1,12 @@
 package pl.edu.us.client.przedmioty.ui;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.editor.client.SimpleBeanEditorDriver;
+import java.util.Date;
+
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.inject.Inject;
-import com.sencha.gxt.data.shared.Store.Record;
 import com.sencha.gxt.data.shared.event.StoreAddEvent;
 import com.sencha.gxt.data.shared.event.StoreAddEvent.StoreAddHandler;
 import com.sencha.gxt.data.shared.event.StoreRemoveEvent;
@@ -13,28 +16,30 @@ import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
 import com.sencha.gxt.widget.core.client.event.CancelEditEvent;
 import com.sencha.gxt.widget.core.client.event.CancelEditEvent.CancelEditHandler;
+import com.sencha.gxt.widget.core.client.event.CellSelectionEvent;
 import com.sencha.gxt.widget.core.client.event.CompleteEditEvent;
 import com.sencha.gxt.widget.core.client.event.CompleteEditEvent.CompleteEditHandler;
+import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 import com.sencha.gxt.widget.core.client.event.StartEditEvent;
 import com.sencha.gxt.widget.core.client.event.StartEditEvent.StartEditHandler;
+import com.sencha.gxt.widget.core.client.info.Info;
 
 import pl.edu.us.client.main.BazowyPanel;
 import pl.edu.us.client.przedmioty.PrzedmiotyModel;
+import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.dto.przedmioty.PrzedmiotDTO;
 import pl.edu.us.shared.dto.przedmioty.UPrzedmiotDTO;
+import pl.edu.us.shared.enums.Semestr;
 
 public class PrzedmiotyMainPanel extends BazowyPanel {
 //	private PrzedmiotyPanel panel;
     private final PrzedmiotyModel model;
-    private PrzedmiotyGridPanel przedmiotyGridPanel;
+    private PrzedmiotyGridPanel przedmiotyPanel;
+    private StudenciGridPanel studenciPanel;
     private WykladowcaGridPanel wykladowcaPanel;
     private BorderLayoutData westData;
-
-    interface KierunkiDriver extends SimpleBeanEditorDriver<PrzedmiotDTO, PrzedmiotyGridPanel> {
-
-    }
-
-    private KierunkiDriver driver = GWT.create(KierunkiDriver.class);
+    private static int AUTO_ID = 0;
 
     @Inject
     public PrzedmiotyMainPanel(final PrzedmiotyModel model) {
@@ -43,8 +48,10 @@ public class PrzedmiotyMainPanel extends BazowyPanel {
         usun.setVisible(false);
         zatwierdz.setVisible(false);
         initialState();
-        przedmiotyGridPanel = new PrzedmiotyGridPanel(model.getStorePrzedmioty(), model.getPrzedmiotProp());
-        przedmiotyGridPanel.getEditing().addStartEditHandler(new StartEditHandler<PrzedmiotDTO>() {
+        przedmiotyPanel = new PrzedmiotyGridPanel(model.getStorePrzedmioty(), model.getPrzedmiotProp());
+        wykladowcaPanel = new WykladowcaGridPanel(model);
+        studenciPanel = new StudenciGridPanel(model);
+        przedmiotyPanel.getEditing().addStartEditHandler(new StartEditHandler<PrzedmiotDTO>() {
 
             @Override
             public void onStartEdit(StartEditEvent<PrzedmiotDTO> event) {
@@ -52,42 +59,129 @@ public class PrzedmiotyMainPanel extends BazowyPanel {
 
             }
         });
-        przedmiotyGridPanel.getEditing().addCompleteEditHandler(new CompleteEditHandler<PrzedmiotDTO>() {
+        przedmiotyPanel.getEditing().addCompleteEditHandler(new CompleteEditHandler<PrzedmiotDTO>() {
 
             @Override
             public void onCompleteEdit(CompleteEditEvent<PrzedmiotDTO> event) {
                 setSaveEnabled(true);
-                PrzedmiotDTO dto = przedmiotyGridPanel.getGrid().getSelectionModel().getSelectedItem();
-                Record r = model.getStorePrzedmioty().getRecord(dto);
-                if (r.isDirty()) {
-                    model.setDirty(true);
-                }
             }
         });
-        wykladowcaPanel = new WykladowcaGridPanel(model);
-        wykladowcaPanel.getEditing().addStartEditHandler(new StartEditHandler<UPrzedmiotDTO>() {
+        przedmiotyPanel.getBtnDodaj().addSelectHandler(new SelectHandler() {
+
+            @Override
+            public void onSelect(SelectEvent event) {
+                PrzedmiotDTO przedmiot = new PrzedmiotDTO();
+                przedmiot.setId(--AUTO_ID);
+                przedmiotyPanel.getEditing().cancelEditing();
+                model.getStorePrzedmioty().add(0, przedmiot);
+            }
+        });
+//        wykladowcaPanel.getEditing().addStartEditHandler(new StartEditHandler<UPrzedmiotDTO>() {
+//
+//            @Override
+//            public void onStartEdit(StartEditEvent<UPrzedmiotDTO> event) {
+//                setBtnDodajWykladowceEnabled(false);
+//                setSaveEnabled(false);
+//            }
+//
+//        });
+//        wykladowcaPanel.getEditing().addCancelEditHandler(new CancelEditHandler<UPrzedmiotDTO>() {
+//
+//            @Override
+//            public void onCancelEdit(CancelEditEvent<UPrzedmiotDTO> event) {
+//                setBtnDodajWykladowceEnabled(true);
+//                setSaveEnabled(true);
+//            }
+//        });
+//        wykladowcaPanel.getEditing().addCompleteEditHandler(new CompleteEditHandler<UPrzedmiotDTO>() {
+//
+//            @Override
+//            public void onCompleteEdit(CompleteEditEvent<UPrzedmiotDTO> event) {
+//                setBtnDodajWykladowceEnabled(true);
+//                setSaveEnabled(true);
+//            }
+//        });
+        wykladowcaPanel.getComboUzytkownik().addSelectionHandler(new SelectionHandler<UserDTO>() {
+
+            @Override
+            public void onSelection(SelectionEvent<UserDTO> event) {
+                CellSelectionEvent<UserDTO> sel = (CellSelectionEvent<UserDTO>) event;
+                UserDTO user = event.getSelectedItem();
+                Info.display("Wykładowca", "Wybrano: " + user.toString());
+                zapisz.setEnabled(true);
+            }
+        });
+        wykladowcaPanel.getDateCell().getDatePicker().addValueChangeHandler(new ValueChangeHandler<Date>() {
+
+            @Override
+            public void onValueChange(ValueChangeEvent<Date> event) {
+                UPrzedmiotDTO p = wykladowcaPanel.getGrid().getSelectionModel().getSelectedItem();
+                p.setSemestr(event.getValue().getMonth() < 6 ? Semestr.LETNI : Semestr.ZIMOWY);
+//                model.getPrzedmiot().setWykladowca(p);
+                setSaveEnabled(true);
+                zapisz.setEnabled(true);
+            }
+        });
+        wykladowcaPanel.getBtnDodaj().addSelectHandler(new SelectHandler() {
+
+            @Override
+            public void onSelect(SelectEvent event) {
+                UPrzedmiotDTO przedmiot = new UPrzedmiotDTO();
+                przedmiot.setDataSemestru(new Date());
+                przedmiot.setPrzedmiot(model.getPrzedmiot());
+                przedmiot.setSemestr(przedmiot.getDataSemestru().getMonth() < 6 ? Semestr.LETNI : Semestr.ZIMOWY);
+                model.getPrzedmiot().setWykladowca(przedmiot);
+
+//                wykladowcaPanel.getEditing().cancelEditing();
+                model.getStoreNauczyciele().add(0, przedmiot);
+
+                int row = model.getStoreNauczyciele().indexOf(przedmiot);
+//                wykladowcaPanel.getEditing().startEditing(new GridCell(row, 0));
+            }
+        });
+        studenciPanel.getEditing().addStartEditHandler(new StartEditHandler<UPrzedmiotDTO>() {
 
             @Override
             public void onStartEdit(StartEditEvent<UPrzedmiotDTO> event) {
-                setBtnDodajWykladowceEnabled(false);
-
+                setBtnDodajStudentaEnabled(false);
+                setSaveEnabled(false);
             }
 
         });
-        wykladowcaPanel.getEditing().addCancelEditHandler(new CancelEditHandler<UPrzedmiotDTO>() {
+        studenciPanel.getEditing().addCancelEditHandler(new CancelEditHandler<UPrzedmiotDTO>() {
 
             @Override
             public void onCancelEdit(CancelEditEvent<UPrzedmiotDTO> event) {
-                setBtnDodajWykladowceEnabled(true);
-
+                setBtnDodajStudentaEnabled(true);
+                setSaveEnabled(true);
             }
         });
-        wykladowcaPanel.getEditing().addCompleteEditHandler(new CompleteEditHandler<UPrzedmiotDTO>() {
+        studenciPanel.getEditing().addCompleteEditHandler(new CompleteEditHandler<UPrzedmiotDTO>() {
 
             @Override
             public void onCompleteEdit(CompleteEditEvent<UPrzedmiotDTO> event) {
-                setBtnDodajWykladowceEnabled(true);
-//                model.getStoreOcenyStudentow().commitChanges();
+                setBtnDodajStudentaEnabled(true);
+                setSaveEnabled(true);
+            }
+        });
+        studenciPanel.getComboUzytkownik().addSelectionHandler(new SelectionHandler<UserDTO>() {
+
+            @Override
+            public void onSelection(SelectionEvent<UserDTO> event) {
+                CellSelectionEvent<UserDTO> sel = (CellSelectionEvent<UserDTO>) event;
+                UserDTO user = event.getSelectedItem();
+                Info.display("Studenci", "Wybrano: " + user.toString());
+                zapisz.setEnabled(true);
+            }
+        });
+        studenciPanel.getDateCell().getDatePicker().addValueChangeHandler(new ValueChangeHandler<Date>() {
+
+            @Override
+            public void onValueChange(ValueChangeEvent<Date> event) {
+                UPrzedmiotDTO p = studenciPanel.getGrid().getSelectionModel().getSelectedItem();
+                p.setSemestr(event.getValue().getMonth() < 6 ? Semestr.LETNI : Semestr.ZIMOWY);
+                setSaveEnabled(true);
+                zapisz.setEnabled(true);                
             }
         });
         model.getStoreNauczyciele().addStoreAddHandler(new StoreAddHandler<UPrzedmiotDTO>() {
@@ -104,18 +198,18 @@ public class PrzedmiotyMainPanel extends BazowyPanel {
                 wykladowcaPanel.getBtnDodaj().setEnabled(model.getStoreNauczyciele().size() == 0);
             }
         });
+
         westData = new BorderLayoutData(350);
         westData.setCollapsible(true);
-        driver.initialize(przedmiotyGridPanel);
-//        hlc.add(przedmiotyGridPanel);
-//		createCenterPanel();
         VerticalLayoutContainer vlc = new VerticalLayoutContainer();
-        getBorderLayoutContainer().setWestWidget(przedmiotyGridPanel, westData);
-        vlc.add(wykladowcaPanel, new VerticalLayoutData(1, 500));//TODO
+        getBorderLayoutContainer().setWestWidget(przedmiotyPanel, westData);
+        vlc.add(wykladowcaPanel, new VerticalLayoutData(1, -1));
+        vlc.add(studenciPanel, new VerticalLayoutData(1, 1));
         getBorderLayoutContainer().setCenterWidget(vlc);
-        // nowy.setVisible(false);
-        // usun.setVisible(false);
+    }
 
+    public void setBtnDodajStudentaEnabled(boolean b) {
+        studenciPanel.getBtnDodaj().setEnabled(b);
     }
 
     public void setBtnDodajWykladowceEnabled(boolean b) {
@@ -128,22 +222,11 @@ public class PrzedmiotyMainPanel extends BazowyPanel {
     }
 
     public void setSaveEnabled(boolean enabled) {
-        nowy.setEnabled(enabled);
-        usun.setEnabled(enabled);
-        zapisz.setEnabled(enabled);
-        // zatwierdz.setEnabled(enabled);
-
-        if (!enabled) {
-
-        }
-    }
-
-    private void createCenterPanel() {
-//		panel = new PrzedmiotyPanel(model);
-
+        zapisz.setEnabled(enabled && model.isDirty());
+        anuluj.setEnabled(model.isDirty());
     }
 
     public PrzedmiotyGridPanel getGridPanel() {
-        return przedmiotyGridPanel;
+        return przedmiotyPanel;
     }
 }

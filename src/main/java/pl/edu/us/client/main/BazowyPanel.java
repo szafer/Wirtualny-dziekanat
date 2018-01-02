@@ -32,7 +32,7 @@ public class BazowyPanel extends ContentPanel {
 		panelEnd.setButtonAlign(BoxLayoutPack.END);
 		panelEnd.setHeaderVisible(false);
 		nowy = new TextButton("Nowy");
-		nowy.setBorders(true);
+//		nowy.setBorders(true);
 		nowy.addSelectHandler(new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
@@ -42,7 +42,7 @@ public class BazowyPanel extends ContentPanel {
 		nowy.setWidth(80);
 		panelEnd.addButton(nowy);
 		usun = new TextButton("Usuń");
-		usun.setBorders(true);
+//		usun.setBorders(true);
 		usun.addSelectHandler(new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
@@ -52,12 +52,12 @@ public class BazowyPanel extends ContentPanel {
 		usun.setWidth(80);
 		panelEnd.addButton(usun);
 		zatwierdz = new TextButton("Zatwierdź");
-		zatwierdz.setBorders(true);
+//		zatwierdz.setBorders(true);
 		zatwierdz.setWidth(80);
 		panelEnd.addButton(zatwierdz);
 
 		zapisz = new TextButton("Zapisz");
-		zapisz.setBorders(true);
+//		zapisz.setBorders(true);
 		zapisz.addSelectHandler(new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
@@ -67,7 +67,7 @@ public class BazowyPanel extends ContentPanel {
 		zapisz.setWidth(80);
 		panelEnd.addButton(zapisz);
 		anuluj = new TextButton("Anuluj");
-		anuluj.setBorders(true);
+//		anuluj.setBorders(true);
 		anuluj.addSelectHandler(new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {
@@ -77,7 +77,7 @@ public class BazowyPanel extends ContentPanel {
 		anuluj.setWidth(80);
 		panelEnd.addButton(anuluj);
 		zamknij = new TextButton("Zamknij");
-		zamknij.setBorders(true);
+//		zamknij.setBorders(true);
 		zamknij.addSelectHandler(new SelectHandler() {
 			@Override
 			public void onSelect(SelectEvent event) {

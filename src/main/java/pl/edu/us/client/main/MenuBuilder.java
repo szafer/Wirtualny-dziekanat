@@ -114,8 +114,9 @@ public class MenuBuilder {
         if (rola == Rola.ADMIN) {
             nazwa = "Przypisanie ocen";
             przedmiotyMenu.add(createMenuItem("Przedmioty", NameTokens.przedmioty));//Dodawanie i edycja przedmiotow
-        }
-        przedmiotyMenu.add(createMenuItem(nazwa, NameTokens.mojePrzedmioty));
+        } 
+        //else TODO potem odkomentować - formatka dostepna tylko dla studentów i nauczycieli
+            przedmiotyMenu.add(createMenuItem(nazwa, NameTokens.mojePrzedmioty));
         return przedmiotyBarItem;
     }
 

@@ -16,11 +16,10 @@ import pl.edu.us.shared.dto.przedmioty.UPrzedmiotDTO;
 public class PrzedmiotyModel {
 
     private ListStore<PrzedmiotDTO> storePrzedmioty;
-    private ListStore<PrzedmiotDTO> przedmiotyDoUsuniecia;
+//    private ListStore<PrzedmiotDTO> przedmiotyDoUsuniecia;
     private ListStore<UPrzedmiotDTO> storeStudenci;
     private ListStore<UPrzedmiotDTO> storeNauczyciele;
     private ListStore<UserDTO> storeUzytkownicy;
-    private boolean isDirty = false;
     
     private PrzedmiotDTO przedmiot;
     PrzedmiotProperties przedmiotProp = GWT.create(PrzedmiotProperties.class);
@@ -30,7 +29,7 @@ public class PrzedmiotyModel {
     @Inject
     public PrzedmiotyModel() {
         storePrzedmioty = new ListStore<PrzedmiotDTO>(przedmiotProp.key());
-        przedmiotyDoUsuniecia = new ListStore<PrzedmiotDTO>(przedmiotProp.key());
+//        przedmiotyDoUsuniecia = new ListStore<PrzedmiotDTO>(przedmiotProp.key());
         storeStudenci = new ListStore<UPrzedmiotDTO>(uPrzedmiotProp.key());
         storeNauczyciele = new ListStore<UPrzedmiotDTO>(uPrzedmiotProp.key());
         storeUzytkownicy = new ListStore<UserDTO>(userProperties.key());
@@ -48,9 +47,9 @@ public class PrzedmiotyModel {
         return przedmiotProp;
     }
 
-    public ListStore<PrzedmiotDTO> getPrzedmiotyDoUsuniecia() {
-        return przedmiotyDoUsuniecia;
-    }
+//    public ListStore<PrzedmiotDTO> getPrzedmiotyDoUsuniecia() {
+//        return przedmiotyDoUsuniecia;
+//    }
 
     public ListStore<PrzedmiotDTO> getStorePrzedmioty() {
         return storePrzedmioty;
@@ -73,7 +72,6 @@ public class PrzedmiotyModel {
         storeNauczyciele.clear();
         storePrzedmioty.clear();
         przedmiot = null;
-        isDirty = false;
     }
 
     public PrzedmiotDTO getPrzedmiot() {
@@ -82,12 +80,6 @@ public class PrzedmiotyModel {
 
     public void setPrzedmiot(PrzedmiotDTO przedmiot) {
         this.przedmiot = przedmiot;
-//        if (!storeNauczyciele.getAll().isEmpty()) {
-//            this.przedmiot.setWykladowca(storeNauczyciele.get(0));
-//        }
-//        if (!storeStudenci.getAll().isEmpty()){
-//        this.przedmiot.setStudenci(storeStudenci.getAll());
-//        }
         storeNauczyciele.clear();
         storeStudenci.clear();
         if (przedmiot.getWykladowca() != null)
@@ -98,11 +90,8 @@ public class PrzedmiotyModel {
     }
 
     public boolean isDirty() {
-        return isDirty;
+        return !storePrzedmioty.getModifiedRecords().isEmpty() 
+            || !storeNauczyciele.getModifiedRecords().isEmpty()
+            || !storeStudenci.getModifiedRecords().isEmpty();
     }
-
-    public void setDirty(boolean isDirty) {
-        this.isDirty = isDirty;
-    }
-
 }

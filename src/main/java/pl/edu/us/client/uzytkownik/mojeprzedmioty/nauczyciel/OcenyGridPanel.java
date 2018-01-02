@@ -36,6 +36,7 @@ public class OcenyGridPanel extends ContentPanel implements IsWidget, Editor<UPr
 
     public OcenyGridPanel(ListStore<UPrzedmiotDTO> store, UPrzedmiotProperties props) {
         this.store = store;
+        setHeadingText("Oceny studentów");
         imieCol = new ColumnConfig<UPrzedmiotDTO, String>(props.uzytkownikImie(), 100, "Imię");
         nazwiskoCol = new ColumnConfig<UPrzedmiotDTO, String>(props.uzytkownikNazwisko(), 150, "Nazwisko");
         ocena1Col = new ColumnConfig<UPrzedmiotDTO, Float>(props.ocena1(), 60, "Ocena 1");
@@ -116,18 +117,9 @@ public class OcenyGridPanel extends ContentPanel implements IsWidget, Editor<UPr
         editing.addEditor(ocena1Col, ocena1Field);
         editing.addEditor(ocena2Col, ocena2Field);
 
-        // column 5 is not editable
 
-        // EDITING //
-        // customizeGrid(grid);
         grid.setSelectionModel(new CellSelectionModel<UPrzedmiotDTO>());
         grid.getColumnModel().getColumn(0).setHideable(false);
-//        panel = new ContentPanel();
-//        panel.setHeadingText("Kierunki");
-////         panel.getHeader().setIcon(CommonIcons.Icons.);
-//        panel.setPixelSize(700, 500);
-//        panel.addStyleName("margin-10");
-//        panel.setWidget(grid);
         add(grid);
     }
 

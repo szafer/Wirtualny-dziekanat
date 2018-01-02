@@ -3,15 +3,12 @@ package pl.edu.us.client.przedmioty.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.editor.client.Editor;
-import com.google.gwt.user.client.ui.IsWidget;
+import com.sencha.gxt.core.client.Style.SelectionMode;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
-import com.sencha.gxt.widget.core.client.event.SelectEvent;
-import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 import com.sencha.gxt.widget.core.client.form.TextField;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
@@ -26,7 +23,7 @@ import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
 import pl.edu.us.client.accesproperties.PrzedmiotProperties;
 import pl.edu.us.shared.dto.przedmioty.PrzedmiotDTO;
 
-public class PrzedmiotyGridPanel extends ContentPanel implements IsWidget, Editor<PrzedmiotDTO> {
+public class PrzedmiotyGridPanel extends ContentPanel {
 
 //    private final ContentPanel panel;
 //	ColumnConfig<Kierunek, Integer> ilSemCol, maxGrupaCol;
@@ -35,9 +32,8 @@ public class PrzedmiotyGridPanel extends ContentPanel implements IsWidget, Edito
     private final ListStore<PrzedmiotDTO> store;
     private final GridRowEditing<PrzedmiotDTO> editing;
     private TextButton btnDodaj = new TextButton("Dodaj przedmiot");
-    private static int AUTO_ID = 0;
 
-    public PrzedmiotyGridPanel(final ListStore<PrzedmiotDTO> store, PrzedmiotProperties props) {
+    public PrzedmiotyGridPanel(ListStore<PrzedmiotDTO> store, PrzedmiotProperties props) {
         this.store = store;
         setHeadingHtml("Przedmioty");
         ColumnConfig<PrzedmiotDTO, String> nameCol = new ColumnConfig<PrzedmiotDTO, String>(props.nazwa(), 200, "Nazwa");
@@ -45,18 +41,18 @@ public class PrzedmiotyGridPanel extends ContentPanel implements IsWidget, Edito
 
         List<ColumnConfig<PrzedmiotDTO, ?>> columns = new ArrayList<ColumnConfig<PrzedmiotDTO, ?>>();
         columns.add(nameCol);
-//		columns.add(ilSemCol);
-//		columns.add(czesneKol);
-//		columns.add(maxGrupaCol);
 
         ColumnModel<PrzedmiotDTO> cm = new ColumnModel<PrzedmiotDTO>(columns);
-        grid = new Grid(store, cm);
-//        grid.setColumnReordering(true);
+        grid = new Grid<PrzedmiotDTO>(store, cm);
+        grid.setColumnReordering(true);
         grid.getView().setAutoExpandColumn(nameCol);
         grid.setBorders(false);
         grid.getView().setStripeRows(true);
         grid.getView().setColumnLines(true);
         grid.getView().setShowDirtyCells(true);
+//        grid.setSelectionModel(new CellSelectionModel<PrzedmiotDTO>());
+        grid.getColumnModel().getColumn(0).setHideable(false);
+        grid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         // State manager, make this grid stateful
         grid.setStateful(true);
         grid.setStateId("filterGridExample");
@@ -74,22 +70,7 @@ public class PrzedmiotyGridPanel extends ContentPanel implements IsWidget, Edito
 
 //        grid.setSelectionModel(new RoSM<PrzedmiotDTO>());
 
-        grid.getColumnModel().getColumn(0).setHideable(false);
-
-        btnDodaj.setBorders(true);
-        btnDodaj.addSelectHandler(new SelectHandler() {
-
-            @Override
-            public void onSelect(SelectEvent event) {
-                PrzedmiotDTO przedmiot = new PrzedmiotDTO();
-                przedmiot.setId(--AUTO_ID);
-                editing.cancelEditing();
-                store.add(0, przedmiot);
-
-//                int row = store.indexOf(przedmiot);
-//                editing.startEditing(new GridCell(row, 0));
-            }
-        });
+//        btnDodaj.setBorders(true);
         ToolBar tb = new ToolBar();
         tb.add(btnDodaj);
 
@@ -105,5 +86,9 @@ public class PrzedmiotyGridPanel extends ContentPanel implements IsWidget, Edito
 
     public GridEditing<PrzedmiotDTO> getEditing() {
         return editing;
+    }
+
+    public TextButton getBtnDodaj() {
+        return btnDodaj;
     }
 }

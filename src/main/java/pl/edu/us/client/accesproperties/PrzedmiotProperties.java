@@ -1,16 +1,17 @@
 package pl.edu.us.client.accesproperties;
 
-import com.google.gwt.editor.client.Editor.Path;
+import java.util.List;
+
 import com.sencha.gxt.core.client.ValueProvider;
-import com.sencha.gxt.data.shared.ModelKeyProvider;
-import com.sencha.gxt.data.shared.PropertyAccess;
 
 import pl.edu.us.shared.dto.przedmioty.PrzedmiotDTO;
+import pl.edu.us.shared.dto.przedmioty.UPrzedmiotDTO;
 
-public interface PrzedmiotProperties extends PropertyAccess<PrzedmiotDTO> {
-
-    @Path("id")
-    ModelKeyProvider<PrzedmiotDTO> key();
+public interface PrzedmiotProperties extends AccProperties<PrzedmiotDTO> {
 
     ValueProvider<PrzedmiotDTO, String> nazwa();
+
+    ValueProvider<PrzedmiotDTO, UPrzedmiotDTO> wykladowca();
+
+    ValueProvider<PrzedmiotDTO, List<UPrzedmiotDTO>> studenci();
 }

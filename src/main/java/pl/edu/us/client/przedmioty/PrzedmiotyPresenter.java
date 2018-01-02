@@ -1,6 +1,7 @@
 package pl.edu.us.client.przedmioty;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.google.gwt.core.shared.GWT;
@@ -12,13 +13,15 @@ import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
+import com.sencha.gxt.data.shared.Store;
+import com.sencha.gxt.data.shared.Store.Record;
 
 import pl.edu.us.client.NameTokens;
 import pl.edu.us.client.main.BasePresenter;
 import pl.edu.us.client.przedmioty.ui.PrzedmiotyMainPanel;
 import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.dto.przedmioty.PrzedmiotDTO;
-import pl.edu.us.shared.model.old.Kierunek;
+import pl.edu.us.shared.dto.przedmioty.UPrzedmiotDTO;
 import pl.edu.us.shared.services.przedmioty.PrzedmiotyService;
 import pl.edu.us.shared.services.przedmioty.PrzedmiotyServiceAsync;
 
@@ -74,8 +77,6 @@ public class PrzedmiotyPresenter extends BasePresenter<PrzedmiotyPresenter.MyVie
 
     private void pobierzPrzedmioty() {
         getView().getModel().wyczysc();
-//        getView().getModel().getStorePrzedmioty().clear();
-//        getView().getModel().getPrzedmiotyDoUsuniecia().clear();
         service.getKierunki(new AsyncCallback<List<PrzedmiotDTO>>() {
             @Override
             public void onSuccess(List<PrzedmiotDTO> result) {
@@ -96,9 +97,25 @@ public class PrzedmiotyPresenter extends BasePresenter<PrzedmiotyPresenter.MyVie
     public void wykonajZapisz() {
         List<PrzedmiotDTO> doZapisu = new ArrayList<PrzedmiotDTO>();
         List<PrzedmiotDTO> doUsuniecia = new ArrayList<PrzedmiotDTO>();
-        doZapisu.addAll(getView().getModel().getStorePrzedmioty().getAll());
-        doUsuniecia.addAll(getView().getModel().getPrzedmiotyDoUsuniecia().getAll());
-        service.zapisz(doZapisu, doUsuniecia, new AsyncCallback<List<PrzedmiotDTO>>() {
+        List<UPrzedmiotDTO> zmiany = new ArrayList<UPrzedmiotDTO>();
+        Collection<Store<UPrzedmiotDTO>.Record> wykladowca = getView().getModel().getStoreNauczyciele().getModifiedRecords();
+        for (Record r : wykladowca) {
+            r.commit(false);
+            UPrzedmiotDTO wyk = (UPrzedmiotDTO) r.getModel();
+            
+            zmiany.add((UPrzedmiotDTO) r.getModel());
+        }
+        Collection<Store<UPrzedmiotDTO>.Record> studenci = getView().getModel().getStoreStudenci().getModifiedRecords();
+        for (Record r : studenci) {
+            r.commit(false);
+            zmiany.add((UPrzedmiotDTO) r.getModel());
+        }
+        Collection<Store<PrzedmiotDTO>.Record> lista = getView().getModel().getStorePrzedmioty().getModifiedRecords();
+        for (Record r : lista) {
+            r.commit(false);
+            doZapisu.add((PrzedmiotDTO) r.getModel());
+        }
+        service.zapisz(doZapisu, zmiany, new AsyncCallback<List<PrzedmiotDTO>>() {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -115,7 +132,10 @@ public class PrzedmiotyPresenter extends BasePresenter<PrzedmiotyPresenter.MyVie
     @Override
     public void wykonajAnuluj() {
         getView().getModel().getStorePrzedmioty().rejectChanges();
-        getView().getModel().getPrzedmiotyDoUsuniecia().rejectChanges();
+        getView().getModel().getStoreNauczyciele().rejectChanges();
+        getView().getModel().getStoreStudenci().rejectChanges();
+        getView().getPanel().initialState();
+//        getView().getModel().getPrzedmiotyDoUsuniecia().rejectChanges();
 
     }
 

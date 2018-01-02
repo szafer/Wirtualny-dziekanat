@@ -10,7 +10,7 @@ public class NameTokens {
     public static final String passremind = "!passremind";
     public static final String passchange = "!passchange";
     public static final String daneUzytkownika = "!daneUzytkownika";
-    public static final String mojePrzedmioty = "!przedmioty";
+    public static final String mojePrzedmioty = "!mojePrzedmioty";
     
     public static final String details = "!details";//FIXME nieuzywane
     public static final String def = "!def";//FIXME nieuzywane

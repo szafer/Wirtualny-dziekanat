@@ -22,7 +22,6 @@ public class MojePrzedmiotyMainPanel extends BazowyPanel {
     private MojePrzedmiotyModel model;
     private MojePrzedmiotyGridPanel gridPanel;
     private OcenyGridPanel ocenyPanel;
-    private MojePrzedmiotyPanel panel;
     private BorderLayoutData westData;
     private Rola rola;
 
@@ -35,7 +34,6 @@ public class MojePrzedmiotyMainPanel extends BazowyPanel {
     @Inject
     public MojePrzedmiotyMainPanel(final MojePrzedmiotyModel model) {
         this.model = model;
-        this.panel = new MojePrzedmiotyPanel(model);
         String r = Cookies.getCookie("userRole");
         rola = Rola.values()[Integer.valueOf(r)];
         nowy.setVisible(false);
@@ -65,7 +63,6 @@ public class MojePrzedmiotyMainPanel extends BazowyPanel {
             @Override
             public void onCompleteEdit(CompleteEditEvent<UPrzedmiotDTO> event) {
                 setSaveEnabled(true);
-//                model.getStoreOcenyStudentow().commitChanges();
             }
         });
         westData = new BorderLayoutData(500);
@@ -134,18 +131,9 @@ setSaveEnabled(true);
         return ocenyPanel;
     }
 
-    public MojePrzedmiotyPanel getPanel() {
-        return panel;
-    }
 
     public void setSaveEnabled(boolean enabled) {
-//        nowy.setEnabled(enabled);
-//        usun.setEnabled(enabled);
         zapisz.setEnabled(enabled && model.getStoreOcenyStudentow().getModifiedRecords().size() > 0);
         anuluj.setEnabled(model.getStoreOcenyStudentow().getModifiedRecords().size() > 0);
-        // zatwierdz.setEnabled(enabled);
-//        if (!enabled) {
-//
-//        }
     }
 }

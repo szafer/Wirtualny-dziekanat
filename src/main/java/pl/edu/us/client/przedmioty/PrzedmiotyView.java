@@ -1,14 +1,9 @@
 package pl.edu.us.client.przedmioty;
 
-import javax.enterprise.inject.Model;
-
 import com.google.gwt.event.logical.shared.BeforeSelectionEvent;
 import com.google.gwt.event.logical.shared.BeforeSelectionHandler;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.sencha.gxt.data.shared.Store.Record;
 import com.sencha.gxt.widget.core.client.box.ConfirmMessageBox;
 import com.sencha.gxt.widget.core.client.event.DialogHideEvent;
 import com.sencha.gxt.widget.core.client.event.DialogHideEvent.DialogHideHandler;
@@ -37,49 +32,40 @@ public class PrzedmiotyView extends BaseView<PrzedmiotyUiHandlers> implements Pr
 
             @Override
             public void onBeforeSelection(final BeforeSelectionEvent<PrzedmiotDTO> event) {
-                final PrzedmiotDTO p = event.getItem();//cancel();
-                if (model.getPrzedmiot() == null || !p.equals(model.getPrzedmiot()))
-                    if (model.isDirty()) {
-                        ConfirmMessageBox mBox = new ConfirmMessageBox("Zmiana", "Wykonane zmiany zostaną utracone. Czy kontynuować?");
-                        DialogHideHandler hideHandler = new DialogHideHandler() {
+                final PrzedmiotDTO akt = event.getItem();//cancel();
+                final PrzedmiotDTO prev = panel.getGridPanel().getGrid().getSelectionModel().getSelectedItem();
+                Boolean dirty = model.getStoreNauczyciele().getModifiedRecords().size() > 0;
+                if (prev != null && !akt.equals(prev) && dirty) {
+                    panel.getGridPanel().getGrid().getSelectionModel().setLocked(true);
+                    ConfirmMessageBox mBox = new ConfirmMessageBox("Zmiana", "Wykonane zmiany zostaną utracone. Czy kontynuować?");
+                    DialogHideHandler hideHandler = new DialogHideHandler() {
 
-                            @Override
-                            public void onDialogHide(DialogHideEvent hevent) {
-//                            String message = Format.substitute(" '{0}' ", hevent.getHideButton());
-                                switch (hevent.getHideButton()) {
-                                case YES:
-                                    Info.display("Komunikat", "Utracono zmiany");
-//                                if (event.getSelectedItem() != null) {
-                                    model.setPrzedmiot(event.getItem());
-                                    panel.setBtnDodajWykladowceEnabled(true);
-//                                    getUiHandlers().pobierzStudentow();
-//                                }
-                                    break;
+                        @Override
+                        public void onDialogHide(DialogHideEvent hevent) {
+                            switch (hevent.getHideButton()) {
+                            case YES:
+                                Info.display("Komunikat", "Utracono zmiany");
+                                model.setPrzedmiot(akt);
+                                panel.setBtnDodajWykladowceEnabled(true);
+                                panel.getGridPanel().getGrid().getSelectionModel().setLocked(false);
+                                panel.getGridPanel().getGrid().getSelectionModel().deselect(prev);
+                                break;
 
-                                case NO:
-                                    Info.display("Komunikat", "Anulowano");
-
-                                    panel.getGridPanel().getGrid().getSelectionModel().deselect(p);
-                                    panel.getGridPanel().getGrid().getSelectionModel().select(model.getPrzedmiot(), false);
-//                                    panel.getGridPanel().getGrid().getSelectionModel().getSelection().clear();
-//                                event.cancel();
-                                    break;
-                                }
+                            case NO:
+                                Info.display("Komunikat", "Anulowano");
+                                panel.getGridPanel().getGrid().getSelectionModel().setLocked(false);
+                                panel.getGridPanel().getGrid().getSelectionModel().deselect(akt);
+                                panel.getGridPanel().getGrid().getSelectionModel().select(prev, false);
+                                panel.setBtnDodajWykladowceEnabled(true);
+                                break;
                             }
-                        };
-                        mBox.addDialogHideHandler(hideHandler);
-                        mBox.show();
-                    }
-            }
-        });
-        panel.getGridPanel().getGrid().getSelectionModel().addSelectionHandler(new SelectionHandler<PrzedmiotDTO>() {
-
-            @Override
-            public void onSelection(SelectionEvent<PrzedmiotDTO> event) {
-                if (event.getSelectedItem() != null) {
-                    model.setPrzedmiot(event.getSelectedItem());
+                        }
+                    };
+                    mBox.addDialogHideHandler(hideHandler);
+                    mBox.show();
+                } else {
+                    model.setPrzedmiot(akt);
                     panel.setBtnDodajWykladowceEnabled(true);
-//                    getUiHandlers().pobierzStudentow();
                 }
             }
         });

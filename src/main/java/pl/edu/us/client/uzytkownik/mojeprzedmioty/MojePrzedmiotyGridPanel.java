@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.i18n.client.NumberFormat;
+import com.google.gwt.safecss.shared.SafeStyles;
+import com.google.gwt.safecss.shared.SafeStylesUtils;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.ContentPanel;
@@ -36,6 +38,7 @@ public class MojePrzedmiotyGridPanel extends ContentPanel implements IsWidget, E
     public MojePrzedmiotyGridPanel(ListStore<UPrzedmiotDTO> store, UPrzedmiotProperties props, Rola rola) {
         this.store = store;
         this.rola = rola;
+        setHeadingText("Przedmioty");
 //        ColumnConfig<UPrzedmiotDTO, String> nameCol = new ColumnConfig<UPrzedmiotDTO, String>(props.nazwa(), 200, "Nazwa");
         dataSemCol = new ColumnConfig<UPrzedmiotDTO, Date>(props.dataSemestru(), 100, "Data semestru");
         ocena1Col = new ColumnConfig<UPrzedmiotDTO, Float>(props.ocena1(), 60, "Ocena 1");
@@ -58,7 +61,7 @@ public class MojePrzedmiotyGridPanel extends ContentPanel implements IsWidget, E
 //        columns.add(maxGrupaCol);
 
         ColumnModel<UPrzedmiotDTO> cm = new ColumnModel<UPrzedmiotDTO>(columns);
-        grid = new Grid(store, cm);
+        grid = new Grid<UPrzedmiotDTO>(store, cm);
         grid.setColumnReordering(true);
         grid.getView().setAutoExpandColumn(przedmiotCol);
         grid.setBorders(false);
@@ -69,19 +72,13 @@ public class MojePrzedmiotyGridPanel extends ContentPanel implements IsWidget, E
         grid.setStateful(true);
         grid.setStateId("filterGridExample");
 
-//        DateFilter<UPrzedmiotDTO, Date> ilSemFilter = new DateFilter<UPrzedmiotDTO, Date>(props.dataSemestru()/*
-//                                                                                                              new DateTimePropertyEditor()*/);
-//        ilSemFilter.setLessThanValue(12);
-//        ilSemFilter.setActive(true, false);
 
         NumericFilter<UPrzedmiotDTO, Float> ocena1Filter = new NumericFilter<UPrzedmiotDTO, Float>(props.ocena1(),
             new FloatPropertyEditor());
-//        czesneFilter.setLessThanValue(BigDecimal.valueOf(1000.00D));
         ocena1Filter.setActive(true, false);
 
         NumericFilter<UPrzedmiotDTO, Float> ocena2Filter = new NumericFilter<UPrzedmiotDTO, Float>(props.ocena2(),
             new FloatPropertyEditor());
-//        czesneFilter.setLessThanValue(BigDecimal.valueOf(1000.00D));
         ocena2Filter.setActive(true, false);
 
         StringFilter<UPrzedmiotDTO> nameFilter = new StringFilter<UPrzedmiotDTO>(props.przedmiotNazwa());
@@ -89,11 +86,7 @@ public class MojePrzedmiotyGridPanel extends ContentPanel implements IsWidget, E
 
         StringFilter<UPrzedmiotDTO> semFilter = new StringFilter<UPrzedmiotDTO>(props.semestrNazwa());
         semFilter.setActive(true, false);
-//        StringFilter<UPrzedmiotDTO, String> przedmiotFilter = new StringFilter<UPrzedmiotDTO, String>(props.przedmiot().toString())
-//        NumericFilter<UPrzedmiotDTO, Integer> maxGrupaFilter = new NumericFilter<UPrzedmiotDTO, Integer>(props.iloscSemestrow(),
-//                new IntegerPropertyEditor());
-//        maxGrupaFilter.setLessThanValue(60);
-//        maxGrupaFilter.setActive(true, false);
+
 
         GridFilters<UPrzedmiotDTO> filters = new GridFilters<UPrzedmiotDTO>();
         filters.initPlugin(grid);

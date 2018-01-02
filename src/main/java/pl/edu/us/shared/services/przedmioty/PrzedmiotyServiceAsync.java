@@ -14,7 +14,7 @@ public interface PrzedmiotyServiceAsync {
 
     void zapisz(List<UPrzedmiotDTO> doZapisu, AsyncCallback<Void> asyncCallback);
     
-    void zapisz(List<PrzedmiotDTO> doZapisu, List<PrzedmiotDTO> doUsuniecia, AsyncCallback<List<PrzedmiotDTO>> callback);
+    void zapisz(List<PrzedmiotDTO> doZapisu, List<UPrzedmiotDTO> zmiany, AsyncCallback<List<PrzedmiotDTO>> callback);
 
     void getKierunki(AsyncCallback<List<PrzedmiotDTO>> callback);
     

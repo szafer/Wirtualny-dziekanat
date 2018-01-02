@@ -55,7 +55,9 @@ public class PrzedmiotyServiceImpl implements PrzedmiotyService {
         ModelMapper mapper = new ModelMapper();
         for (UPrzedmiotDTO dto : doZapisu) {
             UPrzedmiot p = mapper.map(dto, UPrzedmiot.class);
-            if (p.getId() < 1) {
+            if (p.getId() == null)
+                uPrzedmiotDAO.persist(p);
+            else if (p.getId() < 1) {
                 p.setId(null);
                 uPrzedmiotDAO.persist(p);
             } else {
@@ -66,9 +68,10 @@ public class PrzedmiotyServiceImpl implements PrzedmiotyService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public List<PrzedmiotDTO> zapisz(List<PrzedmiotDTO> doZapisu, List<PrzedmiotDTO> doUsuniecia) {
+    public List<PrzedmiotDTO> zapisz(List<PrzedmiotDTO> doZapisu, List<UPrzedmiotDTO> zmiany) {
         ModelMapper mapper = new ModelMapper();
         for (PrzedmiotDTO pDto : doZapisu) {
+            
             Przedmiot p = mapper.map(pDto, Przedmiot.class);
             if (p.getId() < 1) {
                 p.setId(null);
@@ -79,17 +82,24 @@ public class PrzedmiotyServiceImpl implements PrzedmiotyService {
             }
             //zapis wykladowcy
             if (pDto.getWykladowca() != null) {
+                if (zmiany.contains(pDto.getWykladowca())){
+                    zmiany.remove(pDto.getWykladowca());
+                }
                 pDto.getWykladowca().setPrzedmiot(pDto);
                 zapisz(Lists.newArrayList(pDto.getWykladowca()));
 //                UPrzedmiot wykl = mapper.map(pDto.getWykladowca(), UPrzedmiot.class);
             }
             if (pDto.getStudenci() != null && !pDto.getStudenci().isEmpty()) {
                 for (UPrzedmiotDTO studDto : pDto.getStudenci()) {
+                    if (zmiany.contains(studDto)){
+                        zmiany.remove(studDto);
+                    }
                     studDto.setPrzedmiot(pDto);
                 }
                 zapisz(pDto.getStudenci());
             }
-        } //narazie nie ma usuwania
+        }
+        zapisz(zmiany);
         return getKierunki();
     }
 
