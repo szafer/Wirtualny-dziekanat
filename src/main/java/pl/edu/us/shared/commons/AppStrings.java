@@ -17,9 +17,12 @@ public class AppStrings {
     public static final String wybierz_plec = "Proszę wybrać płeć...";
     public static final String wybierz_role = "Proszę wybrać rolę...";
 
-    public static final String bledny_email = "Błędny e-mail";
+    public static final String bledny_email = "Błędny e-mail prawidłowy format to example@example.com";
 
     public static final String ocena_za_niska = "Minimalna ocena wynosi 2.0";
     public static final String ocena_za_wysoka = "Maksymalna ocena wynosi 5.0";
     public static final String zly_format = "Prawidłowy format to # lub #.#";
+    
+    public static final String odblokowanie_konta_subj = "Usosweb: Odblokowanie konta";
+    public static final String odblokowanie_konta = "Twoje konto zostało odblokowane.";
 }

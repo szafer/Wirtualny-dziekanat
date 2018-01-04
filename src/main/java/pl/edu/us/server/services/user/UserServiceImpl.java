@@ -2,11 +2,13 @@ package pl.edu.us.server.services.user;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.servlet.ServletException;
 
+import org.eclipse.jetty.util.log.Log;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,12 +21,16 @@ import com.sencha.gxt.data.shared.loader.PagingLoadResultBean;
 
 import pl.edu.us.server.dao.UserDAO;
 import pl.edu.us.server.services.Main;
+import pl.edu.us.shared.commons.AppStrings;
 import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.model.User;
 import pl.edu.us.shared.services.user.UserService;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
+
+    @SuppressWarnings("unused")
+    private static Logger LOG = Logger.getLogger(UserServiceImpl.class.getName());
 
     @Autowired
     private UserDAO userDAO;
@@ -55,17 +61,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public List<UserDTO> zapisz(List<UserDTO> doZapisu) {
+    public List<UserDTO> zapisz(List<UserDTO> doZapisu) throws Exception {
         ModelMapper mapper = new ModelMapper();
         for (UserDTO dto : doZapisu) {
+            User wystepuje = null;
+            if (dto.getEmail() == null) {
+                Log.info("Błąd zapisu - brak adresu email");
+                throw new Exception("Błąd zapisu - brak adresu email");
+            }
+            try {
+                wystepuje = (User) userDAO.getEntityManager().createNamedQuery(User.CZY_EMAIL_WYSTEPUJE)
+                    .setParameter("email", dto.getEmail())
+                    .getSingleResult();
+            } catch (Exception e) {
+            }
+            if (wystepuje != null && wystepuje.getId() != dto.getId()) {//zarejestrowano email dla innego usera
+                LOG.info("Błąd zapisu - email:" + dto.getEmail());
+                throw new Exception("Taki email występuje już w systemie");
+            }
             User u = mapper.map(dto, User.class);
-            if (u.getId() == null) {
-                userDAO.persist(u);
-            } else if (u.getId() < 1) {
-                u.setId(null);
-                userDAO.persist(u);
-            } else
-                userDAO.merge(u);
+            userDAO.merge(u);
+            if (dto.getPowiadomic()) {
+                try {
+                    new Mail().send(dto.getEmail(), AppStrings.odblokowanie_konta_subj, AppStrings.odblokowanie_konta);
+                } catch (Exception e) {
+                    LOG.info("Nie udało się powiadomić użytkownika: " + dto.toString());
+                }
+            }
         }
         return new ArrayList<UserDTO>();
     }
@@ -106,6 +128,7 @@ public class UserServiceImpl implements UserService {
             new Mail().send(email, subject, "Hasło: " + u);
             return "OK";
         } catch (Exception e) {
+            LOG.info("Nie udało się wysłać hasła na email: " + email);
             System.out.println(e.getCause().toString());
             return null;
         }
@@ -115,7 +138,6 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public UserDTO zarejestruj(UserDTO user) throws Exception {
         User u = null;
-        Boolean wystepuje = false;
         try {
             u = (User) userDAO.getEntityManager().createNamedQuery(User.DAJ_USERA_PO_LOGINIE)
                 .setParameter("login", user.getLogin())
@@ -123,7 +145,36 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
         }
         if (u != null) {
+            LOG.info("Błąd rejestrcji - login:" + user.getLogin());
             throw new Exception("Taki login występuje już w systemie");
+        }
+        User wystepuje = null;
+        if (user.getEmail() == null) {
+            Log.info("Błąd zapisu - brak adresu email");
+            throw new Exception("Błąd zapisu - brak adresu email");
+        }
+        try {
+            wystepuje = (User) userDAO.getEntityManager().createNamedQuery(User.CZY_EMAIL_WYSTEPUJE)
+                .setParameter("email", user.getEmail())
+                .getSingleResult();
+        } catch (Exception e) {
+        }
+        if (wystepuje != null) {
+            LOG.info("Błąd zapisu - email:" + user.getEmail());
+            throw new Exception("Taki email występuje już w systemie");
+        }
+        u = new ModelMapper().map(user, User.class);
+        userDAO.persist(u);
+        user.setId(u.getId());
+        return user;
+
+    }
+
+    private void walidujAdresEmail(UserDTO user) throws Exception {
+        Boolean wystepuje = false;
+        if (user.getEmail() == null) {
+            Log.info("Błąd zapisu - brak adresu email");
+            throw new Exception("Błąd zapisu - brak adresu email");
         }
         try {
             wystepuje = (Boolean) userDAO.getEntityManager().createNamedQuery(User.CZY_EMAIL_WYSTEPUJE)
@@ -132,13 +183,9 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
         }
         if (wystepuje != null && wystepuje) {
+            LOG.info("Błąd zapisu - email:" + user.getEmail());
             throw new Exception("Taki email występuje już w systemie");
         }
-        u = new ModelMapper().map(user, User.class);
-        userDAO.persist(u);
-        user.setId(u.getId());
-        return user;
-
     }
 
     @Override
@@ -158,6 +205,7 @@ public class UserServiceImpl implements UserService {
                 .getSingleResult();
             return new ModelMapper().map(u, UserDTO.class);
         } catch (Exception e) {
+            LOG.info("Błąd logowania - błędny login:" + name);
             System.out.println(e.getCause().toString());
             return null;
         }

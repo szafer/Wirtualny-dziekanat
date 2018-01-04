@@ -1,13 +1,10 @@
 package pl.edu.us.client.uzytkownik.kartoteka;
 
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 
 import pl.edu.us.client.main.BaseView;
-import pl.edu.us.shared.dto.UserDTO;
 
 public class UzytkownicyView extends BaseView<UzytkownicyUiHandlers> implements
 		UzytkownicyPresenter.MyView {
@@ -21,6 +18,7 @@ public class UzytkownicyView extends BaseView<UzytkownicyUiHandlers> implements
 
 	@Override
 	protected void bindCustomUiHandlers() {
+	    panel.getPanel().setUHandlers(getUiHandlers());
 		panel.getZapisz().addSelectHandler(new SelectHandler() {
 
 			@Override
@@ -62,5 +60,9 @@ public class UzytkownicyView extends BaseView<UzytkownicyUiHandlers> implements
 	@Override
 	public UzytkownicyModel getModel() {
 		return model;
+	}
+	@Override
+	public UzytkownicyMainPanel getPanel(){
+	    return panel;
 	}
 }

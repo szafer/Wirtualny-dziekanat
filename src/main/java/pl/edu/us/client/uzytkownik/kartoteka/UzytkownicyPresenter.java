@@ -15,7 +15,11 @@ import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.sencha.gxt.data.shared.Store;
 import com.sencha.gxt.data.shared.Store.Record;
+import com.sencha.gxt.data.shared.loader.FilterPagingLoadConfig;
+import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 import com.sencha.gxt.widget.core.client.Component;
+import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
+import com.sencha.gxt.widget.core.client.box.MessageBox;
 import com.sencha.gxt.widget.core.client.info.Info;
 
 import pl.edu.us.client.NameTokens;
@@ -34,6 +38,8 @@ public class UzytkownicyPresenter extends
     public interface MyView extends View, HasUiHandlers<UzytkownicyUiHandlers> {
 
         UzytkownicyModel getModel();
+
+        UzytkownicyMainPanel getPanel();
     }
 
     @ProxyCodeSplit
@@ -45,7 +51,7 @@ public class UzytkownicyPresenter extends
     private final RpcMasking rpcMasking;
 
     @Inject
-    public UzytkownicyPresenter(EventBus eventBus, MyView view, MyProxy proxy,   final RpcMasking rpcMasking) {
+    public UzytkownicyPresenter(EventBus eventBus, MyView view, MyProxy proxy, final RpcMasking rpcMasking) {
         super(eventBus, view, proxy);
         getView().setUiHandlers(this);
         this.rpcMasking = rpcMasking;
@@ -57,7 +63,14 @@ public class UzytkownicyPresenter extends
     protected void onReset() {
         super.onReset();
         getView().getModel().wyczysc();
+        getView().getPanel().getPanel().getGrid().getLoader().load();
 //        pobierzUzytkownikow();
+    }
+
+    @Override
+    protected void onReveal() {
+        // TODO Auto-generated method stub
+        super.onReveal();
     }
 
     private void pobierzUzytkownikow() {
@@ -82,7 +95,7 @@ public class UzytkownicyPresenter extends
         List<UserDTO> doZapisu = new ArrayList<UserDTO>();
         Collection<Store<UserDTO>.Record> lista = getView().getModel().getStoreUsers().getModifiedRecords();
         for (Record r : lista) {
-            r.commit(true);
+            r.commit(false);
             doZapisu.add((UserDTO) r.getModel());
         }
 //        doZapisu.addAll(getView().getModel().getUsers().getAll());
@@ -103,25 +116,38 @@ public class UzytkownicyPresenter extends
 ////                getView().getModel().getStoreUsers().addAll(result);
 //            }
 //        });
-        
+
         userService.zapisz(doZapisu, rpcMasking.call(Message.SAVING,
             new ActionCallback<List<UserDTO>>() {
 
-            @Override
-            public void onSuccess(List<UserDTO> result) {
-                Info.display("Użytkowncy", "Zapisano dane");
-            }
-        }));
+                @Override
+                public void onSuccess(List<UserDTO> result) {
+                    getView().getPanel().setSaveEnabled(true);
+                    Info.display("Użytkownicy", "Zapisano dane");
+                    getView().getPanel().getPanel().getGrid().getLoader().load();
+                }
+
+                @Override
+                public void onFailure(Throwable caught) {
+                    new AlertMessageBox("Użytkownicy", "Błąd zapisywani danych: <br>" + caught.getMessage()).show();
+                }
+            }));
 
     }
 
     @Override
     public void wykonajAnuluj() {
-      getView().getModel().getStoreUsers().rejectChanges();
+        getView().getModel().getStoreUsers().rejectChanges();
+        getView().getPanel().getPanel().getGrid().getLoader().load();
     }
 
     @Override
     public void wykonajZamknij() {
         removeFromParentSlot();
+    }
+
+    @Override
+    public void getUsers(FilterPagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<UserDTO>> callback) {
+        userService.getUsers(loadConfig, rpcMasking.call(Message.LOADING, callback));
     }
 }

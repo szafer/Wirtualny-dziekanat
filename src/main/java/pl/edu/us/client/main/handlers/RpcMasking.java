@@ -8,32 +8,6 @@ import com.sencha.gxt.widget.core.client.Component;
 import pl.edu.us.shared.enums.Message;
 public class  RpcMasking implements Masking {
 
-//    public enum Message {
-//        LOADING("£adowanie danych"),
-//        SAVING("Zapis danych"),
-//        CHECKING("Sprawdzanie danych"),
-//        WAITING("Oczekiwanie"),
-//        ANALYZING_ABSENCE("<center>Proszê czekaæ</center>Trwa analiza absencji pracowników"),
-//        PROCESSING("<center>Proszê czekaæ</center>Trwa wykonywanie procedury"),
-//        ROZLICZANIE("<center>Proszê czekaæ</center>Trwa wykonywanie rozliczenia kosztowego"),
-//        TWORZENIE_PACZKI("<center>Proszê czekaæ</center>Trwa tworzenie paczki"),
-//        PRZEKAZANIE_PACZKI_DO_KFK("<center>Proszê czekaæ</center>Trwa przekazywanie paczki do KFK"),
-//        DELETING("Usuwanie danych"),
-//        PLEASE_WAIT("Proszê czekaæ"),
-//        ROZLICZANIE_ZASILKU("Rozliczanie pracownika");
-//
-//        private final String message;
-//  
-//        Message(String message) {
-//            this.message = message;
-//        }
-//
-//        public String getValue() {
-//            return message;
-//        }
-//
-//    }
-
     private Component maskedComponent;
 
     private static final int MINIMAL_MASKING_TIME = 500;
@@ -62,7 +36,6 @@ public class  RpcMasking implements Masking {
             @Override
             public void onFailure(final Throwable caught) {
                 if (startTime != null) {
-                    // OdpowiedŸ by³a szybka
                     int remain = (int) (MINIMAL_MASKING_TIME - (new Date().getTime() - startTime));
                     if (remain > 0) {
                         new Timer() {
@@ -84,7 +57,6 @@ public class  RpcMasking implements Masking {
             @Override
             public void onSuccess(final X result) {
                 if (startTime != null) {
-                    // OdpowiedŸ by³a szybka
                     int remain = (int) (MINIMAL_MASKING_TIME - (new Date().getTime() - startTime));
                     if (remain > 0) {
                         new Timer() {

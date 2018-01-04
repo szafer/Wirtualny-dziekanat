@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -17,6 +16,8 @@ import com.sencha.gxt.cell.core.client.form.CheckBoxCell;
 import com.sencha.gxt.cell.core.client.form.ComboBoxCell;
 import com.sencha.gxt.cell.core.client.form.ComboBoxCell.TriggerAction;
 import com.sencha.gxt.cell.core.client.form.DateCell;
+import com.sencha.gxt.cell.core.client.form.NumberInputCell;
+import com.sencha.gxt.cell.core.client.form.TextInputCell;
 import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.data.client.loader.RpcProxy;
 import com.sencha.gxt.data.shared.LabelProvider;
@@ -33,6 +34,7 @@ import com.sencha.gxt.widget.core.client.form.DateTimePropertyEditor;
 import com.sencha.gxt.widget.core.client.form.IntegerField;
 import com.sencha.gxt.widget.core.client.form.NumberPropertyEditor.IntegerPropertyEditor;
 import com.sencha.gxt.widget.core.client.form.TextField;
+import com.sencha.gxt.widget.core.client.grid.CellSelectionModel;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
@@ -45,11 +47,10 @@ import com.sencha.gxt.widget.core.client.grid.filters.StringFilter;
 import com.sencha.gxt.widget.core.client.toolbar.PagingToolBar;
 
 import pl.edu.us.client.accesproperties.UserProperties;
+import pl.edu.us.client.main.validators.EmailValidator;
 import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.enums.Plec;
 import pl.edu.us.shared.enums.Rola;
-import pl.edu.us.shared.services.user.UserService;
-import pl.edu.us.shared.services.user.UserServiceAsync;
 
 public class UzytkownicyGridPanel extends ContentPanel {
 
@@ -58,27 +59,30 @@ public class UzytkownicyGridPanel extends ContentPanel {
 //    private ColumnConfig<UserDTO, Float> ocena1Col, ocena2Col;
     private ColumnConfig<UserDTO, Plec> plecCol;
     private ColumnConfig<UserDTO, Rola> rolaCol;
-    private ColumnConfig<UserDTO, Boolean> aktywnyCol;
+    private ColumnConfig<UserDTO, Boolean> aktywnyCol, powiadomicCol;
     private ColumnConfig<UserDTO, Integer> idCol, iloscLogowanCol;
     private ColumnConfig<UserDTO, Date> dataUrCol;
     private final Grid<UserDTO> grid;
     private final ListStore<UserDTO> store;
     private final GridInlineEditing<UserDTO> editing;
-    private DateCell dateCell;
+    private DateCell dataUr;
     private ComboBoxCell<Plec> comboPlec;
     private ComboBoxCell<Rola> comboRola;
-    private CheckBoxCell checkAktywny;
+    private CheckBoxCell checkAktywny, checkPowiadomic;
+//    private TextInputCell imie, nazwisko, ulica, kodPocztowy, miasto, email, login, nrDomu, nrMieszkania;
     private UserProperties props;
+    private UzytkownicyUiHandlers handlers;
 
     public UzytkownicyGridPanel(UzytkownicyModel model) {
         this.store = model.getStoreUsers();
         this.props = model.getUserProp();
-        final UserServiceAsync service = GWT.create(UserService.class);
+//        final UserServiceAsync service = GWT.create(UserService.class);
 
         RpcProxy<FilterPagingLoadConfig, PagingLoadResult<UserDTO>> proxy = new RpcProxy<FilterPagingLoadConfig, PagingLoadResult<UserDTO>>() {
             @Override
             public void load(FilterPagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<UserDTO>> callback) {
-                service.getUsers(loadConfig, callback);
+                handlers.getUsers(loadConfig, callback);
+//                service.getUsers(loadConfig, callback);
             }
         };
         final PagingLoader<FilterPagingLoadConfig, PagingLoadResult<UserDTO>> remoteLoader = new PagingLoader<FilterPagingLoadConfig, PagingLoadResult<UserDTO>>(
@@ -88,7 +92,7 @@ public class UzytkownicyGridPanel extends ContentPanel {
                 return new FilterPagingLoadConfigBean();
             }
         };
-        remoteLoader.setRemoteSort(true);
+        remoteLoader.setRemoteSort(false);//TODO zrobić sort
         remoteLoader.addLoadHandler(new LoadResultListStoreBinding<FilterPagingLoadConfig, UserDTO, PagingLoadResult<UserDTO>>(store));
 
         setHeadingText("Użytkownicy");
@@ -107,13 +111,25 @@ public class UzytkownicyGridPanel extends ContentPanel {
         kodPocztowyCol = new ColumnConfig<UserDTO, String>(props.kodPocztowy(), 100, "Kod pocztowy");
         plecCol = new ColumnConfig<UserDTO, Plec>(props.plec(), 140, "Płeć");
         rolaCol = new ColumnConfig<UserDTO, Rola>(props.rola(), 140, "Rola");
-        aktywnyCol = new ColumnConfig<UserDTO, Boolean>(props.aktywny(), 50, "Aktywny");
-        iloscLogowanCol = new ColumnConfig<>(props.iloscLogowan(), 50, "Pozostało </br>logowań");
+        aktywnyCol = new ColumnConfig<UserDTO, Boolean>(props.aktywny(), 60, "Aktywny");
+        iloscLogowanCol = new ColumnConfig<>(props.iloscLogowan(), 60, "Pozostało </br>logowań");
+        powiadomicCol = new ColumnConfig<UserDTO, Boolean>(props.powiadomic(), 60, "Powiadomić");
 
-        dateCell = new DateCell();
-        dateCell.setPropertyEditor(new DateTimePropertyEditor(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT)));
-        dateCell.setWidth(120);
-        dataUrCol.setCell(dateCell);
+//        ustawTextInputCell(imieCol);
+//        ustawTextInputCell(nazwiskoCol);
+//        ustawTextInputCell(emailCol);
+//        ustawTextInputCell(ulicaCol);
+//        ustawTextInputCell(nrDomuCol);
+//        ustawTextInputCell(nrMieszkaniaCol);
+//        ustawTextInputCell(miastoCol);
+//        ustawTextInputCell(kodPocztowyCol);
+//        ustawIntegerInputCell(iloscLogowanCol);
+
+        dataUr = new DateCell();
+        dataUr.setPropertyEditor(new DateTimePropertyEditor(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT)));
+        dataUr.setWidth(120);
+        dataUr.setAllowBlank(false);
+        dataUrCol.setCell(dataUr);
         dataUrCol.setColumnTextStyle(dataUrStyle);
 
         comboPlec = new ComboBoxCell<Plec>(model.getStorePlec(), new LabelProvider<Plec>() {
@@ -126,6 +142,7 @@ public class UzytkownicyGridPanel extends ContentPanel {
         comboPlec.setTriggerAction(TriggerAction.ALL);
         comboPlec.setForceSelection(true);
         comboPlec.setWidth(120);
+        comboPlec.setAllowBlank(false);
         plecCol.setCell(comboPlec);
         plecCol.setColumnStyle(dataUrStyle);
 
@@ -139,14 +156,18 @@ public class UzytkownicyGridPanel extends ContentPanel {
         comboRola.setTriggerAction(TriggerAction.ALL);
         comboRola.setForceSelection(true);
         comboRola.setWidth(120);
+        comboRola.setAllowBlank(false);
         rolaCol.setCell(comboRola);
         rolaCol.setColumnStyle(dataUrStyle);
 
         checkAktywny = new CheckBoxCell();
-
         aktywnyCol.setCell(checkAktywny);
-//        aktywnyCol.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
         aktywnyCol.setColumnStyle(cbStyle);
+
+        checkPowiadomic = new CheckBoxCell();
+        powiadomicCol.setCell(checkPowiadomic);
+        powiadomicCol.setColumnStyle(cbStyle);
+
 //        VerticalAlignmentConstant align = VerticalAlignmentConstant.
         List<ColumnConfig<UserDTO, ?>> columns = new ArrayList<ColumnConfig<UserDTO, ?>>();
         columns.add(idCol);
@@ -164,6 +185,7 @@ public class UzytkownicyGridPanel extends ContentPanel {
         columns.add(rolaCol);
         columns.add(aktywnyCol);
         columns.add(iloscLogowanCol);
+        columns.add(powiadomicCol);
         ustawPoziom(columns);
 
         ColumnModel<UserDTO> cm = new ColumnModel<UserDTO>(columns) {
@@ -187,7 +209,8 @@ public class UzytkownicyGridPanel extends ContentPanel {
         grid.getView().setStripeRows(true);
         grid.getView().setColumnLines(true);
         grid.getView().setShowDirtyCells(true);
-
+        grid.setLoader(remoteLoader);
+//        grid.setLoadMask(true);//TODO maskowanie grida czy panelu?
 //        grid.getView().setForceFit(true);
         // State manager, make this grid stateful
         grid.setStateful(true);
@@ -204,7 +227,7 @@ public class UzytkownicyGridPanel extends ContentPanel {
         idFilter.setActive(true, false);
 //
         BooleanFilter<UserDTO> aktywnyFilter = new BooleanFilter<UserDTO>(props.aktywny());
-        aktywnyFilter.setActive(true, false);
+//        aktywnyFilter.setActive(true, false);
 
         GridFilters<UserDTO> filters = new GridFilters<UserDTO>(remoteLoader);
         filters.initPlugin(grid);
@@ -226,21 +249,19 @@ public class UzytkownicyGridPanel extends ContentPanel {
         filters.addFilter(aktywnyFilter);
 
         editing = new GridInlineEditing<UserDTO>(grid);
-        editing.addEditor(loginCol, new TextField());
-        editing.addEditor(imieCol, new TextField());
-        editing.addEditor(nazwiskoCol, new TextField());
-        editing.addEditor(emailCol, new TextField());//parser
-        editing.addEditor(ulicaCol, new TextField());
-        editing.addEditor(nrDomuCol, new TextField());
-        editing.addEditor(nrMieszkaniaCol, new TextField());
-        editing.addEditor(miastoCol, new TextField());
-        editing.addEditor(kodPocztowyCol, new TextField());
-//        editing.addEditor(aktywnyCol, new CheckBox());
+        editing.addEditor(loginCol, dajTextField());
+        editing.addEditor(imieCol, dajTextField());
+        editing.addEditor(nazwiskoCol, dajTextField());
+        editing.addEditor(emailCol, dajEmailTextField());
+        editing.addEditor(ulicaCol, dajTextField());
+        editing.addEditor(nrDomuCol, dajTextField());
+        editing.addEditor(nrMieszkaniaCol, dajTextField());
+        editing.addEditor(miastoCol, dajTextField());
+        editing.addEditor(kodPocztowyCol, dajTextField());
         editing.addEditor(iloscLogowanCol, new IntegerField());
 
-//        grid.setSelectionModel(new CellSelectionModel<UserDTO>());
+        grid.setSelectionModel(new CellSelectionModel<UserDTO>());
         grid.getColumnModel().getColumn(0).setHideable(false);
-//        add(grid);
         VerticalLayoutContainer con = new VerticalLayoutContainer();
 
         final PagingToolBar toolBar = new PagingToolBar(25);
@@ -249,6 +270,33 @@ public class UzytkownicyGridPanel extends ContentPanel {
         con.add(toolBar, new VerticalLayoutData(1, -1));
 
         add(con);
+    }
+
+    private TextField dajEmailTextField() {
+        TextField field = new TextField();
+        field.setAllowBlank(false);
+        field.addValidator(new EmailValidator());
+        return field;
+    }
+    
+    private TextField dajTextField() {
+        TextField field = new TextField();
+        field.setAllowBlank(false);
+//        field.addValidator(new EmailValidator());
+        return field;
+    }
+
+    private void ustawTextInputCell(ColumnConfig<UserDTO, String> col) {
+        TextInputCell cell = new TextInputCell();
+        cell.setAllowBlank(false);
+//        cell.
+        col.setCell(cell);
+    }
+
+    private void ustawIntegerInputCell(ColumnConfig<UserDTO, Integer> col) {
+        NumberInputCell<Integer> cell = new NumberInputCell<Integer>(new IntegerPropertyEditor());
+        cell.setAllowBlank(false);
+        col.setCell(cell);
     }
 
     private void ustawPoziom(List<ColumnConfig<UserDTO, ?>> columns) {
@@ -269,5 +317,9 @@ public class UzytkownicyGridPanel extends ContentPanel {
 
     public GridInlineEditing<UserDTO> getEditing() {
         return editing;
+    }
+
+    public void setUHandlers(UzytkownicyUiHandlers uiHandlers) {
+        this.handlers = uiHandlers;
     }
 }

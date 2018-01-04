@@ -41,4 +41,7 @@ public interface UserProperties extends PersonProperties<UserDTO> {
 
     @Path("plec.kod")
     ValueProvider<UserDTO, String> plecKod();
+    
+    ValueProvider<UserDTO, Boolean> powiadomic();
+
 }

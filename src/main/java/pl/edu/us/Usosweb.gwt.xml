@@ -32,4 +32,7 @@
 <!-- 	<set-property name="user.agent" value="safari" /> -->
 	<set-property name="gxt.user.agent" value="safari3" />
 	<!-- <set-property name="user.agent.os" value="windows" /> -->
+	<extend-property name="locale" values="pl_PL" />
+	<set-property-fallback name="locale" value="pl_PL" />
+	<set-property name="locale" value="pl_PL" />
 </module>

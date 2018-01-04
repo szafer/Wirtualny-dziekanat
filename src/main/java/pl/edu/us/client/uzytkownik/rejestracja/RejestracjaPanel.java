@@ -37,7 +37,7 @@ public class RejestracjaPanel extends FramedPanel implements /* IsWidget, */Edit
 
     private final RejestracjaModel model;
 
-    TextField imie, nazwisko, ulica, kodPocztowy, miasto, email, login, nrDomu, nrMieszkania;
+    private TextField imie, nazwisko, ulica, kodPocztowy, miasto, email, login, nrDomu, nrMieszkania;
     PasswordField password, passwordRepeat;
 
     DateField dataUrodzenia;

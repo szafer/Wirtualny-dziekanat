@@ -32,6 +32,7 @@ public class UserDTO implements Serializable {
     private Integer iloscLogowan;
     private List<UWniosekDTO> wnioskiUzytkownika;
     private List<UPrzedmiotDTO> przedmiotyUzytkownika;
+    private Boolean powiadomic = false;
 
     public UserDTO(User user) {
         this.id = user.getId();
@@ -204,5 +205,13 @@ public class UserDTO implements Serializable {
     @Override
     public String toString() {
         return nazwisko + " " + imie;
+    }
+
+    public Boolean getPowiadomic() {
+        return powiadomic;
+    }
+
+    public void setPowiadomic(Boolean powiadomic) {
+        this.powiadomic = powiadomic;
     }
 }

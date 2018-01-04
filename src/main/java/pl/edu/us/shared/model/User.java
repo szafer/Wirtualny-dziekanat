@@ -33,7 +33,7 @@ import pl.edu.us.shared.model.wnioski.UWniosek;
     @NamedQuery(name = User.NEXT_ID, query = "Select max(u.id) + 1 from User u"),
     @NamedQuery(name = User.POBIERZ_HASLO_PO_EMAIL, query = "Select u.password from User u where u.email = :email"),
     @NamedQuery(name = User.DAJ_USERA_PO_LOGINIE, query = "Select u from User u where u.login = :login"),
-    @NamedQuery(name = User.CZY_EMAIL_WYSTEPUJE, query = "Select 1 from User u where u.email = :email"),
+    @NamedQuery(name = User.CZY_EMAIL_WYSTEPUJE, query = "Select u from User u where u.email = :email")
 })
 @Entity
 @Table(name = "UZYTKOWNIK")

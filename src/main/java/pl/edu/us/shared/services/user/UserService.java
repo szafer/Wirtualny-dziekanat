@@ -15,7 +15,7 @@ public interface UserService extends RemoteService {
 
     UserDTO getUser(String name, String password);
 
-    List<UserDTO> zapisz(List<UserDTO> doZapisu);
+    List<UserDTO> zapisz(List<UserDTO> doZapisu) throws Exception;
 
     List<UserDTO> getUsers();
 
