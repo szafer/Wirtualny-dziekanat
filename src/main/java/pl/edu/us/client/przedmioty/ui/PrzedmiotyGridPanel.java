@@ -67,7 +67,7 @@ public class PrzedmiotyGridPanel extends ContentPanel {
         editing = new GridRowEditing<PrzedmiotDTO>(grid);
         editing.setClicksToEdit(ClicksToEdit.TWO);
         editing.addEditor(nameCol, new TextField());
-
+        editing.getButtonBar().setStyleName("button-align:center");
 //        grid.setSelectionModel(new RoSM<PrzedmiotDTO>());
 
 //        btnDodaj.setBorders(true);

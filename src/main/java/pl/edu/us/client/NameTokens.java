@@ -17,19 +17,21 @@ public class NameTokens {
 
     //Menu administratora
     public static final String admin = "!admin";
+    public static final String kartotekaUzytkownikow = "!uzytkownicy";
+    //Moduł wiadomości    
+    public static final String wiadomosci = "!wiadomosci";
+
     //Definicje systemu
     public static final String przedmioty = "!przedmioty";
+
     //Kartoteki pracowników
     public static final String pracownicy = "!pracownicy";
     //Kartoteki studentów
-    public static final String kartotekaUzytkownikow = "!studenci";
     public static final String ocenyStudenta = "!ocenyStudenta";
     //Moduł symulacji
     public static final String przychodykoszty = "!przychodykoszty";
     public static final String przychodykosztyroczne = "!przychodykosztyroczne";
     public static final String przychodykosztykierunki = "!przychodykosztykierunki";
-    //Moduł wiadomości    
-    public static final String wiadomosci = "!wiadomosci";
     //Wydruki
     //TODO do omówienia czy robimy 1 panel i podstawiamy wnioski wg. uprawnień czy osobne panele dla każdego
     public static final String wniosekStypentium = "!wniosekStypendium";

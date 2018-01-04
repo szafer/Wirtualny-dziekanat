@@ -1,4 +1,4 @@
-package pl.edu.us.client.kartoteki.student.kartoteka;
+package pl.edu.us.client.main.handlers;
 
 import com.sencha.gxt.widget.core.client.event.ParseErrorEvent;
 import com.sencha.gxt.widget.core.client.event.ParseErrorEvent.ParseErrorHandler;

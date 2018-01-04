@@ -1,4 +1,4 @@
-package pl.edu.us.client.kartoteki.student.kartoteka.ui;
+package pl.edu.us.client.uzytkownik.kartoteka;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +33,10 @@ import com.sencha.gxt.widget.core.client.grid.filters.GridFilters;
 import com.sencha.gxt.widget.core.client.info.Info;
 
 import pl.edu.us.client.accesproperties.KierunekProperties;
-import pl.edu.us.client.uzytkownik.kartoteka.KartotekaUzytkownikowModel;
 import pl.edu.us.shared.enums.TypSemestru;
 
 public class KierunkiStudentaDialog<Kierunek> extends Dialog implements IsWidget, Editor<Kierunek> {
-	private final KartotekaUzytkownikowModel model;
+	private final UzytkownicyModel model;
 	private final Grid<Kierunek> grid;
 	ColumnConfig<Kierunek, String> nameCol;
 	ColumnConfig<Kierunek, Integer> rokOdCol;
@@ -52,7 +51,7 @@ public class KierunkiStudentaDialog<Kierunek> extends Dialog implements IsWidget
 	@SuppressWarnings("unchecked")
 	@Inject
 	public KierunkiStudentaDialog(ListStore<Kierunek> store, KierunekProperties props,
-			final KartotekaUzytkownikowModel model) {
+			final UzytkownicyModel model) {
 		this.store = store;
 		this.model = model;
 		setHeaderVisible(false);
@@ -131,7 +130,7 @@ public class KierunkiStudentaDialog<Kierunek> extends Dialog implements IsWidget
 
 			@Override
 			public void onSelect(SelectEvent event) {
-				model.getKierunki().commitChanges();
+//				model.getKierunki().commitChanges();
 			}
 		});
 		rowEditing = new GridRowEditing<Kierunek>(grid);
@@ -156,8 +155,8 @@ public class KierunkiStudentaDialog<Kierunek> extends Dialog implements IsWidget
 	protected void onButtonPressed(TextButton textButton) {
 		if (!rowEditing.isEditing()) {
 			hide();
-			model.towrzOkresy();
-			model.czyscKierunki();
+//			model.towrzOkresy();
+//			model.czyscKierunki();
 		} else {
 			Info.display("Błąd", "Proszę zakończyć edycję");
 		}

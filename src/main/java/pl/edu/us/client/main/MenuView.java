@@ -11,7 +11,7 @@ public class MenuView extends ViewWithUiHandlers<MenuUiHandlers> implements Menu
 
     @Inject
     MenuView(MenuBuilder menuBuilder) {
-        menu = menuBuilder.build();//TODO budować widok w zależności od zalogowanego uzytkownika
+        menu = menuBuilder.build();
     }
 
     @Override

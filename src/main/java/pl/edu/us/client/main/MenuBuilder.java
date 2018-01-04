@@ -47,8 +47,8 @@ public class MenuBuilder {
             if (rola == Rola.ADMIN) {
 //                menuBar.add(buildDefMenu());//TODO definicje przedmiotów tu czy w przedmiotach ?
                 menuBar.add(buildAdminMenu());
-                menuBar.add(buildPracownikMenu());
-                menuBar.add(buildStudentMenu());
+//                menuBar.add(buildPracownikMenu());
+//                menuBar.add(buildStudentMenu());
 //                menuBar.add(buildSymulacjaMenu());
             } else if (rola == Rola.NAUCZYCIEL) {
                 menuBar.add(buildPracownikMenu());
@@ -95,8 +95,6 @@ public class MenuBuilder {
 
         studentMenu = new Menu();
         MenuBarItem studentBarItem = new MenuBarItem("Studenci", studentMenu);
-        studentMenu.add(createMenuItem("Studenci", NameTokens.kartotekaUzytkownikow));
-        studentMenu.add(createMenuItem("Oceny Studenta", NameTokens.ocenyStudenta));
         return studentBarItem;
     }
 
@@ -137,7 +135,8 @@ public class MenuBuilder {
 
         adminMenu = new Menu();
         MenuBarItem adminbarItem = new MenuBarItem("Administrator", adminMenu);
-        adminMenu.add(createMenuItem("Administrator", NameTokens.admin));
+        adminMenu.add(createMenuItem("Użytkownicy", NameTokens.kartotekaUzytkownikow));
+        adminMenu.add(createMenuItem("Wiadomości", NameTokens.wiadomosci));
         return adminbarItem;
     }
 

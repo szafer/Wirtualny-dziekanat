@@ -5,11 +5,10 @@ import java.util.Arrays;
 import com.google.gwt.core.client.GWT;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.sencha.gxt.data.shared.LabelProvider;
 import com.sencha.gxt.data.shared.ListStore;
-import com.sencha.gxt.data.shared.ModelKeyProvider;
-import com.sencha.gxt.data.shared.PropertyAccess;
 
+import pl.edu.us.client.accesproperties.PlecProperties;
+import pl.edu.us.client.accesproperties.RolaProperties;
 import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.enums.Plec;
 import pl.edu.us.shared.enums.Rola;
@@ -21,18 +20,6 @@ public class RejestracjaModel {
     private final ListStore<Rola> storeRola;
     private UserDTO user;
 
-    interface PlecProperties extends PropertyAccess<Plec> {
-        ModelKeyProvider<Plec> kod();
-
-        LabelProvider<Plec> nazwa();
-    }
-
-    interface RolaProperties extends PropertyAccess<Rola> {
-        ModelKeyProvider<Rola> kod();
-
-        LabelProvider<Rola> nazwa();
-    }
-
     PlecProperties plecProp = GWT.create(PlecProperties.class);
     RolaProperties rolaProp = GWT.create(RolaProperties.class);
 
@@ -42,7 +29,6 @@ public class RejestracjaModel {
         storePlec.addAll(Arrays.asList(Plec.values()));
         storeRola = new ListStore<Rola>(rolaProp.kod());
         storeRola.addAll(Arrays.asList(Rola.STUDENT, Rola.NAUCZYCIEL));
-
     }
 
     public ListStore<Plec> getStorePlec() {

@@ -10,8 +10,6 @@ import pl.edu.us.client.details.DetailPresenter;
 import pl.edu.us.client.details.DetailView;
 import pl.edu.us.client.kartoteki.pracownik.PracownikPresenter;
 import pl.edu.us.client.kartoteki.pracownik.PracownikView;
-import pl.edu.us.client.kartoteki.student.oceny.OcenyStudentaPresenter;
-import pl.edu.us.client.kartoteki.student.oceny.OcenyStudentaView;
 import pl.edu.us.client.main.ContentPagePresenter;
 import pl.edu.us.client.main.ContentPageView;
 import pl.edu.us.client.main.MainPagePresenter;
@@ -33,8 +31,8 @@ import pl.edu.us.client.uzytkownik.hasloprzypomnienie.PassRemindPresenter;
 import pl.edu.us.client.uzytkownik.hasloprzypomnienie.PassRemindView;
 import pl.edu.us.client.uzytkownik.haslozmiana.PassChangePresenter;
 import pl.edu.us.client.uzytkownik.haslozmiana.PassChangeView;
-import pl.edu.us.client.uzytkownik.kartoteka.KartotekaUzytkownikowPresenter;
-import pl.edu.us.client.uzytkownik.kartoteka.KartotekaUzytkownikowView;
+import pl.edu.us.client.uzytkownik.kartoteka.UzytkownicyPresenter;
+import pl.edu.us.client.uzytkownik.kartoteka.UzytkownicyView;
 import pl.edu.us.client.uzytkownik.mojeprzedmioty.MojePrzedmiotyPresenter;
 import pl.edu.us.client.uzytkownik.mojeprzedmioty.MojePrzedmiotyView;
 import pl.edu.us.client.uzytkownik.rejestracja.RejestracjaPresenter;
@@ -72,11 +70,10 @@ public class ClientModule extends AbstractPresenterModule {
             DetailPresenter.MyProxy.class);
 
         bindPresenter(AdminPresenter.class, AdminPresenter.MyView.class, AdminView.class, AdminPresenter.MyProxy.class);
-        // Studenci
-        bindPresenter(KartotekaUzytkownikowPresenter.class, KartotekaUzytkownikowPresenter.MyView.class,
-            KartotekaUzytkownikowView.class, KartotekaUzytkownikowPresenter.MyProxy.class);
-        bindPresenter(OcenyStudentaPresenter.class, OcenyStudentaPresenter.MyView.class, OcenyStudentaView.class,
-            OcenyStudentaPresenter.MyProxy.class);
+        // Uzytkownicy
+        bindPresenter(UzytkownicyPresenter.class, UzytkownicyPresenter.MyView.class,
+            UzytkownicyView.class, UzytkownicyPresenter.MyProxy.class);
+
         bindPresenter(MojePrzedmiotyPresenter.class, MojePrzedmiotyPresenter.MyView.class,
             MojePrzedmiotyView.class, MojePrzedmiotyPresenter.MyProxy.class);
         // Studia

@@ -13,8 +13,8 @@ import com.sencha.gxt.widget.core.client.form.FieldLabel;
 import com.sencha.gxt.widget.core.client.form.PasswordField;
 import com.sencha.gxt.widget.core.client.form.TextField;
 
-import pl.edu.us.client.kartoteki.student.kartoteka.ErrorHandler;
 import pl.edu.us.client.main.handlers.DateChangeHandler;
+import pl.edu.us.client.main.handlers.ErrorHandler;
 import pl.edu.us.client.main.handlers.FieldHandler;
 import pl.edu.us.client.main.handlers.FieldHandler.FieldListener;
 import pl.edu.us.client.main.handlers.PassChangeHander;

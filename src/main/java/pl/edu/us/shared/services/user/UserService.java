@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
+import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 
 import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.model.User;
@@ -13,9 +15,9 @@ public interface UserService extends RemoteService {
 
     UserDTO getUser(String name, String password);
 
-    List<User> zapisz(List<User> doZapisu, List<User> doUsuniecia);
+    List<UserDTO> zapisz(List<UserDTO> doZapisu);
 
-    List<User> getUsers();
+    List<UserDTO> getUsers();
 
     User logout();
 
@@ -26,5 +28,7 @@ public interface UserService extends RemoteService {
     UserDTO updateUser(UserDTO user);
 
     UserDTO pobierzDaneUzytkownika(String name);
+
+    PagingLoadResult<UserDTO> getUsers(PagingLoadConfig config);
 
 }

@@ -1,4 +1,4 @@
-package pl.edu.us.client.kartoteki.student.kartoteka;
+package pl.edu.us.client.main.handlers;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

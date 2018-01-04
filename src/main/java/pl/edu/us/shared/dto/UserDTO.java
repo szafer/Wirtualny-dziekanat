@@ -8,6 +8,7 @@ import pl.edu.us.shared.dto.przedmioty.UPrzedmiotDTO;
 import pl.edu.us.shared.dto.wnioski.UWniosekDTO;
 import pl.edu.us.shared.enums.Plec;
 import pl.edu.us.shared.enums.Rola;
+import pl.edu.us.shared.model.User;
 
 public class UserDTO implements Serializable {
 
@@ -32,6 +33,23 @@ public class UserDTO implements Serializable {
     private List<UWniosekDTO> wnioskiUzytkownika;
     private List<UPrzedmiotDTO> przedmiotyUzytkownika;
 
+    public UserDTO(User user){
+        this.id = user.getId();
+        this.login = user.getLogin();
+        this.imie = user.getImie();
+        this.nazwisko = user.getNazwisko();
+        this.dataUrodzenia = user.getDataUrodzenia();
+        this.ulica = user.getUlica();
+        this.nrDomu = user.getNrDomu();
+        this.nrMieszkania = user.getNrMieszkania();
+        this.miasto = user.getMiasto();
+        this.kodPocztowy = user.getKodPocztowy();
+        this.plec = user.getPlec();
+        this.rola = user.getRola();
+        this.aktywny = user.getAktywny();
+        this.iloscLogowan = user.getIloscLogowan();
+            
+    }
     public UserDTO() {
         this.aktywny = false;
         this.iloscLogowan = 0;

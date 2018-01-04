@@ -16,17 +16,13 @@ public class MojePrzedmiotyModel {
 
     private UserDTO user;
     private PrzedmiotDTO przedmiot;
-//    private ListStore<PrzedmiotDTO> storePrzedmioty;
     private ListStore<UPrzedmiotDTO> storePrzedmiotyUsera;
-
     private ListStore<UPrzedmiotDTO> storeOcenyStudentow;
 
     UPrzedmiotProperties uPrzedmiotProp = GWT.create(UPrzedmiotProperties.class);
-//    OcenyStudentaProperties ocenyStudentaProp = GWT.create(OcenyStudentaProperties.class);
 
     @Inject
     public MojePrzedmiotyModel() {
-//        storePrzedmioty = new ListStore<PrzedmiotDTO>(ocenyStudentaProp.key());
         storePrzedmiotyUsera = new ListStore<UPrzedmiotDTO>(uPrzedmiotProp.key());
         storeOcenyStudentow = new ListStore<UPrzedmiotDTO>(uPrzedmiotProp.key());
     }
@@ -48,10 +44,6 @@ public class MojePrzedmiotyModel {
             storePrzedmiotyUsera.clear();
     }
 
-//    public ListStore<PrzedmiotDTO> getStorePrzedmioty() {
-//        return storePrzedmioty;
-//    }
-
     public ListStore<UPrzedmiotDTO> getStorePrzedmiotyUsera() {
         return storePrzedmiotyUsera;
     }
@@ -60,16 +52,11 @@ public class MojePrzedmiotyModel {
         return uPrzedmiotProp;
     }
 
-//    public OcenyStudentaProperties getOcenyStudentaProp() {
-//        return ocenyStudentaProp;
-//    }
-
     public ListStore<UPrzedmiotDTO> getStoreOcenyStudentow() {
         return storeOcenyStudentow;
     }
 
     public void wyczysc() {
-//        storePrzedmioty.clear();
         storePrzedmiotyUsera.clear();
         storeOcenyStudentow.clear();
     }
