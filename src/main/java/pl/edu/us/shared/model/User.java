@@ -99,11 +99,11 @@ public class User extends Person {
 //    private List<Wniosek> wnioski;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "uzytkownik", cascade = CascadeType.ALL)
-    @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+//    @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private List<UWniosek> wnioskiUzytkownika;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "uzytkownik", cascade = CascadeType.ALL)
-    @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+//    @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private List<UPrzedmiot> przedmiotyUzytkownika;
 
     public User() {

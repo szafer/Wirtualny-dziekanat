@@ -8,7 +8,6 @@ import javax.annotation.PreDestroy;
 import javax.servlet.ServletException;
 
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -175,30 +174,32 @@ public class UserServiceImpl implements UserService {
 //        List<User> agents = userDAO.findAll();//Entities(limit, start);
         ModelMapper mapper = new ModelMapper();
         List<User> usersAll = userDAO.findAll();
-        List<User> users = userDAO.findAll().subList(start, limit);
+        List<User> users = userDAO.findAll().subList(start, (start + limit > usersAll.size() ? usersAll.size() : start + limit));
         List<UserDTO> wynik = new ArrayList<UserDTO>(users.size());
         for (User u : users) {
 //            wynik.add(mapper.map(u, UserDTO.class));
             wynik.add(new UserDTO(u));
         }
-        
-//
+//        userDAO.getEntityManager().cre
 //        if (config.getSortInfo().getSortField() != null) {
 //            final String sortField = config.getSortInfo().getSortField();
 //            if (sortField != null) {
-//                Collections.sort(agents, config.getSortInfo().getSortDir().comparator(new Comparator() {
-//                    public int compare(Object ag1, Object ag2) {
-//                        User agent1 = (User) ag1;
-//                        User agent2 = (User) ag2;
-//                        if (sortField.equals("imie")) {
-//                            return agent1.getImie().compareTo(agent2.getImie());
-//                        } else if (sortField.equals("nazwisko")) {
-//                            return agent1.getNazwisko().compareTo(agent2.getNazwisko());
+//                Collections.sort(d.getData(), config.getSortInfo().getSortDir().comparator(new Comparator<ModelData>() {
+//
+//                    public int compare(User o1, ModelData o2) {
+//                        Object v1 = (Object) o1.get(sortField);
+//                        Object v2 = (Object) o2.get(sortField);
+//
+//                        if (getComparator() != null) {
+//                            return getComparator().compare(v1, v2);
+//                        } else {
+//                            return PlComparator.INSTANCE.compare(v1, v2);
 //                        }
-//                        return 0;
+//
 //                    }
 //                }));
 //            }
+//
 //        }
         return new PagingLoadResultBean<UserDTO>(wynik, usersAll.size(), config.getOffset());
 //        config.

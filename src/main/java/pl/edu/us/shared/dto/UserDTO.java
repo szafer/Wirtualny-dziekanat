@@ -33,7 +33,7 @@ public class UserDTO implements Serializable {
     private List<UWniosekDTO> wnioskiUzytkownika;
     private List<UPrzedmiotDTO> przedmiotyUzytkownika;
 
-    public UserDTO(User user){
+    public UserDTO(User user) {
         this.id = user.getId();
         this.login = user.getLogin();
         this.imie = user.getImie();
@@ -48,8 +48,10 @@ public class UserDTO implements Serializable {
         this.rola = user.getRola();
         this.aktywny = user.getAktywny();
         this.iloscLogowan = user.getIloscLogowan();
-            
+        this.email = user.getEmail();
+        this.password = user.getPassword();
     }
+
     public UserDTO() {
         this.aktywny = false;
         this.iloscLogowan = 0;

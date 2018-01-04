@@ -16,7 +16,7 @@ import pl.edu.us.shared.model.Persistent;
 import pl.edu.us.shared.model.User;
 
 @Entity
-@NamedQuery(name = "Adres.findAll", query = "SELECT a FROM Adres a")
+//@NamedQuery(name = "Adres.findAll", query = "SELECT a FROM Adres a")
 @SequenceGenerator(name = "SEQ_GEN_ADRES", sequenceName = "SEQ_ADRES", allocationSize = 1)
 public class Adres implements Persistent<Long> {
 

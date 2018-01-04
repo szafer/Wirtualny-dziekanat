@@ -75,8 +75,6 @@ public class UzytkownicyGridPanel extends ContentPanel {
         this.props = model.getUserProp();
         final UserServiceAsync service = GWT.create(UserService.class);
 
-        ListStore<UserDTO> store = new ListStore<UserDTO>(props.key());
-
         RpcProxy<FilterPagingLoadConfig, PagingLoadResult<UserDTO>> proxy = new RpcProxy<FilterPagingLoadConfig, PagingLoadResult<UserDTO>>() {
             @Override
             public void load(FilterPagingLoadConfig loadConfig, AsyncCallback<PagingLoadResult<UserDTO>> callback) {
@@ -151,6 +149,7 @@ public class UzytkownicyGridPanel extends ContentPanel {
         aktywnyCol.setColumnStyle(cbStyle);
 //        VerticalAlignmentConstant align = VerticalAlignmentConstant.
         List<ColumnConfig<UserDTO, ?>> columns = new ArrayList<ColumnConfig<UserDTO, ?>>();
+        columns.add(idCol);
         columns.add(loginCol);
         columns.add(imieCol);
         columns.add(nazwiskoCol);
@@ -188,6 +187,7 @@ public class UzytkownicyGridPanel extends ContentPanel {
         grid.getView().setStripeRows(true);
         grid.getView().setColumnLines(true);
         grid.getView().setShowDirtyCells(true);
+
 //        grid.getView().setForceFit(true);
         // State manager, make this grid stateful
         grid.setStateful(true);
@@ -242,13 +242,13 @@ public class UzytkownicyGridPanel extends ContentPanel {
         grid.getColumnModel().getColumn(0).setHideable(false);
 //        add(grid);
         VerticalLayoutContainer con = new VerticalLayoutContainer();
-        
+
         final PagingToolBar toolBar = new PagingToolBar(25);
         toolBar.bind(remoteLoader);
         con.add(grid, new VerticalLayoutData(1, 1));
         con.add(toolBar, new VerticalLayoutData(1, -1));
-        
-       add(con);
+
+        add(con);
     }
 
     private void ustawPoziom(List<ColumnConfig<UserDTO, ?>> columns) {

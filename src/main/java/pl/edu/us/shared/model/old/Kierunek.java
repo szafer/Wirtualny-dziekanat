@@ -21,7 +21,7 @@ import pl.edu.us.shared.enums.TypSemestru;
 @NamedQueries(value = {
 // @NamedQuery(name = Student.DAJ_STUDENTA, query =
 // "Select u from Student u where u.imie like  :imie or u.nazwisko like :nazwisko"),
-@NamedQuery(name = Kierunek.POBIERZ_WSZYSTKIE, query = "Select u from Kierunek u"),
+//@NamedQuery(name = Kierunek.POBIERZ_WSZYSTKIE, query = "Select u from Kierunek u"),
 // @NamedQuery(name = Student.NEXT_ID, query =
 // "Select max(u.id) + 1 from Student u")
 })

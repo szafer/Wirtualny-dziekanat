@@ -15,11 +15,15 @@ import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.sencha.gxt.data.shared.Store;
 import com.sencha.gxt.data.shared.Store.Record;
+import com.sencha.gxt.widget.core.client.Component;
 import com.sencha.gxt.widget.core.client.info.Info;
 
 import pl.edu.us.client.NameTokens;
 import pl.edu.us.client.main.BasePresenter;
+import pl.edu.us.client.main.handlers.ActionCallback;
+import pl.edu.us.client.main.handlers.RpcMasking;
 import pl.edu.us.shared.dto.UserDTO;
+import pl.edu.us.shared.enums.Message;
 import pl.edu.us.shared.services.user.UserService;
 import pl.edu.us.shared.services.user.UserServiceAsync;
 
@@ -38,11 +42,14 @@ public class UzytkownicyPresenter extends
     }
 
     private final UserServiceAsync userService = GWT.create(UserService.class);
+    private final RpcMasking rpcMasking;
 
     @Inject
-    public UzytkownicyPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
+    public UzytkownicyPresenter(EventBus eventBus, MyView view, MyProxy proxy,   final RpcMasking rpcMasking) {
         super(eventBus, view, proxy);
         getView().setUiHandlers(this);
+        this.rpcMasking = rpcMasking;
+        this.rpcMasking.setMaskedComponent((Component) getView().asWidget());
 
     }
 
@@ -81,21 +88,30 @@ public class UzytkownicyPresenter extends
 //        doZapisu.addAll(getView().getModel().getUsers().getAll());
 //        List<Student> doUsuniecia = new ArrayList<Student>();// getView().getModel().getStudents().getAll();
 //        doUsuniecia.addAll(getView().getModel().getDoUsunieccia().getAll());
-        userService.zapisz(doZapisu, new AsyncCallback<List<UserDTO>>() {
-
-            @Override
-            public void onFailure(Throwable caught) {
-                // TODO Auto-generated method stub
-                System.out.println(caught.getLocalizedMessage());
-            }
+//        userService.zapisz(doZapisu, new AsyncCallback<List<UserDTO>>() {
+//
+//            @Override
+//            public void onFailure(Throwable caught) {
+//                // TODO Auto-generated method stub
+//                System.out.println(caught.getLocalizedMessage());
+//            }
+//
+//            @Override
+//            public void onSuccess(List<UserDTO> result) {
+//                Info.display("Użytkowncy", "Zapisano dane");
+////                getView().getModel().getStoreUsers().clear();
+////                getView().getModel().getStoreUsers().addAll(result);
+//            }
+//        });
+        
+        userService.zapisz(doZapisu, rpcMasking.call(Message.SAVING,
+            new ActionCallback<List<UserDTO>>() {
 
             @Override
             public void onSuccess(List<UserDTO> result) {
                 Info.display("Użytkowncy", "Zapisano dane");
-//                getView().getModel().getStoreUsers().clear();
-//                getView().getModel().getStoreUsers().addAll(result);
             }
-        });
+        }));
 
     }
 
