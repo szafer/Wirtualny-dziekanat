@@ -4,17 +4,17 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import pl.edu.us.shared.dto.DTO;
 import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.enums.StatusWniosku;
+import pl.edu.us.shared.model.wnioski.UWniosek;
 
-public class UWniosekDTO implements Serializable {
+public class UWniosekDTO extends DTO implements Serializable {
 
     /**
      * 
      */
     private static final long serialVersionUID = 1659084593805480130L;
-
-    private Integer id;
 
     private UserDTO uzytkownik;
 
@@ -30,16 +30,31 @@ public class UWniosekDTO implements Serializable {
 
     private BigDecimal kwota;
 
+    private String image;
+
     public UWniosekDTO() {
-        // TODO Auto-generated constructor stub
+        super();
     }
 
+    public UWniosekDTO(UWniosek uw, WniosekDTO wniosek) {
+        super(uw.getId());
+        this.uzytkownik = new UserDTO(uw.getUzytkownik());
+        this.wniosek = wniosek;
+        this.zlozonyWniosek = uw.getZlozonyWniosek();
+        this.dataZlozenia = uw.getDataZlozenia();
+        this.status = uw.getStatus();
+        this.dataRozpatrzenia = uw.getDataRozpatrzenia();
+        this.kwota = uw.getKwota();
+    }
+
+    @Override
     public Integer getId() {
-        return id;
+        return super.getId();
     }
 
+    @Override
     public void setId(Integer id) {
-        this.id = id;
+        super.setId(id);
     }
 
     public UserDTO getUzytkownik() {
@@ -96,5 +111,13 @@ public class UWniosekDTO implements Serializable {
 
     public void setWniosek(WniosekDTO wniosek) {
         this.wniosek = wniosek;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

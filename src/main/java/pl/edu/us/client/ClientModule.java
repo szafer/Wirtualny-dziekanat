@@ -4,12 +4,8 @@ import com.google.inject.Singleton;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 import com.gwtplatform.mvp.client.gin.DefaultModule;
 
-import pl.edu.us.client.admin.AdminPresenter;
-import pl.edu.us.client.admin.AdminView;
 import pl.edu.us.client.details.DetailPresenter;
 import pl.edu.us.client.details.DetailView;
-import pl.edu.us.client.kartoteki.pracownik.PracownikPresenter;
-import pl.edu.us.client.kartoteki.pracownik.PracownikView;
 import pl.edu.us.client.main.ContentPagePresenter;
 import pl.edu.us.client.main.ContentPageView;
 import pl.edu.us.client.main.MainPagePresenter;
@@ -35,8 +31,14 @@ import pl.edu.us.client.uzytkownik.kartoteka.UzytkownicyPresenter;
 import pl.edu.us.client.uzytkownik.kartoteka.UzytkownicyView;
 import pl.edu.us.client.uzytkownik.mojeprzedmioty.MojePrzedmiotyPresenter;
 import pl.edu.us.client.uzytkownik.mojeprzedmioty.MojePrzedmiotyView;
+import pl.edu.us.client.uzytkownik.mojewnioski.MojeWnioskiPresenter;
+import pl.edu.us.client.uzytkownik.mojewnioski.MojeWnioskiView;
 import pl.edu.us.client.uzytkownik.rejestracja.RejestracjaPresenter;
 import pl.edu.us.client.uzytkownik.rejestracja.RejestracjaView;
+import pl.edu.us.client.wnioski.definicja.WnioskiPresenter;
+import pl.edu.us.client.wnioski.definicja.WnioskiView;
+import pl.edu.us.client.wnioski.kartoteka.WnioskiKartPresenter;
+import pl.edu.us.client.wnioski.kartoteka.WnioskiKartView;
 
 public class ClientModule extends AbstractPresenterModule {
 
@@ -69,19 +71,24 @@ public class ClientModule extends AbstractPresenterModule {
         bindPresenter(DetailPresenter.class, DetailPresenter.MyView.class, DetailView.class,
             DetailPresenter.MyProxy.class);
 
-        bindPresenter(AdminPresenter.class, AdminPresenter.MyView.class, AdminView.class, AdminPresenter.MyProxy.class);
         // Uzytkownicy
         bindPresenter(UzytkownicyPresenter.class, UzytkownicyPresenter.MyView.class,
             UzytkownicyView.class, UzytkownicyPresenter.MyProxy.class);
 
         bindPresenter(MojePrzedmiotyPresenter.class, MojePrzedmiotyPresenter.MyView.class,
             MojePrzedmiotyView.class, MojePrzedmiotyPresenter.MyProxy.class);
-        // Studia
+        bindPresenter(MojeWnioskiPresenter.class, MojeWnioskiPresenter.MyView.class, MojeWnioskiView.class,
+            MojeWnioskiPresenter.MyProxy.class);
+
+        // Przedmioty
         bindPresenter(PrzedmiotyPresenter.class, PrzedmiotyPresenter.MyView.class, PrzedmiotyView.class,
             PrzedmiotyPresenter.MyProxy.class);
 
-        bindPresenter(PracownikPresenter.class, PracownikPresenter.MyView.class, PracownikView.class,
-            PracownikPresenter.MyProxy.class);
+        //Wnioski
+        bindPresenter(WnioskiPresenter.class, WnioskiPresenter.MyView.class, WnioskiView.class, WnioskiPresenter.MyProxy.class);
+        bindPresenter(WnioskiKartPresenter.class, WnioskiKartPresenter.MyView.class, WnioskiKartView.class, WnioskiKartPresenter.MyProxy.class);
+
+        
         // Symulacja
         bindPresenter(PrzychodyKosztyPresenter.class, PrzychodyKosztyPresenter.MyView.class, PrzychodyKosztyView.class,
             PrzychodyKosztyPresenter.MyProxy.class);

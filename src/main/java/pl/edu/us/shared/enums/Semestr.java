@@ -1,6 +1,6 @@
 package pl.edu.us.shared.enums;
 
-public enum Semestr {
+public enum Semestr implements KodNazwaProvider {
 
     LETNI("L", "Letni"), ZIMOWY("Z", "Zimowy");
     private String kod;
@@ -16,10 +16,12 @@ public enum Semestr {
         return nazwa;
     }
 
+    @Override
     public String getKod() {
         return kod;
     }
 
+    @Override
     public String getNazwa() {
         return nazwa;
     }

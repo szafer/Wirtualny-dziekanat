@@ -8,19 +8,15 @@ import com.google.gwt.user.client.Event;
 import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.core.client.util.DelayedTask;
 import com.sencha.gxt.data.shared.loader.FilterConfig;
-import com.sencha.gxt.data.shared.loader.StringFilterHandler;
 import com.sencha.gxt.messages.client.DefaultMessages;
 import com.sencha.gxt.widget.core.client.event.BeforeHideEvent;
 import com.sencha.gxt.widget.core.client.event.BeforeHideEvent.BeforeHideHandler;
 import com.sencha.gxt.widget.core.client.form.TextField;
 import com.sencha.gxt.widget.core.client.grid.filters.Filter;
-import com.sencha.gxt.widget.core.client.grid.filters.RangeMenu;
-import com.sencha.gxt.widget.core.client.grid.filters.StringFilter.DefaultStringFilterMessages;
-import com.sencha.gxt.widget.core.client.grid.filters.StringFilter.StringFilterMessages;
 
-import pl.edu.us.shared.dto.SlownikDTO;
+import pl.edu.us.shared.dto.DTO;
 
-public class BeanFilter<M, V extends SlownikDTO> extends Filter<M,V> {
+public class BeanFilter<M, V extends DTO> extends Filter<M,V> {
 
     /**
      * The default locale-sensitive messages used by this class.
@@ -150,14 +146,14 @@ public class BeanFilter<M, V extends SlownikDTO> extends Filter<M,V> {
         V val = getValueProvider().getValue(model);
         Object value = getValue();
         String v = value == null ? "" : value.toString();
-        return false;
-//        if (v.length() == 0 && (val == null || val.length() == 0)) {
-//          return true;
-//        } else if (val == null) {
-//          return false;
-//        } else {
-//          return val.toLowerCase().indexOf(v.toLowerCase()) > -1;
-//        }
+//        return false;
+        if (v.length() == 0 && val == null) {
+          return true;
+        } else if (val == null) {
+          return false;
+        } else {
+          return val.toString().toLowerCase().indexOf(v.toLowerCase()) > -1;
+        }
       }
 
       @Override

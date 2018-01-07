@@ -19,15 +19,13 @@ import pl.edu.us.shared.enums.Rola;
 public class MenuBuilder {
 
     private Menu daneOsoboweMenu;//pokazuje się zawsze
-    private Menu przedmiotyMenu; //pokazuje się zawsze
-    private Menu adminMenu;
+    private Menu przedmiotyMenu; //stdent lub pracownik
+    private Menu adminMenu;//administrator
     private Menu zamknijMenu;
-    private Menu studentMenu;
-    private Menu defMenu;
-    private Menu pracownikMenu;
-    private Menu symulacjaMenu;
     private Menu raportyMenu;//pokazuje się zawsze
     private MenuBarItem zamknijBarItem;//pokazuje się zawsze
+
+    private Menu symulacjaMenu;//wycofane
     private final PlaceManager placeManager;
     private Rola rola;
 
@@ -42,14 +40,9 @@ public class MenuBuilder {
 
         MenuBar menuBar = new MenuBar();
         menuBar.add(buildDaneOsoboweMenu());
-        menuBar.add(buildPrzedmiotyUzytkownikaMenu());
         if (rola != null) {
             if (rola == Rola.ADMIN) {
-//                menuBar.add(buildDefMenu());//TODO definicje przedmiotów tu czy w przedmiotach ?
                 menuBar.add(buildAdminMenu());
-//                menuBar.add(buildPracownikMenu());
-//                menuBar.add(buildStudentMenu());
-//                menuBar.add(buildSymulacjaMenu());
             } else if (rola == Rola.NAUCZYCIEL) {
                 menuBar.add(buildPracownikMenu());
             } else {
@@ -58,13 +51,15 @@ public class MenuBuilder {
         }
         menuBar.add(buildWydrukiMenu());
         menuBar.add(buildZamknijMenu());
-//        menuBar.add(new LogoutButton());//Jakiś problem z LogoutButton - na razie nie używać
         return menuBar;
     }
 
     private MenuBarItem buildWydrukiMenu() {
         raportyMenu = new Menu();
         MenuBarItem wydrukiMenuBarItem = new MenuBarItem("Druki i wnioski", raportyMenu);
+        raportyMenu.add(createMenuItem("Moje wnioski", NameTokens.mojeWnioski));
+        if (rola == Rola.ADMIN)
+            raportyMenu.add(createMenuItem("Kartoteka wniosków", NameTokens.wnioskiKart));
         //Tutaj dodawać kolejne raporty
         return wydrukiMenuBarItem;
     }
@@ -78,24 +73,17 @@ public class MenuBuilder {
     }
 
     private MenuBarItem buildPracownikMenu() {
-        pracownikMenu = new Menu();
-        MenuBarItem pracownikBarItem = new MenuBarItem("Pracownik", pracownikMenu);
-        pracownikMenu.add(createMenuItem("Kartoteka Pracowników", NameTokens.pracownicy));
-        return pracownikBarItem;
-    }
-
-    private MenuBarItem buildDefMenu() {
-        defMenu = new Menu();
-        MenuBarItem definicjeBarItem = new MenuBarItem("Definicje", defMenu);
-        defMenu.add(createMenuItem("Kierunki studiów", NameTokens.przedmioty));
-        return definicjeBarItem;
+        przedmiotyMenu = new Menu();
+        MenuBarItem przedmiotyBarItem = new MenuBarItem("Przedmioty", przedmiotyMenu);
+        przedmiotyMenu.add(createMenuItem("Przypisanie ocen", NameTokens.mojePrzedmioty));
+        return przedmiotyBarItem;
     }
 
     private MenuBarItem buildStudentMenu() {
-
-        studentMenu = new Menu();
-        MenuBarItem studentBarItem = new MenuBarItem("Studenci", studentMenu);
-        return studentBarItem;
+        przedmiotyMenu = new Menu();
+        MenuBarItem przedmiotyBarItem = new MenuBarItem("Przedmioty", przedmiotyMenu);
+        przedmiotyMenu.add(createMenuItem("Moje przedmioty", NameTokens.mojePrzedmioty));
+        return przedmiotyBarItem;
     }
 
     private MenuBarItem buildDaneOsoboweMenu() {
@@ -105,29 +93,21 @@ public class MenuBuilder {
         return daneOsoboweBarItem;
     }
 
-    private MenuBarItem buildPrzedmiotyUzytkownikaMenu() {
-        przedmiotyMenu = new Menu();
-        MenuBarItem przedmiotyBarItem = new MenuBarItem("Przedmioty", przedmiotyMenu);
-        String nazwa = "Moje przedmioty";
-        if (rola == Rola.ADMIN) {
-            nazwa = "Przypisanie ocen";
-            przedmiotyMenu.add(createMenuItem("Przedmioty", NameTokens.przedmioty));//Dodawanie i edycja przedmiotow
-        } 
-        //else TODO potem odkomentować - formatka dostepna tylko dla studentów i nauczycieli
-            przedmiotyMenu.add(createMenuItem(nazwa, NameTokens.mojePrzedmioty));
-        return przedmiotyBarItem;
-    }
+//    private MenuBarItem buildPrzedmiotyUzytkownikaMenu() {
+//        przedmiotyMenu = new Menu();
+//        MenuBarItem przedmiotyBarItem = new MenuBarItem("Przedmioty", przedmiotyMenu);
+//        String nazwa = "Moje przedmioty";
+//        if (rola == Rola.NAUCZYCIEL) {
+//            nazwa = "Przypisanie ocen";
+//        }
+//        przedmiotyMenu.add(createMenuItem(nazwa, NameTokens.mojePrzedmioty));
+//        return przedmiotyBarItem;
+//    }
 
     private MenuBarItem buildZamknijMenu() {
-
         zamknijMenu = new Menu();
-        // zamknij
         zamknijBarItem = new MenuBarItem("Zamknij", zamknijMenu);//Na razie jest podpięty menuitem - można rozwazyc podpięcie handlera bzpośrednio do menu
-        // TODO zrobić wyjćsie z aplikacji
-        // zamknijMenu.add(new LogoutButton());
         zamknijMenu.add(createZamknijItem("Zamknij"));
-
-        // createZamknij();
         return zamknijBarItem;
     }
 
@@ -136,6 +116,8 @@ public class MenuBuilder {
         adminMenu = new Menu();
         MenuBarItem adminbarItem = new MenuBarItem("Administrator", adminMenu);
         adminMenu.add(createMenuItem("Użytkownicy", NameTokens.kartotekaUzytkownikow));
+        adminMenu.add(createMenuItem("Przedmioty", NameTokens.przedmioty));//Dodawanie i edycja przedmiotow
+        adminMenu.add(createMenuItem("Wnioski", NameTokens.wnioski));
         adminMenu.add(createMenuItem("Wiadomości", NameTokens.wiadomosci));
         return adminbarItem;
     }

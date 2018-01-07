@@ -1,5 +1,8 @@
 package pl.edu.us.client.przedmioty;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.core.client.GWT;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -11,6 +14,7 @@ import pl.edu.us.client.accesproperties.UserProperties;
 import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.dto.przedmioty.PrzedmiotDTO;
 import pl.edu.us.shared.dto.przedmioty.UPrzedmiotDTO;
+import pl.edu.us.shared.enums.Rola;
 
 @Singleton
 public class PrzedmiotyModel {
@@ -19,8 +23,9 @@ public class PrzedmiotyModel {
 //    private ListStore<PrzedmiotDTO> przedmiotyDoUsuniecia;
     private ListStore<UPrzedmiotDTO> storeStudenci;
     private ListStore<UPrzedmiotDTO> storeNauczyciele;
-    private ListStore<UserDTO> storeUzytkownicy;
-    
+    private ListStore<UserDTO> storeUsersNauczyciele;
+    private ListStore<UserDTO> storeUsersStudenci;
+
     private PrzedmiotDTO przedmiot;
     PrzedmiotProperties przedmiotProp = GWT.create(PrzedmiotProperties.class);
     UPrzedmiotProperties uPrzedmiotProp = GWT.create(UPrzedmiotProperties.class);
@@ -32,7 +37,8 @@ public class PrzedmiotyModel {
 //        przedmiotyDoUsuniecia = new ListStore<PrzedmiotDTO>(przedmiotProp.key());
         storeStudenci = new ListStore<UPrzedmiotDTO>(uPrzedmiotProp.key());
         storeNauczyciele = new ListStore<UPrzedmiotDTO>(uPrzedmiotProp.key());
-        storeUzytkownicy = new ListStore<UserDTO>(userProperties.key());
+        storeUsersNauczyciele = new ListStore<UserDTO>(userProperties.key());
+        storeUsersStudenci = new ListStore<UserDTO>(userProperties.key());
     }
 
     public UPrzedmiotProperties getuPrzedmiotProp() {
@@ -63,8 +69,12 @@ public class PrzedmiotyModel {
         return storeStudenci;
     }
 
-    public ListStore<UserDTO> getStoreUzytkownicy() {
-        return storeUzytkownicy;
+    public ListStore<UserDTO> getStoreUsersStudenci() {
+        return storeUsersStudenci;
+    }
+
+    public ListStore<UserDTO> getStoreUsersNauczyciele() {
+        return storeUsersNauczyciele;
     }
 
     public void wyczysc() {
@@ -90,8 +100,21 @@ public class PrzedmiotyModel {
     }
 
     public boolean isDirty() {
-        return !storePrzedmioty.getModifiedRecords().isEmpty() 
+        return !storePrzedmioty.getModifiedRecords().isEmpty()
             || !storeNauczyciele.getModifiedRecords().isEmpty()
             || !storeStudenci.getModifiedRecords().isEmpty();
+    }
+
+    public void loadUsers(List<UserDTO> result) {
+        List<UserDTO> studenci = new ArrayList<>(result.size());
+        List<UserDTO> nauczyciele = new ArrayList<>(result.size());
+        for (UserDTO u : result) {
+            if (u.getRola() == Rola.STUDENT)
+                studenci.add(u);
+            else if (u.getRola() == Rola.NAUCZYCIEL)
+                nauczyciele.add(u);
+        }
+        storeUsersNauczyciele.addAll(nauczyciele);
+        storeUsersStudenci.addAll(studenci);
     }
 }

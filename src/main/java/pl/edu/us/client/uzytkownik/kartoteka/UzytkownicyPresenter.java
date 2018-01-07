@@ -56,7 +56,6 @@ public class UzytkownicyPresenter extends
         getView().setUiHandlers(this);
         this.rpcMasking = rpcMasking;
         this.rpcMasking.setMaskedComponent((Component) getView().asWidget());
-
     }
 
     @Override
@@ -72,7 +71,9 @@ public class UzytkownicyPresenter extends
         // TODO Auto-generated method stub
         super.onReveal();
     }
-
+/*
+ * Metoda zastąpiona loaderem z maskowaniem
+ */
     private void pobierzUzytkownikow() {
         userService.getUsers(new AsyncCallback<List<UserDTO>>() {
             @Override
@@ -129,7 +130,7 @@ public class UzytkownicyPresenter extends
 
                 @Override
                 public void onFailure(Throwable caught) {
-                    new AlertMessageBox("Użytkownicy", "Błąd zapisywani danych: <br>" + caught.getMessage()).show();
+                    new AlertMessageBox("Użytkownicy", "Błąd zapisywania danych: <br>" + caught.getMessage()).show();
                 }
             }));
 

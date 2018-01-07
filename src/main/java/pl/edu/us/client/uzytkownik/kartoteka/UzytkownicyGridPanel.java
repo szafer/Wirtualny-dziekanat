@@ -22,6 +22,7 @@ import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.data.client.loader.RpcProxy;
 import com.sencha.gxt.data.shared.LabelProvider;
 import com.sencha.gxt.data.shared.ListStore;
+import com.sencha.gxt.data.shared.loader.FilterConfig;
 import com.sencha.gxt.data.shared.loader.FilterPagingLoadConfig;
 import com.sencha.gxt.data.shared.loader.FilterPagingLoadConfigBean;
 import com.sencha.gxt.data.shared.loader.LoadResultListStoreBinding;
@@ -38,15 +39,18 @@ import com.sencha.gxt.widget.core.client.grid.CellSelectionModel;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
+import com.sencha.gxt.widget.core.client.grid.editing.ClicksToEdit;
 import com.sencha.gxt.widget.core.client.grid.editing.GridInlineEditing;
 import com.sencha.gxt.widget.core.client.grid.filters.BooleanFilter;
 import com.sencha.gxt.widget.core.client.grid.filters.DateFilter;
+import com.sencha.gxt.widget.core.client.grid.filters.Filter;
 import com.sencha.gxt.widget.core.client.grid.filters.GridFilters;
 import com.sencha.gxt.widget.core.client.grid.filters.NumericFilter;
 import com.sencha.gxt.widget.core.client.grid.filters.StringFilter;
 import com.sencha.gxt.widget.core.client.toolbar.PagingToolBar;
 
 import pl.edu.us.client.accesproperties.UserProperties;
+import pl.edu.us.client.main.grid.KodFilter;
 import pl.edu.us.client.main.validators.EmailValidator;
 import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.enums.Plec;
@@ -72,6 +76,8 @@ public class UzytkownicyGridPanel extends ContentPanel {
 //    private TextInputCell imie, nazwisko, ulica, kodPocztowy, miasto, email, login, nrDomu, nrMieszkania;
     private UserProperties props;
     private UzytkownicyUiHandlers handlers;
+    private GridFilters<UserDTO> filters;
+    List<FilterConfig> filtry = new ArrayList<FilterConfig>();
 
     public UzytkownicyGridPanel(UzytkownicyModel model) {
         this.store = model.getStoreUsers();
@@ -92,7 +98,7 @@ public class UzytkownicyGridPanel extends ContentPanel {
                 return new FilterPagingLoadConfigBean();
             }
         };
-        remoteLoader.setRemoteSort(false);//TODO zrobić sort
+        remoteLoader.setRemoteSort(true);
         remoteLoader.addLoadHandler(new LoadResultListStoreBinding<FilterPagingLoadConfig, UserDTO, PagingLoadResult<UserDTO>>(store));
 
         setHeadingText("Użytkownicy");
@@ -229,7 +235,12 @@ public class UzytkownicyGridPanel extends ContentPanel {
         BooleanFilter<UserDTO> aktywnyFilter = new BooleanFilter<UserDTO>(props.aktywny());
 //        aktywnyFilter.setActive(true, false);
 
-        GridFilters<UserDTO> filters = new GridFilters<UserDTO>(remoteLoader);
+        KodFilter<UserDTO, Plec> plecFilter = new KodFilter<UserDTO, Plec>(props.plec());
+
+        KodFilter<UserDTO, Rola> rolaFilter = new KodFilter<UserDTO, Rola>(props.rola());
+
+        filters = new GridFilters<UserDTO>(remoteLoader);
+
         filters.initPlugin(grid);
         filters.setLocal(true);
         filters.addFilter(idFilter);
@@ -243,8 +254,8 @@ public class UzytkownicyGridPanel extends ContentPanel {
         filters.addFilter(createFilter(props.miasto()));
         filters.addFilter(createFilter(props.kodPocztowy()));
         filters.addFilter(dataUrFilter);
-        filters.addFilter(createFilter(props.rolaKod()));
-        filters.addFilter(createFilter(props.plecKod()));
+        filters.addFilter(plecFilter);
+        filters.addFilter(rolaFilter);
         filters.addFilter(iloscLogowanFilter);
         filters.addFilter(aktywnyFilter);
 
@@ -259,6 +270,7 @@ public class UzytkownicyGridPanel extends ContentPanel {
         editing.addEditor(miastoCol, dajTextField());
         editing.addEditor(kodPocztowyCol, dajTextField());
         editing.addEditor(iloscLogowanCol, new IntegerField());
+        editing.setClicksToEdit(ClicksToEdit.TWO);
 
         grid.setSelectionModel(new CellSelectionModel<UserDTO>());
         grid.getColumnModel().getColumn(0).setHideable(false);
@@ -278,7 +290,7 @@ public class UzytkownicyGridPanel extends ContentPanel {
         field.addValidator(new EmailValidator());
         return field;
     }
-    
+
     private TextField dajTextField() {
         TextField field = new TextField();
         field.setAllowBlank(false);

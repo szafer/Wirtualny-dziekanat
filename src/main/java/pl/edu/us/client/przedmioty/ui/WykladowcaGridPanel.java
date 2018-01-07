@@ -70,7 +70,7 @@ setHeadingText("Wykładowca");
         dateCell.setWidth(120);
         dataSemCol.setCell(dateCell);
 
-        comboUzytkownik = new ComboBoxCell<UserDTO>(model.getStoreUzytkownicy(), new LabelProvider<UserDTO>() {
+        comboUzytkownik = new ComboBoxCell<UserDTO>(model.getStoreUsersNauczyciele(), new LabelProvider<UserDTO>() {
 
             @Override
             public String getLabel(UserDTO item) {

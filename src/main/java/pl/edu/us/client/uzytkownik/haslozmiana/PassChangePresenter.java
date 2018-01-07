@@ -18,6 +18,7 @@ import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gwtplatform.mvp.client.proxy.RevealRootContentEvent;
 import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
+import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 
 import pl.edu.us.client.NameTokens;
 import pl.edu.us.shared.dto.UserDTO;
@@ -75,14 +76,13 @@ public class PassChangePresenter extends Presenter<PassChangePresenter.MyView, P
 
             @Override
             public void onFailure(Throwable caught) {
-                System.out.println("fail");
+                new AlertMessageBox("Zmiana hasła", caught.getMessage()).show();
                 getView().niePoprawneHaslo();
             }
 
             @Override
             public void onSuccess(UserDTO result) {
                 if (result != null) {
-                    result.setAktywny(true);
                     result.setIloscLogowan(3);
                     result.setPassword(getView().getPanel().getPassword().getValue());
                     getView().getModel().setUser(result);

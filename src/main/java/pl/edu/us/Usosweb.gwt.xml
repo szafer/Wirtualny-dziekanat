@@ -3,6 +3,7 @@
 	<!-- Inherit the core Web Toolkit stuff. -->
 <!-- 	<inherits name='com.google.gwt.uibinder.UiBinder' /> -->
 	<inherits name='com.google.gwt.user.User' />
+	<inherits name='elemental.Elemental' />
 	<!-- Inherit the default GWT style sheet. You can change -->
 	<!-- the theme of your GWT application by uncommenting -->
 	<!-- any one of the following lines. -->
@@ -15,7 +16,7 @@
 	<inherits name='com.gwtplatform.mvp.MvpWithEntryPoint' />
 <!-- 	<inherits name="com.google.gwt.i18n.I18N" /> -->
 	<inherits name='com.google.common.collect.Collect' />
-
+	
 	<!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/> -->
 
 	<!-- Other module inherits -->

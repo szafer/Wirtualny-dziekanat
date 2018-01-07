@@ -1,6 +1,5 @@
 package pl.edu.us.shared.dto;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -10,11 +9,10 @@ import pl.edu.us.shared.enums.Plec;
 import pl.edu.us.shared.enums.Rola;
 import pl.edu.us.shared.model.User;
 
-public class UserDTO implements Serializable {
+public class UserDTO extends DTO {
 
     private static final long serialVersionUID = -5020784293279382645L;
 
-    private Integer id;
     private String login;
     private String password;
     private String email;
@@ -35,7 +33,7 @@ public class UserDTO implements Serializable {
     private Boolean powiadomic = false;
 
     public UserDTO(User user) {
-        this.id = user.getId();
+        super(user.getId());
         this.login = user.getLogin();
         this.imie = user.getImie();
         this.nazwisko = user.getNazwisko();
@@ -58,12 +56,14 @@ public class UserDTO implements Serializable {
         this.iloscLogowan = 0;
     }
 
+    @Override
     public Integer getId() {
-        return id;
+        return super.getId();
     }
 
+    @Override
     public void setId(Integer id) {
-        this.id = id;
+        super.setId(id);
     }
 
     public String getLogin() {

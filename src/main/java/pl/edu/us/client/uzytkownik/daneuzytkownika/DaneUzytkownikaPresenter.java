@@ -11,11 +11,14 @@ import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
+import com.sencha.gxt.widget.core.client.Component;
 import com.sencha.gxt.widget.core.client.info.Info;
 
 import pl.edu.us.client.NameTokens;
 import pl.edu.us.client.main.BasePresenter;
+import pl.edu.us.client.main.handlers.RpcMasking;
 import pl.edu.us.shared.dto.UserDTO;
+import pl.edu.us.shared.enums.Message;
 import pl.edu.us.shared.services.user.UserService;
 import pl.edu.us.shared.services.user.UserServiceAsync;
 
@@ -37,13 +40,15 @@ public class DaneUzytkownikaPresenter extends
     public interface MyProxy extends ProxyPlace<DaneUzytkownikaPresenter> {
     }
 
+    private final RpcMasking rpcMasking;
     private final UserServiceAsync userService = GWT.create(UserService.class);
 
     @Inject
-    public DaneUzytkownikaPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
+    public DaneUzytkownikaPresenter(EventBus eventBus, MyView view, MyProxy proxy, final RpcMasking rpcMasking) {
         super(eventBus, view, proxy);
         getView().setUiHandlers(this);
-
+        this.rpcMasking = rpcMasking;
+        this.rpcMasking.setMaskedComponent((Component) getView().asWidget());
     }
 
     @Override
@@ -54,7 +59,7 @@ public class DaneUzytkownikaPresenter extends
     }
 
     private void pobierzDaneUzytkownika() {
-        userService.pobierzDaneUzytkownika(Cookies.getCookie("loggedUser"), new AsyncCallback<UserDTO>() {
+        userService.pobierzDaneUzytkownika(Cookies.getCookie("loggedUser"), rpcMasking.call(Message.LOADING, new AsyncCallback<UserDTO>() {
 
             @Override
             public void onSuccess(UserDTO result) {
@@ -68,7 +73,7 @@ public class DaneUzytkownikaPresenter extends
                 getView().getPanel().bind();
                 alertMessage("Nie udało się pobrać danych");
             }
-        });
+        }));
     }
 
     private native void alertMessage(String message) /*-{
@@ -79,7 +84,7 @@ public class DaneUzytkownikaPresenter extends
 
     @Override
     public void wykonajZapisz() {
-        userService.updateUser(getView().dajUsera(), new AsyncCallback<UserDTO>() {
+        userService.updateUser(getView().dajUsera(), rpcMasking.call(Message.SAVING, new AsyncCallback<UserDTO>() {
 
             @Override
             public void onSuccess(UserDTO result) {
@@ -93,7 +98,7 @@ public class DaneUzytkownikaPresenter extends
                 getView().getPanel().bind();
                 alertMessage("Nie udało się zaktualizować danych");
             }
-        });
+        }));
 
     }
 

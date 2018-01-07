@@ -24,19 +24,16 @@ public class NameTokens {
     //Definicje systemu
     public static final String przedmioty = "!przedmioty";
 
-    //Kartoteki pracowników
-    public static final String pracownicy = "!pracownicy";
-    //Kartoteki studentów
-    public static final String ocenyStudenta = "!ocenyStudenta";
+    //Wydruki
+    //TODO do omówienia czy robimy 1 panel i podstawiamy wnioski wg. uprawnień czy osobne panele dla każdego
+    public static final String wnioski = "!wnioski";
+    public static final String mojeWnioski = "!mojeWnioski";
+    public static final String wnioskiKart = "!wnioskiKart";
+//    public static final String wniosekEgzamin = "!wniosekEgzamin";
+//    public static final String raportOcenKoncowych = "!raportOcenKoncowych";
+
     //Moduł symulacji
     public static final String przychodykoszty = "!przychodykoszty";
     public static final String przychodykosztyroczne = "!przychodykosztyroczne";
     public static final String przychodykosztykierunki = "!przychodykosztykierunki";
-    //Wydruki
-    //TODO do omówienia czy robimy 1 panel i podstawiamy wnioski wg. uprawnień czy osobne panele dla każdego
-    public static final String wniosekStypentium = "!wniosekStypendium";
-    public static final String wniosekPrzedluzenieSesji = "!wniosekPrzedluzenieSesji";
-    public static final String wniosekWarunek = "!wniosekWarunek";
-    public static final String wniosekEgzamin = "!wniosekEgzamin";
-    public static final String raportOcenKoncowych = "!raportOcenKoncowych";
 }

@@ -1,13 +1,17 @@
 package pl.edu.us.server.services.user;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.persistence.NoResultException;
 import javax.servlet.ServletException;
 
+import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jetty.util.log.Log;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sencha.gxt.data.shared.loader.PagingLoadConfig;
+import com.sencha.gxt.data.shared.SortInfo;
+import com.sencha.gxt.data.shared.loader.FilterPagingLoadConfig;
 import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 import com.sencha.gxt.data.shared.loader.PagingLoadResultBean;
 
@@ -23,13 +28,15 @@ import pl.edu.us.server.dao.UserDAO;
 import pl.edu.us.server.services.Main;
 import pl.edu.us.shared.commons.AppStrings;
 import pl.edu.us.shared.dto.UserDTO;
+import pl.edu.us.shared.dto.przedmioty.UPrzedmiotDTO;
+import pl.edu.us.shared.dto.wnioski.UWniosekDTO;
+import pl.edu.us.shared.enums.Semestr;
 import pl.edu.us.shared.model.User;
 import pl.edu.us.shared.services.user.UserService;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
-    @SuppressWarnings("unused")
     private static Logger LOG = Logger.getLogger(UserServiceImpl.class.getName());
 
     @Autowired
@@ -45,19 +52,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public UserDTO getUser(String name, String password) {
+    public UserDTO getUser(String name, String password) throws Exception {
+        UserDTO userDTO = null;
         try {
             User u = (User) userDAO.getEntityManager().createNamedQuery(User.DAJ_USERA)
                 .setParameter("login", name)
                 .setParameter("password", password)
                 .getSingleResult();
-            // user here is a prepopulated User instance
-            UserDTO userDTO = new ModelMapper().map(u, UserDTO.class);
-            return userDTO;
-        } catch (Exception e) {
-            System.out.println(e.getCause().toString());
-            return null;
+            userDTO = new ModelMapper().map(u, UserDTO.class);
+        } catch (NoResultException e) {
+            LOG.info("Błąd logowania - błędny login lub hasło:" + name);
+            throw new Exception("Błędny login lub hasło.");
         }
+        if (userDTO != null && !userDTO.getAktywny()) {
+            LOG.info("Błąd logowania - użytkownik zablokowany:" + userDTO.getLogin());
+            throw new Exception("Użytkownik jest zablokowany. \nProszę skontaktować się z administratorem systemu.");
+        }
+        return userDTO;
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -66,7 +77,7 @@ public class UserServiceImpl implements UserService {
         for (UserDTO dto : doZapisu) {
             User wystepuje = null;
             if (dto.getEmail() == null) {
-                Log.info("Błąd zapisu - brak adresu email");
+                LOG.info("Błąd zapisu - brak adresu email");
                 throw new Exception("Błąd zapisu - brak adresu email");
             }
             try {
@@ -203,7 +214,20 @@ public class UserServiceImpl implements UserService {
             User u = (User) userDAO.getEntityManager().createNamedQuery(User.DAJ_USERA_PO_LOGINIE)
                 .setParameter("login", name)
                 .getSingleResult();
-            return new ModelMapper().map(u, UserDTO.class);
+            UserDTO user = new ModelMapper().map(u, UserDTO.class);
+            if (user.getPrzedmiotyUzytkownika() != null && !user.getPrzedmiotyUzytkownika().isEmpty()) {
+                for (UPrzedmiotDTO up : user.getPrzedmiotyUzytkownika()) {
+                    up.setSemestr(up.getDataSemestru().getMonth() < 6 ? Semestr.LETNI : Semestr.ZIMOWY);
+                }
+            }
+            if (user.getWnioskiUzytkownika() != null && !user.getWnioskiUzytkownika().isEmpty()) {
+                for (UWniosekDTO uw : user.getWnioskiUzytkownika()) {
+                    if (uw.getZlozonyWniosek() != null) {
+                        uw.setImage(getImageData(uw.getZlozonyWniosek()));
+                    }
+                }
+            }
+            return user;
         } catch (Exception e) {
             LOG.info("Błąd logowania - błędny login:" + name);
             System.out.println(e.getCause().toString());
@@ -212,19 +236,60 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PagingLoadResult<UserDTO> getUsers(PagingLoadConfig config) {
-
+    public PagingLoadResult<UserDTO> getUsers(FilterPagingLoadConfig config) {
         int start = config.getOffset();
         int limit = config.getLimit();
         if (limit > 0) {
             limit = Math.min(start + limit, limit);
         }
-//        List<User> agents = userDAO.findAll();//Entities(limit, start);
-        ModelMapper mapper = new ModelMapper();
         List<User> usersAll = userDAO.findAll();
-        List<User> users = userDAO.findAll().subList(start, (start + limit > usersAll.size() ? usersAll.size() : start + limit));
+        List<User> users = userDAO.findAll();
         List<UserDTO> wynik = new ArrayList<UserDTO>(users.size());
-        for (User u : users) {
+        if (config.getSortInfo().size() > 0) {
+            SortInfo sort = config.getSortInfo().get(0);
+            if (sort.getSortField() != null) {
+                final String sortField = sort.getSortField();
+                if (sortField != null) {
+                    Collections.sort(users, sort.getSortDir().comparator(new Comparator<User>() {
+                        public int compare(User p1, User p2) {
+                            if (sortField.equals("id")) {
+                                return p1.getId().compareTo(p2.getId());
+                            } else if (sortField.equals("imie")) {
+                                return p1.getImie().compareTo(p2.getImie());
+                            } else if (sortField.equals("login")) {
+                                return p1.getLogin().compareTo(p2.getLogin());
+                            } else if (sortField.equals("nazwisko")) {
+                                return p1.getNazwisko().compareTo(p2.getNazwisko());
+                            } else if (sortField.equals("dataUrodzenia")) {
+                                return p1.getDataUrodzenia().compareTo(p2.getDataUrodzenia());
+                            } else if (sortField.equals("email")) {
+                                return p1.getEmail().compareTo(p2.getEmail());
+                            } else if (sortField.equals("ulica")) {
+                                return p1.getUlica().compareTo(p2.getUlica());
+                            } else if (sortField.equals("nrDomu")) {
+                                return p1.getNrDomu().compareTo(p2.getNrDomu());
+                            } else if (sortField.equals("nrMieszkania")) {
+                                return p1.getNrMieszkania().compareTo(p2.getNrMieszkania());
+                            } else if (sortField.equals("miasto")) {
+                                return p1.getMiasto().compareTo(p2.getMiasto());
+                            } else if (sortField.equals("kodPocztowy")) {
+                                return p1.getKodPocztowy().compareTo(p2.getKodPocztowy());
+                            } else if (sortField.equals("plec")) {
+                                return p1.getPlec().compareTo(p2.getPlec());
+                            } else if (sortField.equals("rola")) {
+                                return p1.getRola().compareTo(p2.getRola());
+                            } else if (sortField.equals("aktywny")) {
+                                return p1.getAktywny().compareTo(p2.getAktywny());
+                            } else if (sortField.equals("iloscLogowan")) {
+                                return p1.getIloscLogowan().compareTo(p2.getIloscLogowan());
+                            }
+                            return 0;
+                        }
+                    }));
+                }
+            }
+        }
+        for (User u : users.subList(start, (start + limit > usersAll.size() ? usersAll.size() : start + limit))) {
 //            wynik.add(mapper.map(u, UserDTO.class));
             wynik.add(new UserDTO(u));
         }
@@ -254,26 +319,16 @@ public class UserServiceImpl implements UserService {
 //        return null;
     }
 
+    public String getImageData(Byte[] bytes) {
+        byte[] b = new byte[bytes.length];
+        for (int i = 0; i < bytes.length; i++) {
+            b[i] = bytes[i];
+        }
+//        String base64 = Base64Utils.toBase64(b);
+//        base64 = "data:image/png;base64," + base64;
+//        return base64;
+        String base64 = Base64.encodeBase64String(b);
+        base64 = "data:image/png;base64," + base64;
+        return base64;
+    }
 }
-//if (config.getSortInfo().size() > 0) { 
-//    SortInfo sort = config.getSortInfo().get(0); 
-//    if (sort.getSortField() != null) { 
-//      final String sortField = sort.getSortField(); 
-//      if (sortField != null) { 
-//        Collections.sort(posts, sort.getSortDir().comparator(new Comparator<Post>() { 
-//          public int compare(Post p1, Post p2) { 
-//            if (sortField.equals("forum")) { 
-//              return p1.getForum().compareTo(p2.getForum()); 
-//            } else if (sortField.equals("username")) { 
-//              return p1.getUsername().compareTo(p2.getUsername()); 
-//            } else if (sortField.equals("subject")) { 
-//              return p1.getSubject().compareTo(p2.getSubject()); 
-//            } else if (sortField.equals("date")) { 
-//              return p1.getDate().compareTo(p2.getDate()); 
-//            } 
-//            return 0; 
-//          } 
-//        })); 
-//      } 
-//    } 
-//  } 

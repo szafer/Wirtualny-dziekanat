@@ -71,7 +71,7 @@ public class PrzedmiotyServiceImpl implements PrzedmiotyService {
     public List<PrzedmiotDTO> zapisz(List<PrzedmiotDTO> doZapisu, List<UPrzedmiotDTO> zmiany) {
         ModelMapper mapper = new ModelMapper();
         for (PrzedmiotDTO pDto : doZapisu) {
-            
+
             Przedmiot p = mapper.map(pDto, Przedmiot.class);
             if (p.getId() < 1) {
                 p.setId(null);
@@ -82,7 +82,7 @@ public class PrzedmiotyServiceImpl implements PrzedmiotyService {
             }
             //zapis wykladowcy
             if (pDto.getWykladowca() != null) {
-                if (zmiany.contains(pDto.getWykladowca())){
+                if (zmiany.contains(pDto.getWykladowca())) {
                     zmiany.remove(pDto.getWykladowca());
                 }
                 pDto.getWykladowca().setPrzedmiot(pDto);
@@ -91,7 +91,7 @@ public class PrzedmiotyServiceImpl implements PrzedmiotyService {
             }
             if (pDto.getStudenci() != null && !pDto.getStudenci().isEmpty()) {
                 for (UPrzedmiotDTO studDto : pDto.getStudenci()) {
-                    if (zmiany.contains(studDto)){
+                    if (zmiany.contains(studDto)) {
                         zmiany.remove(studDto);
                     }
                     studDto.setPrzedmiot(pDto);

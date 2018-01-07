@@ -1,6 +1,6 @@
 package pl.edu.us.shared.enums;
 
-public enum StatusWniosku {
+public enum StatusWniosku implements KodNazwaProvider {
 
     OCZEKJACY("O", "Oczekujący"), ROZPATRYWANY("R", "Rozpatrywany"), ZAAKCEPTOWANY("Z", "Zaakceptowany"), ODRZUCONY("X", "Odrzucony");
 
@@ -17,10 +17,12 @@ public enum StatusWniosku {
         return nazwa;
     }
 
+    @Override
     public String getKod() {
         return kod;
     }
 
+    @Override
     public String getNazwa() {
         return nazwa;
     }

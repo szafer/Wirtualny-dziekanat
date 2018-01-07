@@ -33,12 +33,7 @@ public class MojePrzedmiotyModel {
 
     public void setUser(UserDTO user) {
         this.user = user;
-        if (user != null) {
-            if (user.getPrzedmiotyUzytkownika() != null && !user.getPrzedmiotyUzytkownika().isEmpty()) {
-                for (UPrzedmiotDTO u : user.getPrzedmiotyUzytkownika()) {
-                    u.setSemestr(u.getDataSemestru().getMonth() < 6 ? Semestr.LETNI : Semestr.ZIMOWY);
-                }
-            }
+        if (user != null) {           
             storePrzedmiotyUsera.addAll(user.getPrzedmiotyUzytkownika());
         } else
             storePrzedmiotyUsera.clear();

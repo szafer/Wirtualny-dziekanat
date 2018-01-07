@@ -5,27 +5,24 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.editor.client.Editor;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.safecss.shared.SafeStyles;
 import com.google.gwt.safecss.shared.SafeStylesUtils;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.sencha.gxt.cell.core.client.form.ComboBoxCell;
-import com.sencha.gxt.cell.core.client.form.DateCell;
 import com.sencha.gxt.cell.core.client.form.ComboBoxCell.TriggerAction;
+import com.sencha.gxt.cell.core.client.form.DateCell;
 import com.sencha.gxt.data.shared.LabelProvider;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
-import com.sencha.gxt.widget.core.client.event.CellSelectionEvent;
 import com.sencha.gxt.widget.core.client.event.InvalidEvent;
-import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.InvalidEvent.InvalidHandler;
+import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 import com.sencha.gxt.widget.core.client.form.DateField;
 import com.sencha.gxt.widget.core.client.form.DateTimePropertyEditor;
@@ -38,13 +35,14 @@ import com.sencha.gxt.widget.core.client.grid.Grid;
 import com.sencha.gxt.widget.core.client.grid.Grid.GridCell;
 import com.sencha.gxt.widget.core.client.grid.editing.GridEditing;
 import com.sencha.gxt.widget.core.client.grid.editing.GridInlineEditing;
+import com.sencha.gxt.widget.core.client.grid.filters.DateFilter;
 import com.sencha.gxt.widget.core.client.grid.filters.GridFilters;
 import com.sencha.gxt.widget.core.client.grid.filters.NumericFilter;
 import com.sencha.gxt.widget.core.client.grid.filters.StringFilter;
-import com.sencha.gxt.widget.core.client.info.Info;
 import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
 
 import pl.edu.us.client.accesproperties.UPrzedmiotProperties;
+import pl.edu.us.client.main.grid.BeanFilter;
 import pl.edu.us.client.main.validators.OcenaValidator;
 import pl.edu.us.client.przedmioty.PrzedmiotyModel;
 import pl.edu.us.shared.dto.UserDTO;
@@ -65,6 +63,7 @@ public class StudenciGridPanel extends ContentPanel implements IsWidget, Editor<
     private UPrzedmiotProperties props;
     private ComboBoxCell<UserDTO> comboUzytkownik;
     private DateCell dateCell;
+    private static int AUTO_ID = 0;
 
     public StudenciGridPanel(final PrzedmiotyModel model) {
         this.model = model;
@@ -84,7 +83,7 @@ public class StudenciGridPanel extends ContentPanel implements IsWidget, Editor<
         dateCell.setWidth(120);
         dataSemCol.setCell(dateCell);
 
-        comboUzytkownik = new ComboBoxCell<UserDTO>(model.getStoreUzytkownicy(), new LabelProvider<UserDTO>() {
+        comboUzytkownik = new ComboBoxCell<UserDTO>(model.getStoreUsersStudenci(), new LabelProvider<UserDTO>() {
 
             @Override
             public String getLabel(UserDTO item) {
@@ -115,6 +114,8 @@ public class StudenciGridPanel extends ContentPanel implements IsWidget, Editor<
         // State manager, make this grid stateful
         grid.setStateful(true);
 
+        DateFilter<UPrzedmiotDTO> dataSemFilter = new DateFilter<UPrzedmiotDTO>(props.dataSemestru());
+
         NumericFilter<UPrzedmiotDTO, Float> ocena1Filter = new NumericFilter<UPrzedmiotDTO, Float>(props.ocena1(),
             new FloatPropertyEditor());
         ocena1Filter.setActive(true, false);
@@ -123,8 +124,8 @@ public class StudenciGridPanel extends ContentPanel implements IsWidget, Editor<
             new FloatPropertyEditor());
         ocena2Filter.setActive(true, false);
 
-        StringFilter<UPrzedmiotDTO> nazwiskoFilter = new StringFilter<UPrzedmiotDTO>(props.uzytkownikNazwisko());
-        nazwiskoFilter.setActive(true, false);
+        BeanFilter<UPrzedmiotDTO, UserDTO> userFilter = new BeanFilter<UPrzedmiotDTO, UserDTO>(props.uzytkownik());
+        userFilter.setActive(true, false);
 
         StringFilter<UPrzedmiotDTO> semFilter = new StringFilter<UPrzedmiotDTO>(props.semestrNazwa());
         semFilter.setActive(true, false);
@@ -132,9 +133,10 @@ public class StudenciGridPanel extends ContentPanel implements IsWidget, Editor<
         GridFilters<UPrzedmiotDTO> filters = new GridFilters<UPrzedmiotDTO>();
         filters.initPlugin(grid);
         filters.setLocal(true);
+        filters.addFilter(dataSemFilter);
         filters.addFilter(ocena1Filter);
         filters.addFilter(ocena2Filter);
-        filters.addFilter(nazwiskoFilter);//TODO zmienic na uzytkownikfilter
+        filters.addFilter(userFilter);
         filters.addFilter(semFilter);
 
         grid.setSelectionModel(new CellSelectionModel<UPrzedmiotDTO>());
@@ -173,6 +175,7 @@ public class StudenciGridPanel extends ContentPanel implements IsWidget, Editor<
             @Override
             public void onSelect(SelectEvent event) {
                 UPrzedmiotDTO przedmiot = new UPrzedmiotDTO();
+                przedmiot.setId(--AUTO_ID);
                 przedmiot.setDataSemestru(new Date());
                 przedmiot.setPrzedmiot(model.getPrzedmiot());
                 przedmiot.setSemestr(przedmiot.getDataSemestru().getMonth() < 6 ? Semestr.LETNI : Semestr.ZIMOWY);

@@ -4,7 +4,7 @@ package pl.edu.us.shared.enums;
  * @author marek
  * Enum określa rolę użytkownika
  */
-public enum Rola {
+public enum Rola implements KodNazwaProvider {
 
     STUDENT("Student"), NAUCZYCIEL("Nauczyciel"), ADMIN("Administrator");
 

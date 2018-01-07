@@ -2,25 +2,27 @@ package pl.edu.us.shared.dto.wnioski;
 
 import java.io.Serializable;
 
+import pl.edu.us.shared.dto.DTO;
 import pl.edu.us.shared.enums.TypWniosku;
 
-public class WniosekDTO implements Serializable {
+public class WniosekDTO extends DTO implements Serializable {
 
     private static final long serialVersionUID = -9100026837671778843L;
-    private Integer id;
     private TypWniosku typ;
     private Byte[] wzor;
 
     public WniosekDTO() {
-
+        super();
     }
 
+    @Override
     public Integer getId() {
-        return id;
+        return super.getId();
     }
 
+    @Override
     public void setId(Integer id) {
-        this.id = id;
+        super.setId(id);
     }
 
     public TypWniosku getTyp() {
@@ -39,4 +41,9 @@ public class WniosekDTO implements Serializable {
         this.wzor = wzor;
     }
 
+    @Override
+    public String toString() {
+        return typ.toString();
+    }
+    
 }

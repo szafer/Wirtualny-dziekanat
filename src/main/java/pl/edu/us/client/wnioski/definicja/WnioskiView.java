@@ -1,0 +1,73 @@
+package pl.edu.us.client.wnioski.definicja;
+
+import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
+import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
+import com.sencha.gxt.widget.core.client.selection.SelectionChangedEvent;
+import com.sencha.gxt.widget.core.client.selection.SelectionChangedEvent.SelectionChangedHandler;
+
+import pl.edu.us.client.main.BaseView;
+import pl.edu.us.shared.dto.wnioski.WniosekDTO;
+
+public class WnioskiView extends BaseView<WnioskiUiHandlers> implements WnioskiPresenter.MyView {
+
+    private WnioskiMainPanel panel;
+    private WnioskiModel model;
+
+    @Inject
+    public WnioskiView(WnioskiMainPanel panel, WnioskiModel model) {
+        this.panel = panel;
+        this.model = model;
+    }
+
+    @Override
+    protected void bindCustomUiHandlers() {
+        super.bindCustomUiHandlers();
+        panel.getGridPanel().getGrid().getSelectionModel().addSelectionChangedHandler(new SelectionChangedHandler<WniosekDTO>() {
+
+            @Override
+            public void onSelectionChanged(SelectionChangedEvent<WniosekDTO> event) {
+                WniosekDTO wniosek = panel.getGridPanel().getGrid().getSelectionModel().getSelectedItem();
+                model.setWniosek(wniosek);
+            }
+        });
+        panel.getZapisz().addSelectHandler(new SelectHandler() {
+
+            @Override
+            public void onSelect(SelectEvent event) {
+                getUiHandlers().wykonajZapisz();
+            }
+        });
+        panel.getAnuluj().addSelectHandler(new SelectHandler() {
+
+            @Override
+            public void onSelect(SelectEvent event) {
+                getUiHandlers().wykonajAnuluj();
+
+            }
+        });
+        panel.getZamknij().addSelectHandler(new SelectHandler() {
+
+            @Override
+            public void onSelect(SelectEvent event) {
+                getUiHandlers().wykonajZamknij();
+            }
+        });
+    }
+
+    @Override
+    public Widget asWidget() {
+        return panel;
+    }
+
+    @Override
+    public WnioskiMainPanel getPanel() {
+       return panel;
+    }
+
+    @Override
+    public WnioskiModel getModel() {
+     return model;
+    }
+}

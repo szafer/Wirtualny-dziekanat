@@ -19,6 +19,7 @@ import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gwtplatform.mvp.client.proxy.RevealRootContentEvent;
 import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
+import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 
 import pl.edu.us.client.NameTokens;
 import pl.edu.us.shared.dto.UserDTO;
@@ -93,10 +94,10 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MyView, MainP
 
                 @Override
                 public void onFailure(Throwable caught) {
-                    System.out.println("fail");
                     getView().getLogin().setValue("");
                     getView().getPass().setValue("");
-                    shownextpage("Niepoprawna nazwa użytkownika lub hasło.");
+//                    new AlertMessageBox("Błąd logwania", caught.getMessage()).show();
+                    shownextpage(caught.getMessage());
                 }
 
                 @Override
@@ -104,7 +105,7 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MyView, MainP
                     if (result != null) {
                         Cookies.setCookie("loggedUser", result.getLogin());
                         Cookies.setCookie("userRole", String.valueOf(result.getRola().ordinal()));
-                        if (result.getAktywny()) {
+                        if (result.getIloscLogowan()>0) {
                             zmien(result);
                         } else {
                             placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.passchange).build());
@@ -117,9 +118,6 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MyView, MainP
 
     public void zmien(UserDTO user) {
         user.setIloscLogowan(user.getIloscLogowan() - 1);
-        if (user.getIloscLogowan() <= 0) {
-            user.setAktywny(false);
-        }
         userService.updateUser(user, new AsyncCallback<UserDTO>() {
 
             @Override

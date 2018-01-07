@@ -1,18 +1,10 @@
 package pl.edu.us.shared.enums;
 
 public enum Message {
-    LOADING("£adowanie danych"),
+    LOADING("≈Åadowanie danych"),
     SAVING("Zapis danych"),
     CHECKING("Sprawdzanie danych"),
-    WAITING("Oczekiwanie"),
-    ANALYZING_ABSENCE("<center>ProszÍ czekaÊ</center>Trwa analiza absencji pracownikÛw"),
-    PROCESSING("<center>ProszÍ czekaÊ</center>Trwa wykonywanie procedury"),
-    ROZLICZANIE("<center>ProszÍ czekaÊ</center>Trwa wykonywanie rozliczenia kosztowego"),
-    TWORZENIE_PACZKI("<center>ProszÍ czekaÊ</center>Trwa tworzenie paczki"),
-    PRZEKAZANIE_PACZKI_DO_KFK("<center>ProszÍ czekaÊ</center>Trwa przekazywanie paczki do KFK"),
-    DELETING("Usuwanie danych"),
-    PLEASE_WAIT("ProszÍ czekaÊ"),
-    ROZLICZANIE_ZASILKU("Rozliczanie pracownika");
+    WAITING("Oczekiwanie");
 
     private final String message;
 
