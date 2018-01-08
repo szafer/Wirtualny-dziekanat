@@ -14,17 +14,21 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import gwtupload.server.MemoryFileItemFactory;
+import pl.edu.us.shared.services.wnioski.WnioskiService;
 
 @Singleton
+@RemoteServiceRelativePath("usosweb/raport_img")
 public class RaportyImgServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(RaportyImgServlet.class.getName());
 
-//    @Inject
-//    private DefinicjaRaportowService definicjaRaportowService;
+    @Inject
+    private WnioskiService definicjaRaportowService;
 
     /**
      * @see HttpServlet#HttpServlet()

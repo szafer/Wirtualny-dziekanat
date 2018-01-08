@@ -1,24 +1,22 @@
 package pl.edu.us.shared.dto;
 
-import java.io.Serializable;
-
-public class SlownikDTO implements Serializable {
+public class SlownikDTO extends DTO {
 
     private static final long serialVersionUID = 2111122870367597491L;
 
-    private Integer id;
     private String nazwa;
 
     public SlownikDTO() {
-
+        super();
     }
 
+    @Override
     public Integer getId() {
-        return id;
+        return super.getId();
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        super.setId(id);
     }
 
     public String getNazwa() {

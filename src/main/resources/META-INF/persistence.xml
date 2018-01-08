@@ -7,6 +7,12 @@
 	transaction-type="RESOURCE_LOCAL">
 	<provider>org.hibernate.ejb.HibernatePersistence</provider>
 	<class>pl.edu.us.shared.model.User</class>
+		<class>pl.edu.us.shared.model.przedmioty.Przedmiot</class>
+		<class>pl.edu.us.shared.model.przedmioty.UPrzedmiot</class>
+		<class>pl.edu.us.shared.model.wnioski.Wniosek</class>
+		<class>pl.edu.us.shared.model.wnioski.UWniosek</class>
+		<class>pl.edu.us.shared.model.wiadomosci.Nadawca</class>
+		<class>pl.edu.us.shared.model.wiadomosci.Odbiorca</class>
 
 	<properties>
 		<property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect" />
@@ -21,6 +27,7 @@
 		<property name="hibernate.enable_lazy_load_no_trans" value="true" />
 		<property name="hibernate.integration.envers.enabled" value="false" />
 		<property name="hibernate.show_sql" value="true" />
+		<property name="hibernate.logging_level" value="INFO" />
 
 		<!-- <property name="hibernate.hbm2ddl.auto" value="create-drop" /> -->
 	</properties>

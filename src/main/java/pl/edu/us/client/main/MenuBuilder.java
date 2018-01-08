@@ -1,5 +1,6 @@
 package pl.edu.us.client.main;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Cookies;
@@ -15,6 +16,8 @@ import com.sencha.gxt.widget.core.client.menu.MenuItem;
 
 import pl.edu.us.client.NameTokens;
 import pl.edu.us.shared.enums.Rola;
+import pl.edu.us.shared.services.wiadomosci.WiadomosciService;
+import pl.edu.us.shared.services.wiadomosci.WiadomosciServiceAsync;
 
 public class MenuBuilder {
 
@@ -29,6 +32,7 @@ public class MenuBuilder {
     private final PlaceManager placeManager;
     private Rola rola;
 
+
     @Inject
     MenuBuilder(final PlaceManager placeManager) {
         this.placeManager = placeManager;
@@ -40,17 +44,17 @@ public class MenuBuilder {
 
         MenuBar menuBar = new MenuBar();
         menuBar.add(buildDaneOsoboweMenu());
-        if (rola != null) {
-            if (rola == Rola.ADMIN) {
-                menuBar.add(buildAdminMenu());
-            } else if (rola == Rola.NAUCZYCIEL) {
-                menuBar.add(buildPracownikMenu());
-            } else {
-                menuBar.add(buildStudentMenu());
-            }
-        }
+//        if (rola != null) {
+//            if (rola == Rola.ADMIN) {
+        menuBar.add(buildAdminMenu());
+//            } else if (rola == Rola.NAUCZYCIEL) {
+        menuBar.add(buildPracownikMenu());
+//            } else {
+        menuBar.add(buildStudentMenu());
+//            }
+//        }
         menuBar.add(buildWydrukiMenu());
-        menuBar.add(buildZamknijMenu());
+        menuBar.add(buildZamknijMenu());        
         return menuBar;
     }
 

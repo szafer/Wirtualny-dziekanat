@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.logging.client.DefaultLevel.Info;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.inject.Inject;
 import com.sencha.gxt.core.client.Style.SelectionMode;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.ContentPanel;
@@ -33,11 +34,12 @@ public class WnioskiGridPanel extends ContentPanel {
     private final Grid<WniosekDTO> grid;
     private final ListStore<WniosekDTO> store;
     private final GridInlineEditing<WniosekDTO> editing;
-    private TextButton btnDodaj = new TextButton("Dodaj wniosek");
-    private TextButton btnWczytaj = new TextButton("Wczytaj");
-    private FileUploadField fileUploadField = new FileUploadField();
-    private FormPanel fp = new FormPanel();
+//    private TextButton btnDodaj = new TextButton("Dodaj wniosek");
+//    private TextButton btnWczytaj = new TextButton("Wczytaj");
+//    private FileUploadField fileUploadField = new FileUploadField();
+//    private FormPanel fp = new FormPanel();
 
+    @Inject
     public WnioskiGridPanel(ListStore<WniosekDTO> store, WniosekProperties props) {
         this.store = store;
         setHeadingHtml("Wnioski");
@@ -75,34 +77,31 @@ public class WnioskiGridPanel extends ContentPanel {
 //        editing.getButtonBar().setStyleName("button-align:center");
 //        grid.setSelectionModel(new RoSM<WniosekDTO>());
 
-//        btnDodaj.setBorders(true);
-//        ToolBar tb = new ToolBar();
-//        tb.add(btnDodaj);
-//        tb.add(btnWczytaj);
-//        tb.add(fileUploadField);
-        fileUploadField.setName("attachment");
-        FormPanel fp = new FormPanel();
-        VerticalLayoutContainer vl = new VerticalLayoutContainer();
-        vl.add(btnDodaj);
-        vl.add(btnWczytaj);
-        vl.add(fileUploadField);
-//        vl.add(fp, new VerticalLayoutData(1, 100));
-//        vl.add(grid, new VerticalLayoutData(1, 1));
-        fp.setWidget(vl);
-        fp.setAction(GWT.getHostPageBaseURL() + "wczytanie/raport_img");
-        fp.setEncoding(Encoding.MULTIPART);
-        fp.setMethod(Method.POST);
-        fp.setHeight(100);
-        fp.addSubmitCompleteHandler(new SubmitCompleteHandler() {
-            public void onSubmitComplete(SubmitCompleteEvent event) {
-              String resultHtml = event.getResults();
-//              Info.display("Upload Response", resultHtml);
-            }
-          });
-        VerticalLayoutContainer vlc = new VerticalLayoutContainer();
-        vlc.add(fp, new VerticalLayoutData(1, 100));
-        vlc.add(grid, new VerticalLayoutData(1, 1));
-        add(vlc);
+
+//        fileUploadField.setName("attachment");
+//        FormPanel fp = new FormPanel();
+//        VerticalLayoutContainer vl = new VerticalLayoutContainer();
+//        vl.add(btnDodaj);
+//        vl.add(btnWczytaj);
+//        vl.add(fileUploadField);
+////        vl.add(fp, new VerticalLayoutData(1, 100));
+////        vl.add(grid, new VerticalLayoutData(1, 1));
+//        fp.setWidget(vl);
+//        fp.setAction(GWT.getHostPageBaseURL() + "wczytanie/raport_img");
+//        fp.setEncoding(Encoding.MULTIPART);
+//        fp.setMethod(Method.POST);
+//        fp.setHeight(100);
+//        fp.addSubmitCompleteHandler(new SubmitCompleteHandler() {
+//            public void onSubmitComplete(SubmitCompleteEvent event) {
+//                String resultHtml = event.getResults();
+////              Info.display("Upload Response", resultHtml);
+//            }
+//        });
+//        VerticalLayoutContainer vlc = new VerticalLayoutContainer();
+//        vlc.add(fp, new VerticalLayoutData(1, 100));
+//        vlc.add(grid, new VerticalLayoutData(1, 1));
+        add(grid);
+//        RootPanel.get().add(fp);
     }
 
     public Grid<WniosekDTO> getGrid() {
@@ -113,19 +112,19 @@ public class WnioskiGridPanel extends ContentPanel {
         return editing;
     }
 
-    public TextButton getBtnDodaj() {
-        return btnDodaj;
-    }
-
-    public TextButton getBtnWczytaj() {
-        return btnWczytaj;
-    }
-
-    public FileUploadField getFileUploadField() {
-        return fileUploadField;
-    }
-
-    public FormPanel getFp() {
-        return fp;
-    }
+//    public TextButton getBtnDodaj() {
+//        return btnDodaj;
+//    }
+//
+//    public TextButton getBtnWczytaj() {
+//        return btnWczytaj;
+//    }
+//
+//    public FileUploadField getFileUploadField() {
+//        return fileUploadField;
+//    }
+//
+//    public FormPanel getFp() {
+//        return fp;
+//    }
 }

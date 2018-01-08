@@ -7,9 +7,17 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.inject.Inject;
 import com.sencha.gxt.widget.core.client.ContentPanel;
+import com.sencha.gxt.widget.core.client.button.TextButton;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.widget.core.client.event.SubmitCompleteEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
+import com.sencha.gxt.widget.core.client.event.SubmitCompleteEvent.SubmitCompleteHandler;
+import com.sencha.gxt.widget.core.client.form.FileUploadField;
+import com.sencha.gxt.widget.core.client.form.FormPanel;
+import com.sencha.gxt.widget.core.client.form.FormPanel.Encoding;
+import com.sencha.gxt.widget.core.client.form.FormPanel.Method;
 
 import elemental.client.Browser;
 import elemental.events.Event;
@@ -27,6 +35,10 @@ public class WnioskiMainPanel extends BazowyPanel {
     private WnioskiGridPanel gridPanel;
     private ContentPanel centerPanel;
     private static int AUTO_ID = 0;
+    private TextButton btnDodaj = new TextButton("Dodaj wniosek");
+    private TextButton btnWczytaj = new TextButton("Wczytaj");
+    private FileUploadField fileUploadField = new FileUploadField();
+    private FormPanel fp = new FormPanel();
 
     @Inject
     public WnioskiMainPanel(final WnioskiModel model) {
@@ -38,33 +50,62 @@ public class WnioskiMainPanel extends BazowyPanel {
         gridPanel = new WnioskiGridPanel(model.getStoreWnioski(), model.getWnioskiProp());
         westData = new BorderLayoutData(600);
         westData.setCollapsible(true);
+        final FormPanel fp = new FormPanel();
+        VerticalLayoutContainer vl = new VerticalLayoutContainer();
+        vl.add(btnDodaj);
+        vl.add(btnWczytaj);
+        vl.add(fileUploadField);
+        btnWczytaj.addSelectHandler(new SelectHandler() {
 
+            @Override
+            public void onSelect(SelectEvent event) {
+                if (!fp.isValid())
+                    return;
+                fp.submit();
+//                WniosekDTO dto = model.getWniosek();
+//                dto.setNazwaObrazu(fileUploadField.getValue());
+                GWT.log(fileUploadField.getValue());
+            }
+        });
+//        vl.add(fp, new VerticalLayoutData(1, 100));
+//        vl.add(grid, new VerticalLayoutData(1, 1));
+        fp.setWidget(vl);
+        fp.setAction(GWT.getHostPageBaseURL() + "usosweb/usosweb/raport_img");
+        fp.setEncoding(Encoding.MULTIPART);
+        fp.setMethod(Method.POST);
+        fp.setHeight(100);
+        fp.addSubmitCompleteHandler(new SubmitCompleteHandler() {
+            public void onSubmitComplete(SubmitCompleteEvent event) {
+                String resultHtml = event.getResults();
+//              Info.display("Upload Response", resultHtml);
+            }
+        });
         getBorderLayoutContainer().setWestWidget(gridPanel, westData);
 
         centerPanel = new ContentPanel();
-        getBorderLayoutContainer().setCenterWidget(centerPanel);
+        getBorderLayoutContainer().setCenterWidget(fp);
 
-        gridPanel.getBtnDodaj().addSelectHandler(new SelectHandler() {
-
-            @Override
-            public void onSelect(SelectEvent event) {
-                WniosekDTO wniosek = new WniosekDTO();
-                wniosek.setId(--AUTO_ID);
-                model.getStoreWnioski().add(0, wniosek);
-
-            }
-        });
-        gridPanel.getBtnWczytaj().addSelectHandler(new SelectHandler() {
-
-            @Override
-            public void onSelect(SelectEvent event) {
-                if (!gridPanel.getFp().isValid())
-                    return;
-                gridPanel.getFp().submit();
-                WniosekDTO dto = model.getWniosek();
-                dto.setNazwaObrazu(gridPanel.getFileUploadField().getValue());
-            }
-        });
+//        gridPanel.getBtnDodaj().addSelectHandler(new SelectHandler() {
+//
+//            @Override
+//            public void onSelect(SelectEvent event) {
+//                WniosekDTO wniosek = new WniosekDTO();
+//                wniosek.setId(--AUTO_ID);
+//                model.getStoreWnioski().add(0, wniosek);
+//
+//            }
+//        });
+//        gridPanel.getBtnWczytaj().addSelectHandler(new SelectHandler() {
+//
+//            @Override
+//            public void onSelect(SelectEvent event) {
+//                if (!gridPanel.getFp().isValid())
+//                    return;
+//                gridPanel.getFp().submit();
+//                WniosekDTO dto = model.getWniosek();
+//                dto.setNazwaObrazu(gridPanel.getFileUploadField().getValue());
+//            }
+//        });
     }
 
     protected void readFiles() {

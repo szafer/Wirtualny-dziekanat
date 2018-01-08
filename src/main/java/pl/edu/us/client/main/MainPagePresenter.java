@@ -44,6 +44,7 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MyView, MainP
     }
 
     private final PlaceManager placeManager;
+    private final AppKontekst kontekst;
 
     @ProxyCodeSplit
     @NameToken(NameTokens.main)
@@ -53,10 +54,10 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MyView, MainP
     private final UserServiceAsync userService = GWT.create(UserService.class);
 
     @Inject
-    public MainPagePresenter(EventBus eventBus, MyView view, MyProxy proxy, PlaceManager placeManager) {
+    public MainPagePresenter(EventBus eventBus, MyView view, MyProxy proxy, PlaceManager placeManager, AppKontekst kontekst) {
         super(eventBus, view, proxy);
         this.placeManager = placeManager;
-
+        this.kontekst = kontekst;
         getView().setUiHandlers(this);
     }
 
@@ -103,9 +104,10 @@ public class MainPagePresenter extends Presenter<MainPagePresenter.MyView, MainP
                 @Override
                 public void onSuccess(UserDTO result) {
                     if (result != null) {
+                        kontekst.setUser(result);
                         Cookies.setCookie("loggedUser", result.getLogin());
                         Cookies.setCookie("userRole", String.valueOf(result.getRola().ordinal()));
-                        if (result.getIloscLogowan()>0) {
+                        if (result.getIloscLogowan() > 0) {
                             zmien(result);
                         } else {
                             placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.passchange).build());

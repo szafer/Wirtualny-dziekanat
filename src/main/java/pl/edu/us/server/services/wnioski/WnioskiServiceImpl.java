@@ -38,7 +38,7 @@ public class WnioskiServiceImpl implements WnioskiService {
     @Autowired
     private UWniosekDAO uWniosekDAO;
    
-    @Autowired
+//    @Autowired
     private Provider<HttpSession> sessionProvider ;
     @PostConstruct
     public void init() throws Exception {

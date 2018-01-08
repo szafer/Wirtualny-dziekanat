@@ -26,6 +26,10 @@
 		<servlet-name>springGwtRemoteServiceServlet</servlet-name>
 		<url-pattern>/usosweb/usosweb/*</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>RaportyImgServlet</servlet-name>
+		<url-pattern>/usosweb/usosweb/raport_img</url-pattern>
+	</servlet-mapping>
 <!-- 		<servlet-mapping> -->
 <!-- 		<servlet-name>springGwtRemoteServiceServlet</servlet-name> -->
 <!-- 		<url-pattern>/gxt2/springGwtServices/*</url-pattern> -->

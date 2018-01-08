@@ -35,6 +35,8 @@ import pl.edu.us.client.uzytkownik.mojewnioski.MojeWnioskiPresenter;
 import pl.edu.us.client.uzytkownik.mojewnioski.MojeWnioskiView;
 import pl.edu.us.client.uzytkownik.rejestracja.RejestracjaPresenter;
 import pl.edu.us.client.uzytkownik.rejestracja.RejestracjaView;
+import pl.edu.us.client.wiadomosci.WiadomosciPresenter;
+import pl.edu.us.client.wiadomosci.WiadomosciView;
 import pl.edu.us.client.wnioski.definicja.WnioskiPresenter;
 import pl.edu.us.client.wnioski.definicja.WnioskiView;
 import pl.edu.us.client.wnioski.kartoteka.WnioskiKartPresenter;
@@ -88,7 +90,9 @@ public class ClientModule extends AbstractPresenterModule {
         bindPresenter(WnioskiPresenter.class, WnioskiPresenter.MyView.class, WnioskiView.class, WnioskiPresenter.MyProxy.class);
         bindPresenter(WnioskiKartPresenter.class, WnioskiKartPresenter.MyView.class, WnioskiKartView.class, WnioskiKartPresenter.MyProxy.class);
 
-        
+        //Wiadomosci
+        bindPresenter(WiadomosciPresenter.class, WiadomosciPresenter.MyView.class, WiadomosciView.class, WiadomosciPresenter.MyProxy.class);
+
         // Symulacja
         bindPresenter(PrzychodyKosztyPresenter.class, PrzychodyKosztyPresenter.MyView.class, PrzychodyKosztyView.class,
             PrzychodyKosztyPresenter.MyProxy.class);

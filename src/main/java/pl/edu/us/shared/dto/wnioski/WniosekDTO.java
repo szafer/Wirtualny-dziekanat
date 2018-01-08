@@ -1,11 +1,9 @@
 package pl.edu.us.shared.dto.wnioski;
 
-import java.io.Serializable;
-
 import pl.edu.us.shared.dto.DTO;
 import pl.edu.us.shared.enums.TypWniosku;
 
-public class WniosekDTO extends DTO implements Serializable {
+public class WniosekDTO extends DTO {
 
     private static final long serialVersionUID = -9100026837671778843L;
     private TypWniosku typ;
