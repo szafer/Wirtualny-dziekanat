@@ -4,8 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.fileupload.FileItem;
+
 import com.google.gwt.core.client.GWT;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.View;
@@ -43,6 +48,7 @@ public class WnioskiPresenter extends BasePresenter<WnioskiPresenter.MyView, Wni
 
     private final RpcMasking rpcMasking;
     private final WnioskiServiceAsync wnioskiService = GWT.create(WnioskiService.class);
+//    private Provider<HttpSession> sessionProvider ;
 
     @Inject
     public WnioskiPresenter(EventBus eventBus, MyView view, MyProxy proxy, final RpcMasking rpcMasking) {
@@ -50,7 +56,7 @@ public class WnioskiPresenter extends BasePresenter<WnioskiPresenter.MyView, Wni
         getView().setUiHandlers(this);
         this.rpcMasking = rpcMasking;
         this.rpcMasking.setMaskedComponent((Component) getView().asWidget());
-
+//this.sessionProvider = sessionProvider;
     }
 
     @Override
@@ -80,6 +86,14 @@ public class WnioskiPresenter extends BasePresenter<WnioskiPresenter.MyView, Wni
 
     @Override
     public void wykonajZapisz() {
+//        HttpSession httpSession = sessionProvider.get();
+//        FileItem fileItem = (FileItem) httpSession.getAttribute("IMG");
+//        if(fileItem!=null){
+////            raportyImg.setRozmiarObrazu(fileItem.getSize());
+////            raportyImg.setNazwaObrazu(fileItem.getName());
+////            raportyImg.setRozszerzenieObrazu(fileItem.getContentType());
+////            raportyImg.setObraz(fileItem.get());
+//        }
         List<WniosekDTO> doZapisu = new ArrayList<WniosekDTO>();
         Collection<Store<WniosekDTO>.Record> lista = getView().getModel().getStoreWnioski().getModifiedRecords();
         for (Record r : lista) {

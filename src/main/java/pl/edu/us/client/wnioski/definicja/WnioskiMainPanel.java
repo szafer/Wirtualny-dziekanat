@@ -36,7 +36,7 @@ public class WnioskiMainPanel extends BazowyPanel {
         zatwierdz.setVisible(false);
         initialState();
         gridPanel = new WnioskiGridPanel(model.getStoreWnioski(), model.getWnioskiProp());
-        westData = new BorderLayoutData(400);
+        westData = new BorderLayoutData(600);
         westData.setCollapsible(true);
 
         getBorderLayoutContainer().setWestWidget(gridPanel, westData);
@@ -58,14 +58,11 @@ public class WnioskiMainPanel extends BazowyPanel {
 
             @Override
             public void onSelect(SelectEvent event) {
-                // TODO Auto-generated method stub
-
-            }
-        });
-        gridPanel.getFileUploadField().addChangeHandler(new ChangeHandler() {
-            @Override
-            public void onChange(ChangeEvent event) {
-                readFiles();
+                if (!gridPanel.getFp().isValid())
+                    return;
+                gridPanel.getFp().submit();
+                WniosekDTO dto = model.getWniosek();
+                dto.setNazwaObrazu(gridPanel.getFileUploadField().getValue());
             }
         });
     }

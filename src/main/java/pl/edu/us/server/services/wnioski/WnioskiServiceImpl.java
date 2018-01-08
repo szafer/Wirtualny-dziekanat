@@ -6,13 +6,17 @@ import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.fileupload.FileItem;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.google.inject.Provider;
 
 import pl.edu.us.server.dao.UWniosekDAO;
 import pl.edu.us.server.dao.WniosekDAO;
@@ -33,7 +37,9 @@ public class WnioskiServiceImpl implements WnioskiService {
 
     @Autowired
     private UWniosekDAO uWniosekDAO;
-
+   
+    @Autowired
+    private Provider<HttpSession> sessionProvider ;
     @PostConstruct
     public void init() throws Exception {
 
@@ -58,6 +64,14 @@ public class WnioskiServiceImpl implements WnioskiService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public List<WniosekDTO> zapisz(List<WniosekDTO> doZapisu) throws Exception {
+      HttpSession httpSession = sessionProvider.get();
+      FileItem fileItem = (FileItem) httpSession.getAttribute("IMG");
+      if(fileItem!=null){
+//          raportyImg.setRozmiarObrazu(fileItem.getSize());
+//          raportyImg.setNazwaObrazu(fileItem.getName());
+//          raportyImg.setRozszerzenieObrazu(fileItem.getContentType());
+//          raportyImg.setObraz(fileItem.get());
+      }
         ModelMapper mapper = new ModelMapper();
         for (WniosekDTO dto : doZapisu) {
             Wniosek p = mapper.map(dto, Wniosek.class);

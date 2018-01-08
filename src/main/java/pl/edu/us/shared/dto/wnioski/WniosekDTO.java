@@ -10,6 +10,7 @@ public class WniosekDTO extends DTO implements Serializable {
     private static final long serialVersionUID = -9100026837671778843L;
     private TypWniosku typ;
     private Byte[] wzor;
+    private String nazwaObrazu;
 
     public WniosekDTO() {
         super();
@@ -45,5 +46,12 @@ public class WniosekDTO extends DTO implements Serializable {
     public String toString() {
         return typ.toString();
     }
-    
+
+    public String getNazwaObrazu() {
+        return nazwaObrazu;
+    }
+
+    public void setNazwaObrazu(String nazwaObrazu) {
+        this.nazwaObrazu = nazwaObrazu;
+    }
 }

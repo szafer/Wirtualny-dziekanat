@@ -1,10 +1,13 @@
 package pl.edu.us.shared.model.wnioski;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import pl.edu.us.shared.enums.TypWniosku;
@@ -23,7 +26,9 @@ public class Wniosek implements Persistent<Integer> {
     @Column(name = "TYP")
     @Enumerated(EnumType.ORDINAL)
     private TypWniosku typ;
-
+    
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
     @Column(name = "WZOR")
     private Byte[] wzor;
 
