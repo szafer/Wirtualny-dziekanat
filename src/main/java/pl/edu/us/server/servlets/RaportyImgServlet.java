@@ -22,13 +22,13 @@ import gwtupload.server.MemoryFileItemFactory;
 import pl.edu.us.shared.services.wnioski.WnioskiService;
 
 @Singleton
-@RemoteServiceRelativePath("usosweb/raport_img")
+//@RemoteServiceRelativePath("usosweb/raport_img")
 public class RaportyImgServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(RaportyImgServlet.class.getName());
 
-    @Inject
-    private WnioskiService definicjaRaportowService;
+//    @Inject
+//    private WnioskiService definicjaRaportowService;
 
     /**
      * @see HttpServlet#HttpServlet()

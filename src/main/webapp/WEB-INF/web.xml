@@ -10,14 +10,19 @@
 			org.springframework.web.context.ContextLoaderListener
         </listener-class>
 	</listener>
-
+	<listener>
+		<listener-class>pl.edu.us.client.GuiceContextListener</listener-class>
+	</listener>
 	<!-- Servlets -->
 
 	<servlet>
 		<servlet-name>springGwtRemoteServiceServlet</servlet-name>
 		<servlet-class>org.spring4gwt.server.SpringGwtRemoteServiceServlet</servlet-class>
 	</servlet>
-
+	<servlet>
+		<servlet-name>raportyImgServlet</servlet-name>
+		<servlet-class> pl.edu.us.server.servlets.RaportyImgServlet</servlet-class>
+	</servlet>
 <!-- 	<servlet-mapping> -->
 <!-- 		<servlet-name>springGwtRemoteServiceServlet</servlet-name> -->
 <!-- 		<url-pattern>/usosweb/springGwtServices/*</url-pattern> -->
@@ -27,7 +32,7 @@
 		<url-pattern>/usosweb/usosweb/*</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>RaportyImgServlet</servlet-name>
+		<servlet-name>raportyImgServlet</servlet-name>
 		<url-pattern>/usosweb/usosweb/raport_img</url-pattern>
 	</servlet-mapping>
 <!-- 		<servlet-mapping> -->
@@ -36,7 +41,7 @@
 <!-- 	</servlet-mapping> -->
 	<!-- Default page to serve -->
 	<welcome-file-list>
-		<welcome-file>Welcome.html</welcome-file>
+		<welcome-file>Usosweb.html</welcome-file>
 	</welcome-file-list>
 
 </web-app>
