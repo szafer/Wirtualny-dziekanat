@@ -24,6 +24,7 @@ public class MenuBuilder {
     private Menu daneOsoboweMenu;//pokazuje się zawsze
     private Menu przedmiotyMenu; //stdent lub pracownik
     private Menu adminMenu;//administrator
+    private Menu wiadomosciMenu;
     private Menu zamknijMenu;
     private Menu raportyMenu;//pokazuje się zawsze
     private MenuBarItem zamknijBarItem;//pokazuje się zawsze
@@ -31,7 +32,6 @@ public class MenuBuilder {
     private Menu symulacjaMenu;//wycofane
     private final PlaceManager placeManager;
     private Rola rola;
-
 
     @Inject
     MenuBuilder(final PlaceManager placeManager) {
@@ -53,9 +53,17 @@ public class MenuBuilder {
         menuBar.add(buildStudentMenu());
 //            }
 //        }
+        menuBar.add(buildWiadomosciMenu());
         menuBar.add(buildWydrukiMenu());
-        menuBar.add(buildZamknijMenu());        
+        menuBar.add(buildZamknijMenu());
         return menuBar;
+    }
+
+    private MenuBarItem buildWiadomosciMenu() {
+        wiadomosciMenu = new Menu();
+        MenuBarItem wiaromosciMenuBarItem = new MenuBarItem("Wiadomości", wiadomosciMenu);
+        wiadomosciMenu.add(createMenuItem("Wiadomości", NameTokens.wiadomosci));
+        return wiaromosciMenuBarItem;
     }
 
     private MenuBarItem buildWydrukiMenu() {
@@ -97,17 +105,6 @@ public class MenuBuilder {
         return daneOsoboweBarItem;
     }
 
-//    private MenuBarItem buildPrzedmiotyUzytkownikaMenu() {
-//        przedmiotyMenu = new Menu();
-//        MenuBarItem przedmiotyBarItem = new MenuBarItem("Przedmioty", przedmiotyMenu);
-//        String nazwa = "Moje przedmioty";
-//        if (rola == Rola.NAUCZYCIEL) {
-//            nazwa = "Przypisanie ocen";
-//        }
-//        przedmiotyMenu.add(createMenuItem(nazwa, NameTokens.mojePrzedmioty));
-//        return przedmiotyBarItem;
-//    }
-
     private MenuBarItem buildZamknijMenu() {
         zamknijMenu = new Menu();
         zamknijBarItem = new MenuBarItem("Zamknij", zamknijMenu);//Na razie jest podpięty menuitem - można rozwazyc podpięcie handlera bzpośrednio do menu
@@ -122,7 +119,6 @@ public class MenuBuilder {
         adminMenu.add(createMenuItem("Użytkownicy", NameTokens.kartotekaUzytkownikow));
         adminMenu.add(createMenuItem("Przedmioty", NameTokens.przedmioty));//Dodawanie i edycja przedmiotow
         adminMenu.add(createMenuItem("Wnioski", NameTokens.wnioski));
-        adminMenu.add(createMenuItem("Wiadomości", NameTokens.wiadomosci));
         return adminbarItem;
     }
 

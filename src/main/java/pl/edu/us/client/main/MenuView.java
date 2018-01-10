@@ -76,7 +76,7 @@ public class MenuView extends ViewWithUiHandlers<MenuUiHandlers> implements Menu
 
     @Override
     public Widget asWidget() {
-        return topPanel;
+        return menu;
     }
 
     @Override

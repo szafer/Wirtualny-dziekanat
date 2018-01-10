@@ -32,21 +32,21 @@ public class MenuPresenter extends PresenterWidget<MenuPresenter.MyView> impleme
     }
 
     public void loadMessages(List<OdbiorcaDTO> nowe) {
-        ToolButton tb = getView().getMenu();
-        BorderLayoutData eastData = getView().getEastData();
-        tb.setToolTip("Masz 2 nowe wiadomości");
-        if (nowe == null || nowe.isEmpty()) {
-//            eastData.setHidden(true);
-//            eastData.setCollapsed(true);
-            tb.setVisible(false);
-            tb.getToolTip().disable();
-        } else {
-//            eastData.setHidden(false);
-//            eastData.setCollapsed(false);
-            tb.setVisible(true);
-            tb.getToolTip().enable();
-            tb.getToolTip().show();
-        }
+//        ToolButton tb = getView().getMenu();
+//        BorderLayoutData eastData = getView().getEastData();
+//        tb.setToolTip("Masz 2 nowe wiadomości");
+//        if (nowe == null || nowe.isEmpty()) {
+////            eastData.setHidden(true);
+////            eastData.setCollapsed(true);
+//            tb.setVisible(false);
+//            tb.getToolTip().disable();
+//        } else {
+////            eastData.setHidden(false);
+////            eastData.setCollapsed(false);
+//            tb.setVisible(true);
+//            tb.getToolTip().enable();
+//            tb.getToolTip().show();
+//        }
     }
 
     @Override

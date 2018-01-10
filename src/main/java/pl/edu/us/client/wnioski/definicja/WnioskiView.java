@@ -1,11 +1,13 @@
 package pl.edu.us.client.wnioski.definicja;
 
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.sencha.gxt.data.shared.event.StoreDataChangeEvent;
+import com.sencha.gxt.data.shared.event.StoreDataChangeEvent.StoreDataChangeHandler;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
-import com.sencha.gxt.widget.core.client.selection.SelectionChangedEvent;
-import com.sencha.gxt.widget.core.client.selection.SelectionChangedEvent.SelectionChangedHandler;
 
 import pl.edu.us.client.main.BaseView;
 import pl.edu.us.shared.dto.wnioski.WniosekDTO;
@@ -24,10 +26,10 @@ public class WnioskiView extends BaseView<WnioskiUiHandlers> implements WnioskiP
     @Override
     protected void bindCustomUiHandlers() {
         super.bindCustomUiHandlers();
-        panel.getGridPanel().getGrid().getSelectionModel().addSelectionChangedHandler(new SelectionChangedHandler<WniosekDTO>() {
+        panel.getGridPanel().getGrid().getSelectionModel().addSelectionHandler(new SelectionHandler<WniosekDTO>() {
 
             @Override
-            public void onSelectionChanged(SelectionChangedEvent<WniosekDTO> event) {
+            public void onSelection(SelectionEvent<WniosekDTO> event) {
                 WniosekDTO wniosek = panel.getGridPanel().getGrid().getSelectionModel().getSelectedItem();
                 model.setWniosek(wniosek);
             }
@@ -54,6 +56,14 @@ public class WnioskiView extends BaseView<WnioskiUiHandlers> implements WnioskiP
                 getUiHandlers().wykonajZamknij();
             }
         });
+//        model.getStoreWnioski().addStoreDataChangeHandler(new StoreDataChangeHandler<WniosekDTO>() {
+//
+//            @Override
+//            public void onDataChange(StoreDataChangeEvent<WniosekDTO> event) {
+//                panel.setSaveEnabled(true);
+//                
+//            }
+//        });
     }
 
     @Override
@@ -63,11 +73,11 @@ public class WnioskiView extends BaseView<WnioskiUiHandlers> implements WnioskiP
 
     @Override
     public WnioskiMainPanel getPanel() {
-       return panel;
+        return panel;
     }
 
     @Override
     public WnioskiModel getModel() {
-     return model;
+        return model;
     }
 }

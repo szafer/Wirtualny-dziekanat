@@ -22,8 +22,6 @@ import pl.edu.us.client.NameTokens;
 import pl.edu.us.client.main.BasePresenter;
 import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.dto.przedmioty.UPrzedmiotDTO;
-import pl.edu.us.shared.model.old.Kierunek;
-import pl.edu.us.shared.services.PracownikServiceAsync;
 import pl.edu.us.shared.services.przedmioty.PrzedmiotyService;
 import pl.edu.us.shared.services.przedmioty.PrzedmiotyServiceAsync;
 import pl.edu.us.shared.services.user.UserService;

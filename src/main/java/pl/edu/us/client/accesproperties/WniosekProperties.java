@@ -7,6 +7,9 @@ import pl.edu.us.shared.enums.TypWniosku;
 
 public interface WniosekProperties extends AccProperties<WniosekDTO>{
 
+    ValueProvider<WniosekDTO, Integer> id();
+
     ValueProvider<WniosekDTO, TypWniosku> typ();
-    
+ 
+    ValueProvider<WniosekDTO, String> nazwaObrazu();
 }
