@@ -25,8 +25,6 @@ import pl.edu.us.shared.services.wnioski.WnioskiServiceAsync;
 public class WnioskiKartPresenter extends BasePresenter<WnioskiKartPresenter.MyView, WnioskiKartPresenter.MyProxy>
     implements WnioskiKartUiHandlers {
 
-    // private static final OsobaProperties props =
-    // GWT.create(OsobaProperties.class);
     public interface MyView extends View, HasUiHandlers<WnioskiKartUiHandlers> {
         WnioskiKartModel getModel();
 
@@ -90,7 +88,7 @@ public class WnioskiKartPresenter extends BasePresenter<WnioskiKartPresenter.MyV
     }
 
     @Override
-    public void pobierzPodgladWniosku(Byte[] zlozonyWniosek) {
+    public void pobierzPodgladWniosku(byte[] zlozonyWniosek) {
         // TODO Auto-generated method stub
 
     }

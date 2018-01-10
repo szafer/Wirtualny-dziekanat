@@ -65,21 +65,11 @@ public class MenuBuilder {
         intrukcjaMenu = new Menu();
         MenuBarItem wiaromosciMenuBarItem = new MenuBarItem("Instrukcja", intrukcjaMenu);
         MenuItem item = new MenuItem("Instrukcja");
-        item.addSelectionHandler(new SelectionHandler<Item>() {
-
-            @Override
-            public void onSelection(SelectionEvent<Item> arg0) {
-                Cookies.removeCookie("loggedUser");
-                Cookies.removeCookie("userRole");
-                shownextpage("");
-                Window.Location.replace("Logout.html");
-            }
-        });
         intrukcjaMenu.add(item);
         item.addSelectionHandler(new SelectionHandler<Item>() {
             @Override
             public void onSelection(SelectionEvent<Item> event) {
-                Window.open(GWT.getHostPageBaseURL() + "usosweb/instrukcja", "_blank", "resizable=yes");
+                Window.open(GWT.getHostPageBaseURL() + "instrukcja", "_blank", "resizable=yes");
             }
         });
         return wiaromosciMenuBarItem;

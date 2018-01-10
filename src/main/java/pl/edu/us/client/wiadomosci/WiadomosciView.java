@@ -26,8 +26,8 @@ public class WiadomosciView extends BaseView<WiadomosciUiHandlers> implements Wi
     private AppKontekst kontekst;
 
     @Inject
-    public WiadomosciView(WiadomosciMainPanel panel, WiadomosciModel model, AppKontekst kontekst) {
-        this.panel = panel;
+    public WiadomosciView(WiadomosciModel model, AppKontekst kontekst) {
+        this.panel = new WiadomosciMainPanel(model);
         this.model = model;
         this.kontekst = kontekst;
     }
@@ -40,17 +40,25 @@ public class WiadomosciView extends BaseView<WiadomosciUiHandlers> implements Wi
             @Override
             public void onSelection(SelectionEvent<BaseDto> event) {
                 BaseDto dto = event.getSelectedItem();
-                model.wyczysc();
+//                model.wyczysc();
                 if (dto.getName() == "Wysłane") {
-                    panel.getCenterPanel().getBlc().setNorthWidget(panel.getCenterPanel().getNadawcaPanel(), new BorderLayoutData(500));
+//                    panel.getCenterPanel().getCp().clear();
+//                    panel.getCenterPanel().getCp().clear();(panel.getCenterPanel().getNadawcaPanel(), new BorderLayoutData(500));
+//
+//                    panel.getCenterPanel().getBlc().setNorthWidget(panel.getCenterPanel().getNadawcaPanel(), new BorderLayoutData(500));
+                    panel.getCenterPanel().ustawWyslane();
                 } else {
-                    panel.getCenterPanel().getBlc().setNorthWidget(panel.getCenterPanel().getOdebranePanel(), new BorderLayoutData(500));
+                    panel.getCenterPanel().ustawOdebrane();
+//                    panel.getCenterPanel().getBlc().setNorthWidget(panel.getCenterPanel().getOdebranePanel(), new BorderLayoutData(500));
                 }
                 if (!dto.getOdebrane().isEmpty()) {
+                    model.getStoreOdebrane().clear();
                     model.getStoreOdebrane().addAll(dto.getOdebrane());
                 } else if (!dto.getWyslane().isEmpty()) {
-//                    model.getStoreWyslane().addAll(dto.getWyslane());
+                    model.getStoreWyslane().clear();
+                    model.getStoreWyslane().addAll(dto.getWyslane());
                 } else if (!dto.getNowe().isEmpty()) {
+                    model.getStoreNowe().clear();
                     model.getStoreNowe().addAll(dto.getNowe());
                 }
             }

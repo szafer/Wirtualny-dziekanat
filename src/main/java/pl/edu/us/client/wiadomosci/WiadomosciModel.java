@@ -54,8 +54,8 @@ public class WiadomosciModel {
 
         storeTypySkrzynek = new TreeStore<BaseDto>(new WiadomoscKeyProvider());
         root.addChild(nowe);
-        root.addChild(wyslane);
         root.addChild(odebrane);
+        root.addChild(wyslane);
         storeTypySkrzynek.add(root);
         for (BaseDto child : root.getChildren()) {
             storeTypySkrzynek.add(root, child);

@@ -8,25 +8,50 @@
 	<listener>
 		<listener-class>
 			org.springframework.web.context.ContextLoaderListener
-        </listener-class>
+		</listener-class>
 	</listener>
 	<listener>
 		<listener-class>pl.edu.us.client.GuiceContextListener</listener-class>
 	</listener>
 	<!-- Servlets -->
 
+	<filter>
+		<filter-name>guiceFilter</filter-name>
+		<filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>guiceFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
+	<context-param>
+		<param-name>maxSize</param-name>
+		<param-value>102400000</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>slowUploads</param-name>
+		<param-value>true</param-value>
+	</context-param>
 	<servlet>
 		<servlet-name>springGwtRemoteServiceServlet</servlet-name>
 		<servlet-class>org.spring4gwt.server.SpringGwtRemoteServiceServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>raportyImgServlet</servlet-name>
-		<servlet-class> pl.edu.us.server.servlets.RaportyImgServlet</servlet-class>
+		<servlet-class>pl.edu.us.server.servlets.RaportyImgServlet</servlet-class>
 	</servlet>
-<!-- 	<servlet-mapping> -->
-<!-- 		<servlet-name>springGwtRemoteServiceServlet</servlet-name> -->
-<!-- 		<url-pattern>/usosweb/springGwtServices/*</url-pattern> -->
-<!-- 	</servlet-mapping> -->
+	<servlet>
+		<servlet-name>uploader</servlet-name>
+		<servlet-class>pl.edu.us.server.servlets.WczytanieServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>uploader</servlet-name>
+		<url-pattern>*.fileUpload</url-pattern>
+	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>springGwtRemoteServiceServlet</servlet-name>
 		<url-pattern>/usosweb/usosweb/*</url-pattern>
@@ -35,11 +60,16 @@
 		<servlet-name>raportyImgServlet</servlet-name>
 		<url-pattern>/usosweb/usosweb/raport_img</url-pattern>
 	</servlet-mapping>
-<!-- 		<servlet-mapping> -->
-<!-- 		<servlet-name>springGwtRemoteServiceServlet</servlet-name> -->
-<!-- 		<url-pattern>/gxt2/springGwtServices/*</url-pattern> -->
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>instrukcja</servlet-name> -->
+<!-- 		<servlet-class>pl.edu.us.server.servlets.InstrukcjaServlet</servlet-class> -->
+<!-- 	</servlet> -->
+
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>instrukcja</servlet-name> -->
+<!-- 		<url-pattern>*.instrukcja</url-pattern> -->
 <!-- 	</servlet-mapping> -->
-	<!-- Default page to serve -->
+
 	<welcome-file-list>
 		<welcome-file>Usosweb.html</welcome-file>
 	</welcome-file-list>

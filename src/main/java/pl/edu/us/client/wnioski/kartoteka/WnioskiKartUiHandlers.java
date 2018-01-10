@@ -4,6 +4,6 @@ import pl.edu.us.client.PrzyciskiUiHandlers;
 
 public interface WnioskiKartUiHandlers extends PrzyciskiUiHandlers {
 
-    void pobierzPodgladWniosku(Byte[] zlozonyWniosek);
+    void pobierzPodgladWniosku(byte[] zlozonyWniosek);
 
 }

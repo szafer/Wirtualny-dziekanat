@@ -20,7 +20,7 @@ public class UWniosekDTO extends DTO implements Serializable {
 
     private WniosekDTO wniosek;
 
-    private Byte[] zlozonyWniosek;
+    private byte[] zlozonyWniosek;
 
     private Date dataZlozenia;
 
@@ -65,11 +65,11 @@ public class UWniosekDTO extends DTO implements Serializable {
         this.uzytkownik = uzytkownik;
     }
 
-    public Byte[] getZlozonyWniosek() {
+    public byte[] getZlozonyWniosek() {
         return zlozonyWniosek;
     }
 
-    public void setZlozonyWniosek(Byte[] zlozonyWniosek) {
+    public void setZlozonyWniosek(byte[] zlozonyWniosek) {
         this.zlozonyWniosek = zlozonyWniosek;
     }
 

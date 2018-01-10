@@ -28,7 +28,6 @@ import gwtupload.server.MemoryFileItemFactory;
 //@RemoteServiceRelativePath("usosweb/raport_img")
 public class RaportyImgServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(RaportyImgServlet.class.getName());
 
 //    @Inject
 //    private AppKontekst kontekst;
@@ -173,7 +172,7 @@ public class RaportyImgServlet extends HttpServlet {
 //                }
                 //
 //              // Set content type
-              response.setContentType("image/jpeg");
+                response.setContentType("image/jpeg");
 //                response.setContentType(mimeType);
 
 //                request.getSession().setAttribute("IMG", fileItems.get(0));

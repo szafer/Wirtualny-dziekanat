@@ -6,6 +6,6 @@ import pl.edu.us.shared.model.Instrukcja;
 
 public interface InstrukcjaServiceAsync {
 
-    void pobierz(AsyncCallback<byte[]> callback);
+//    void pobierz(AsyncCallback<byte[]> callback);
 
 }

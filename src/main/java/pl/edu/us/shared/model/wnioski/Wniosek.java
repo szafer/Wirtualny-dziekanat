@@ -26,12 +26,14 @@ public class Wniosek implements Persistent<Integer> {
     @Column(name = "TYP")
     @Enumerated(EnumType.ORDINAL)
     private TypWniosku typ;
-    
+
     @Lob
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "WZOR")
-    private Byte[] wzor;
+    private byte[] wzor;
 
+    @Column(name = "NAZWA_OBRAZU")
+    private String nazwaObrazu;
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "wniosek")
 //    private List<UWniosek> wnioskiUzytkownika;
 
@@ -57,36 +59,19 @@ public class Wniosek implements Persistent<Integer> {
         this.typ = typ;
     }
 
-    public Byte[] getWzor() {
+    public byte[] getWzor() {
         return wzor;
     }
 
-    public void setWzor(Byte[] wzor) {
+    public void setWzor(byte[] wzor) {
         this.wzor = wzor;
     }
 
-//    getW
-//    private static void savePersonWithPhoto(String photoFilePath) throws IOException, SQLException {
-//        Person person = new Person("Peter");
-//        File file = new File(photoFilePath);
-//        FileInputStream inputStream = new FileInputStream(file);
-//        Blob blob = Hibernate.getLobCreator(session)
-//                            .createBlob(inputStream, file.length());
-//        person.setPhoto(blob);
-//        session.save(person);
-//        blob.free();
-//    }
-//    private static void readPhotoOfPerson(int personId, String photoFilePath) throws IOException, SQLException {
-//        Person person = (Person) session.get(Person.class, personId);
-//        Blob blob = person.getPhoto();
-//        byte[] blobBytes = blob.getBytes(1, (int) blob.length());
-//        saveBytesToFile(photoFilePath, blobBytes);
-//        blob.free();
-//    }
-//     
-//    private static void saveBytesToFile(String filePath, byte[] fileBytes) throws IOException {
-//        FileOutputStream outputStream = new FileOutputStream(filePath);
-//        outputStream.write(fileBytes);
-//        outputStream.close();
-//    }
+    public String getNazwaObrazu() {
+        return nazwaObrazu;
+    }
+
+    public void setNazwaObrazu(String nazwaObrazu) {
+        this.nazwaObrazu = nazwaObrazu;
+    }
 }

@@ -7,8 +7,9 @@ public class WniosekDTO extends DTO {
 
     private static final long serialVersionUID = -9100026837671778843L;
     private TypWniosku typ;
-    private Byte[] wzor;
+    private byte[] wzor;
     private String nazwaObrazu;
+    private String obraz;
 
     public WniosekDTO() {
         super();
@@ -32,11 +33,11 @@ public class WniosekDTO extends DTO {
         this.typ = typ;
     }
 
-    public Byte[] getWzor() {
+    public byte[] getWzor() {
         return wzor;
     }
 
-    public void setWzor(Byte[] wzor) {
+    public void setWzor(byte[] wzor) {
         this.wzor = wzor;
     }
 
@@ -51,5 +52,13 @@ public class WniosekDTO extends DTO {
 
     public void setNazwaObrazu(String nazwaObrazu) {
         this.nazwaObrazu = nazwaObrazu;
+    }
+
+    public void setObraz(String obraz) {
+        this.obraz = obraz;
+    }
+
+    public String getObraz() {
+        return obraz;
     }
 }

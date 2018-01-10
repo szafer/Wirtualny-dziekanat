@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class Main extends HttpServlet {
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+	
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
 
 		// Redirect call to another url

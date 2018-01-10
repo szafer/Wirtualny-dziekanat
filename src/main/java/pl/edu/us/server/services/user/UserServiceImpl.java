@@ -24,6 +24,7 @@ import com.sencha.gxt.data.shared.loader.FilterPagingLoadConfig;
 import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 import com.sencha.gxt.data.shared.loader.PagingLoadResultBean;
 
+import pl.edu.us.server.ServerUtils;
 import pl.edu.us.server.dao.UserDAO;
 import pl.edu.us.server.services.Main;
 import pl.edu.us.shared.commons.AppStrings;
@@ -181,24 +182,6 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    private void walidujAdresEmail(UserDTO user) throws Exception {
-        Boolean wystepuje = false;
-        if (user.getEmail() == null) {
-            Log.info("Błąd zapisu - brak adresu email");
-            throw new Exception("Błąd zapisu - brak adresu email");
-        }
-        try {
-            wystepuje = (Boolean) userDAO.getEntityManager().createNamedQuery(User.CZY_EMAIL_WYSTEPUJE)
-                .setParameter("email", user.getEmail())
-                .getSingleResult();
-        } catch (Exception e) {
-        }
-        if (wystepuje != null && wystepuje) {
-            LOG.info("Błąd zapisu - email:" + user.getEmail());
-            throw new Exception("Taki email występuje już w systemie");
-        }
-    }
-
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public UserDTO updateUser(UserDTO u) {
@@ -223,7 +206,7 @@ public class UserServiceImpl implements UserService {
             if (user.getWnioskiUzytkownika() != null && !user.getWnioskiUzytkownika().isEmpty()) {
                 for (UWniosekDTO uw : user.getWnioskiUzytkownika()) {
                     if (uw.getZlozonyWniosek() != null) {
-                        uw.setImage(getImageData(uw.getZlozonyWniosek()));
+                        uw.setImage(ServerUtils.getImageData(uw.getZlozonyWniosek()));
                     }
                 }
             }
@@ -290,45 +273,8 @@ public class UserServiceImpl implements UserService {
             }
         }
         for (User u : users.subList(start, (start + limit > usersAll.size() ? usersAll.size() : start + limit))) {
-//            wynik.add(mapper.map(u, UserDTO.class));
             wynik.add(new UserDTO(u));
         }
-//        userDAO.getEntityManager().cre
-//        if (config.getSortInfo().getSortField() != null) {
-//            final String sortField = config.getSortInfo().getSortField();
-//            if (sortField != null) {
-//                Collections.sort(d.getData(), config.getSortInfo().getSortDir().comparator(new Comparator<ModelData>() {
-//
-//                    public int compare(User o1, ModelData o2) {
-//                        Object v1 = (Object) o1.get(sortField);
-//                        Object v2 = (Object) o2.get(sortField);
-//
-//                        if (getComparator() != null) {
-//                            return getComparator().compare(v1, v2);
-//                        } else {
-//                            return PlComparator.INSTANCE.compare(v1, v2);
-//                        }
-//
-//                    }
-//                }));
-//            }
-//
-//        }
         return new PagingLoadResultBean<UserDTO>(wynik, usersAll.size(), config.getOffset());
-//        config.
-//        return null;
-    }
-
-    public String getImageData(Byte[] bytes) {
-        byte[] b = new byte[bytes.length];
-        for (int i = 0; i < bytes.length; i++) {
-            b[i] = bytes[i];
-        }
-//        String base64 = Base64Utils.toBase64(b);
-//        base64 = "data:image/png;base64," + base64;
-//        return base64;
-        String base64 = Base64.encodeBase64String(b);
-        base64 = "data:image/png;base64," + base64;
-        return base64;
     }
 }

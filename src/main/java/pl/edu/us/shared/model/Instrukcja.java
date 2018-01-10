@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @NamedQueries({ @NamedQuery(name = Instrukcja.INSTRUKCJA, query = "SELECT i.instrukcja FROM Instrukcja i") })
 @Entity
-@Table(name = "PPLC_INSTRUKCJA")
+@Table(name = "INSTRUKCJA")
 public class Instrukcja {
 
 	public static final String INSTRUKCJA = "Instrukcja.INSTRUKCJA";

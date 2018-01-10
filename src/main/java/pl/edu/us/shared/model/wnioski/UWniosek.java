@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -44,8 +45,9 @@ public class UWniosek implements Persistent<Integer> {
     @JoinColumn(name = "WNIOSEK_ID")
     private Wniosek wniosek;
 
+    @Lob
     @Column(name = "WNIOSEK_ZLOZONY")
-    private Byte[] zlozonyWniosek;
+    private byte[] zlozonyWniosek;
 
     @Column(name = "DATA_ZLOZENIA")
     @Temporal(TemporalType.DATE)
@@ -92,11 +94,11 @@ public class UWniosek implements Persistent<Integer> {
         this.wniosek = wniosek;
     }
 
-    public Byte[] getZlozonyWniosek() {
+    public byte[] getZlozonyWniosek() {
         return zlozonyWniosek;
     }
 
-    public void setZlozonyWniosek(Byte[] zlozonyWniosek) {
+    public void setZlozonyWniosek(byte[] zlozonyWniosek) {
         this.zlozonyWniosek = zlozonyWniosek;
     }
 

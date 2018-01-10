@@ -10,7 +10,7 @@ import pl.edu.us.client.wiadomosci.ui.center.WiadomosciCenterPanel;
 public class WiadomosciMainPanel extends BazowyPanel {
 
     private BorderLayoutData westData;
-    private WiadomosciModel model;
+//    private WiadomosciModel model;
 
     private WiadomosciCenterPanel centerPanel;
     private WiadomosciTreePanel treePanel;
@@ -18,8 +18,8 @@ public class WiadomosciMainPanel extends BazowyPanel {
     private static int AUTO_ID = 0;
 
     @Inject
-    public WiadomosciMainPanel(final WiadomosciModel model) {
-        this.model = model;
+    public WiadomosciMainPanel(WiadomosciModel model) {
+//        this.model = model;
         nowy.setVisible(false);
         usun.setVisible(false);
         zatwierdz.setVisible(false);

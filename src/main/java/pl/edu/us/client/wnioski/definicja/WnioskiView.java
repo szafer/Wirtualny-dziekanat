@@ -32,6 +32,9 @@ public class WnioskiView extends BaseView<WnioskiUiHandlers> implements WnioskiP
             public void onSelection(SelectionEvent<WniosekDTO> event) {
                 WniosekDTO wniosek = panel.getGridPanel().getGrid().getSelectionModel().getSelectedItem();
                 model.setWniosek(wniosek);
+                if (wniosek.getObraz() != null) {
+                    panel.ustawObraz(wniosek.getObraz());
+                }
             }
         });
         panel.getZapisz().addSelectHandler(new SelectHandler() {
@@ -56,14 +59,6 @@ public class WnioskiView extends BaseView<WnioskiUiHandlers> implements WnioskiP
                 getUiHandlers().wykonajZamknij();
             }
         });
-//        model.getStoreWnioski().addStoreDataChangeHandler(new StoreDataChangeHandler<WniosekDTO>() {
-//
-//            @Override
-//            public void onDataChange(StoreDataChangeEvent<WniosekDTO> event) {
-//                panel.setSaveEnabled(true);
-//                
-//            }
-//        });
     }
 
     @Override

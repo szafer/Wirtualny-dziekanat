@@ -46,8 +46,8 @@ public class NadawcaGridPanel extends ContentPanel {
     private ColumnConfig<NadawcaDTO, String> temat;
     private ColumnConfig<NadawcaDTO, Date> dataNadCol;//, dataRozpatrzeniaCol;
 
-    private final Grid<NadawcaDTO> grid;
-    private final ListStore<NadawcaDTO> store;
+    private Grid<NadawcaDTO> grid;
+    private ListStore<NadawcaDTO> store;
 
     private TextButton btnNowa = new TextButton("Nowa wiadomość");
 
@@ -59,10 +59,10 @@ public class NadawcaGridPanel extends ContentPanel {
         this.store = model.getStoreWyslane();
         this.props = model.getNadProp();
 
-        setHeadingHtml("Wnioski");
+        setHeadingHtml("Wysłane");
 
         dataNadCol = new ColumnConfig<NadawcaDTO, Date>(props.data(), 130, "Data nadania");
-        temat = new ColumnConfig<NadawcaDTO, String>(props.temat(), 100, "Temat");
+        temat = new ColumnConfig<NadawcaDTO, String>(props.temat(), 500, "Temat");
 
         dataZlozCell = new DateCell();
         dataZlozCell.setPropertyEditor(new DateTimePropertyEditor(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT)));
@@ -105,7 +105,7 @@ public class NadawcaGridPanel extends ContentPanel {
         vlc.add(tb, new VerticalLayoutData(1, -1));
         vlc.add(grid, new VerticalLayoutData(1, 1));
         add(vlc);
-        setHeight(500);
+//        setHeight(500);
     }
 
     public Grid<NadawcaDTO> getGrid() {

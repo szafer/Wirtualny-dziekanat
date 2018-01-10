@@ -1,6 +1,7 @@
 package pl.edu.us.client.uzytkownik.kartoteka;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 
@@ -11,6 +12,7 @@ public class UzytkownicyView extends BaseView<UzytkownicyUiHandlers> implements
 
 	private final UzytkownicyMainPanel panel;
 	private final UzytkownicyModel model;
+	@Inject
 	public UzytkownicyView() {
 		model = new UzytkownicyModel();
 		panel = new UzytkownicyMainPanel(model);

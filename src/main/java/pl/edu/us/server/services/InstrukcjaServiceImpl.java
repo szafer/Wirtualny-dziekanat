@@ -1,16 +1,17 @@
 package pl.edu.us.server.services;
 
+import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import pl.edu.us.server.dao.InstrukcjaDAO;
 import pl.edu.us.shared.model.Instrukcja;
 import pl.edu.us.shared.services.instrukcja.InstrukcjaService;
 
-@Service("instrukcjaService")
+//@Service("instrukcjaService")
+@Stateless
 public class InstrukcjaServiceImpl implements InstrukcjaService {
     @Autowired
     private InstrukcjaDAO instrukcjaDAO;

@@ -40,20 +40,13 @@ public class WczytanePlikiActionHandler implements ActionHandler<WczytanePliki, 
                     Iterables.transform(dajPliki(), new Function<FileItem, ObrazDTO>() {
                         @Override
                         public ObrazDTO apply(FileItem input) {
-                            return new ObrazDTO(input.getName(), getImageData(input.get(), input.getContentType()));
+                            return new ObrazDTO(input.getName(), getImageData(input.get(), input.getContentType()), input.get());
                         }
                     })),
                 1, 1));
     }
 
     public String getImageData(byte[] bytes, String ext) {
-//        byte[] b = new byte[bytes.length];
-//        for (int i = 0; i < bytes.length; i++) {
-//            b[i] = bytes[i];
-//        }
-//        String base64 = Base64Utils.toBase64(b);
-//        base64 = "data:image/png;base64," + base64;
-//        return base64;
         String base64 = Base64.encodeBase64String(bytes);
         base64 = "data:image/" + ext + ";base64," + base64;
         return base64;

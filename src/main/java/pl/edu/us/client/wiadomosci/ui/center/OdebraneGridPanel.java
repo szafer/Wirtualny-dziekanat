@@ -35,8 +35,8 @@ public class OdebraneGridPanel extends ContentPanel {
     private ColumnConfig<OdbiorcaDTO, String> nadImieCol, nadNazCol, nadTematCol;
     private ColumnConfig<OdbiorcaDTO, Date> dataOdbCol;;
 
-    private final Grid<OdbiorcaDTO> grid;
-    private final ListStore<OdbiorcaDTO> store;
+    private Grid<OdbiorcaDTO> grid;
+    private ListStore<OdbiorcaDTO> store;
     private DateCell dataZlozCell;
 
     private TextButton btnOdpowiedz = new TextButton("Odpowiedz");
@@ -49,12 +49,12 @@ public class OdebraneGridPanel extends ContentPanel {
         this.store = model.getStoreOdebrane();
         this.props = model.getOdbProp();
 
-        setHeadingHtml("Wnioski");
+        setHeadingHtml("Odebrane");
 
         dataOdbCol = new ColumnConfig<OdbiorcaDTO, Date>(props.dataOdbioru(), 130, "Data odbioru");
         nadImieCol = new ColumnConfig<OdbiorcaDTO, String>(props.nadawcaImie(), 100, "Imię");
         nadNazCol = new ColumnConfig<OdbiorcaDTO, String>(props.nadawcaNazwisko(), 150, "Nazwisko");
-        nadTematCol = new ColumnConfig<OdbiorcaDTO, String>(props.nadawcaTemat(), 150, "Temat");
+        nadTematCol = new ColumnConfig<OdbiorcaDTO, String>(props.nadawcaTemat(), 500, "Temat");
 
         dataZlozCell = new DateCell();
         dataZlozCell.setPropertyEditor(new DateTimePropertyEditor(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT)));
@@ -92,7 +92,6 @@ public class OdebraneGridPanel extends ContentPanel {
         filters.addFilter(createFilter(props.nadawcaImie()));
         filters.addFilter(createFilter(props.nadawcaNazwisko()));
         filters.addFilter(createFilter(props.nadawcaTemat()));
-        
 
         ToolBar tb = new ToolBar();
         tb.add(btnOdpowiedz);
@@ -101,7 +100,7 @@ public class OdebraneGridPanel extends ContentPanel {
         vlc.add(tb, new VerticalLayoutData(1, -1));
         vlc.add(grid, new VerticalLayoutData(1, 1));
         add(vlc);
-        setHeight(500);
+//        setHeight(500);
     }
 
     public Grid<OdbiorcaDTO> getGrid() {

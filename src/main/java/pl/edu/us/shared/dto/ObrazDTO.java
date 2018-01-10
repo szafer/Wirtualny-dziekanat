@@ -4,27 +4,28 @@ public class ObrazDTO extends DTO {
 
     private static final long serialVersionUID = 6484493857936340410L;
 
-    private Byte[] bs;
+    private byte[] bs;
     private String rozszerzenie;
     private String nazwa;
     private Long size;
     private String obraz;
 
-
     public ObrazDTO() {
         super();
     }
-    public ObrazDTO(String nazwa, String obraz) {
+
+    public ObrazDTO(String nazwa, String obraz, byte[] bs) {
         super();
         this.nazwa = nazwa;
         this.obraz = obraz;
+        this.bs = bs;
     }
 
-    public Byte[] getBs() {
+    public byte[] getBs() {
         return bs;
     }
 
-    public void setBs(Byte[] bs) {
+    public void setBs(byte[] bs) {
         this.bs = bs;
     }
 

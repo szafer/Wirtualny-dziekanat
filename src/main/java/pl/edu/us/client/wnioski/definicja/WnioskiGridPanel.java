@@ -53,7 +53,7 @@ public class WnioskiGridPanel extends ContentPanel {
         setHeadingHtml("Wnioski");
         idCol = new ColumnConfig<WniosekDTO, Integer>(props.id(), 30, "ID");
         typCol = new ColumnConfig<WniosekDTO, TypWniosku>(props.typ(), 200, "Typ wniosku");
-        plikCol = new ColumnConfig<WniosekDTO, String>(props.nazwaObrazu(), 100, "Nazwa pliku");
+        plikCol = new ColumnConfig<WniosekDTO, String>(props.nazwaObrazu(), 200, "Nazwa pliku");
 
         comboTypCell = new ComboBoxCell<TypWniosku>(model.getStoreTypWniosku(), new LabelProvider<TypWniosku>() {
 
@@ -75,7 +75,7 @@ public class WnioskiGridPanel extends ContentPanel {
             }
         });
         comboTyp.setForceSelection(true);
-//      comboTyp.setReadOnly(true);
+//        comboTyp.setEditable(false);
         comboTyp.setAllowBlank(false);
         comboTyp.setWidth(200);
 
