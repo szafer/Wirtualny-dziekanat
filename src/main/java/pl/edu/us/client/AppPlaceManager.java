@@ -6,7 +6,7 @@ import com.gwtplatform.mvp.client.proxy.PlaceManagerImpl;
 import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
 import com.gwtplatform.mvp.shared.proxy.TokenFormatter;
 
-public class AppPlaceManager extends PlaceManagerImpl {
+public class AppPlaceManager{} /*extends PlaceManagerImpl {
 
 	private final PlaceRequest defaultPlaceRequest;
 
@@ -23,4 +23,4 @@ public class AppPlaceManager extends PlaceManagerImpl {
 	public void revealDefaultPlace() {
 		revealPlace(defaultPlaceRequest);
 	}
-}
+}*/

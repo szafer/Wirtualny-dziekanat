@@ -26,6 +26,7 @@ public class MenuBuilder {
     private Menu adminMenu;//administrator
     private Menu wiadomosciMenu;
     private Menu zamknijMenu;
+    private Menu intrukcjaMenu;
     private Menu raportyMenu;//pokazuje się zawsze
     private MenuBarItem zamknijBarItem;//pokazuje się zawsze
 
@@ -55,14 +56,40 @@ public class MenuBuilder {
 //        }
         menuBar.add(buildWiadomosciMenu());
         menuBar.add(buildWydrukiMenu());
+        menuBar.add(buildHelpMenu());
         menuBar.add(buildZamknijMenu());
         return menuBar;
+    }
+
+    private MenuBarItem buildHelpMenu() {
+        intrukcjaMenu = new Menu();
+        MenuBarItem wiaromosciMenuBarItem = new MenuBarItem("Instrukcja", intrukcjaMenu);
+        MenuItem item = new MenuItem("Instrukcja");
+        item.addSelectionHandler(new SelectionHandler<Item>() {
+
+            @Override
+            public void onSelection(SelectionEvent<Item> arg0) {
+                Cookies.removeCookie("loggedUser");
+                Cookies.removeCookie("userRole");
+                shownextpage("");
+                Window.Location.replace("Logout.html");
+            }
+        });
+        intrukcjaMenu.add(item);
+        item.addSelectionHandler(new SelectionHandler<Item>() {
+            @Override
+            public void onSelection(SelectionEvent<Item> event) {
+                Window.open(GWT.getHostPageBaseURL() + "usosweb/instrukcja", "_blank", "resizable=yes");
+            }
+        });
+        return wiaromosciMenuBarItem;
     }
 
     private MenuBarItem buildWiadomosciMenu() {
         wiadomosciMenu = new Menu();
         MenuBarItem wiaromosciMenuBarItem = new MenuBarItem("Wiadomości", wiadomosciMenu);
         wiadomosciMenu.add(createMenuItem("Wiadomości", NameTokens.wiadomosci));
+
         return wiaromosciMenuBarItem;
     }
 

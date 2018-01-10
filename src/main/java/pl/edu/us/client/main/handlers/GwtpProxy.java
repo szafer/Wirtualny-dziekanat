@@ -1,13 +1,16 @@
 package pl.edu.us.client.main.handlers;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.gwtplatform.dispatch.rpc.shared.DispatchAsync;
 import com.sencha.gxt.data.client.loader.RpcProxy;
 import com.sencha.gxt.widget.core.client.Component;
 
 public abstract class GwtpProxy<C, D> extends RpcProxy<C, D> {
 
     @Inject
+    protected static DispatchAsync dispatcher;
     protected Masking rpcMasking = new RpcMasking();
     protected Component component;
 
@@ -40,8 +43,9 @@ public abstract class GwtpProxy<C, D> extends RpcProxy<C, D> {
         this.component = component;
     }
 
-//    @Override
-//    protected void load(Object loadConfig, AsyncCallback<D> callback) {
-//        setWidgetMasking(component);
-//    }
+    @Override
+    public void load(C loadConfig, AsyncCallback<D> callback) {
+        setWidgetMasking(component);
+        
+    }
 }

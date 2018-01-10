@@ -10,8 +10,14 @@ public class ObrazDTO extends DTO {
     private Long size;
     private String obraz;
 
+
     public ObrazDTO() {
         super();
+    }
+    public ObrazDTO(String nazwa, String obraz) {
+        super();
+        this.nazwa = nazwa;
+        this.obraz = obraz;
     }
 
     public Byte[] getBs() {

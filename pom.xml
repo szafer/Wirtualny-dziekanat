@@ -13,14 +13,14 @@
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<org.springframework.version>3.1.0.RELEASE</org.springframework.version>
 		<org.hibernate.version>4.1.7.Final</org.hibernate.version>
-		<gwtp.version>1.4</gwtp.version>
+		<gwtp.version>1.5.3</gwtp.version>
 		<gxt.version>3.1.1</gxt.version>
 		<gin.version>2.1.2</gin.version>
 		<guava.version>16.0</guava.version>
 		<project.build.directory>src/main/webapp/WEB-INF</project.build.directory>
 	</properties>
 
-	<!-- <repositories> -->
+	<repositories>
 	<!-- <repository> -->
 	<!-- <id>JBoss</id> -->
 	<!-- <url>http://repository.jboss.org/maven2/</url> -->
@@ -54,7 +54,8 @@
 	<!-- <enabled>false</enabled> -->
 	<!-- </snapshots> -->
 	<!-- </repository> -->
-	<!-- </repositories> -->
+	</repositories>
+			
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
 		<!-- <dependency> -->
@@ -71,6 +72,32 @@
 		<!-- </dependency> -->
 		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
 		<!-- https://mvnrepository.com/artifact/com.google.inject.extensions/guice-servlet -->
+		<dependency>
+				<groupId>com.gwtplatform</groupId>
+				<artifactId>gwtp-mvp-client</artifactId>
+				<version>${gwtp.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.gwtplatform</groupId>
+				<artifactId>gwtp-dispatch-rpc-client</artifactId>
+				<version>${gwtp.version}</version>
+				<scope>provided</scope> 
+			</dependency>
+
+			<dependency>
+				<groupId>com.gwtplatform</groupId>
+				<artifactId>gwtp-dispatch-rpc-server-guice</artifactId>
+				<version>${gwtp.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.gwtplatform</groupId>
+				<artifactId>gwtp-processors</artifactId>
+				<version>${gwtp.version}</version>
+				<scope>provided</scope>
+			</dependency>
 		<dependency>
 			<groupId>com.google.inject.extensions</groupId>
 			<artifactId>guice-servlet</artifactId>
@@ -223,11 +250,12 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.3.0.Final</version>
 		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>org.spring4gwt</groupId> -->
-		<!-- <artifactId>spring4gwt</artifactId> -->
-		<!-- <version>0.0.1</version> -->
-		<!-- </dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.spring4gwt</groupId> -->
+<!-- 			<artifactId>spring4gwt</artifactId> -->
+<!-- 			<version>0.0.1</version> -->
+<!-- 			<scope>provided</scope> -->
+<!-- 		</dependency> -->
 		<!-- <dependency> -->
 		<!-- <groupId>org.hibernate.javax.persistence</groupId> -->
 		<!-- <artifactId>hibernate-jpa-2.0-api</artifactId> -->

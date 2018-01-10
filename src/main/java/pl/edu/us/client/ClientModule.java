@@ -1,6 +1,9 @@
 package pl.edu.us.client;
 
 import com.google.inject.Singleton;
+import com.gwtplatform.dispatch.rpc.client.gin.RpcDispatchAsyncModule;
+import com.gwtplatform.mvp.client.annotations.ErrorPlace;
+import com.gwtplatform.mvp.client.annotations.UnauthorizedPlace;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 import com.gwtplatform.mvp.client.gin.DefaultModule;
 
@@ -46,11 +49,20 @@ public class ClientModule extends AbstractPresenterModule {
 
     @Override
     protected void configure() {
-        install(new DefaultModule(AppPlaceManager.class));
+//        install(new DefaultModule());
+        install(new RpcDispatchAsyncModule());
+
+//        install(new DefaultModule(AppPlaceManager.class));
 
         // Constants
-        bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.main);
-
+//        bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.main);
+//        bindConstant().annotatedWith(ErrorPlace.class).to(NameTokens.main);
+//        bindConstant().annotatedWith(UnauthorizedPlace.class).to(NameTokens.main);
+        install(new DefaultModule.Builder()
+            .defaultPlace(NameTokens.main)
+            .errorPlace(NameTokens.main)
+            .unauthorizedPlace(NameTokens.main).build());
+        
         bind(MenuBuilder.class).in(Singleton.class);
         // Presenter główny
         bindPresenter(MainPagePresenter.class, MainPagePresenter.MyView.class, MainPageView.class,

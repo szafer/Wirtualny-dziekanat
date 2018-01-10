@@ -35,11 +35,11 @@ public class MenuView extends ViewWithUiHandlers<MenuUiHandlers> implements Menu
 
         public Resources INSTANCE = GWT.create(Resources.class);
 
-        @Source("email.jpg")
-        ImageResource email();
-
-        @Source("email2.jpg")
-        ImageResource email2();
+//        @Source("email.jpg")
+//        ImageResource email();
+//
+//        @Source("email2.jpg")
+//        ImageResource email2();
     }
 
     @Inject
@@ -52,7 +52,7 @@ public class MenuView extends ViewWithUiHandlers<MenuUiHandlers> implements Menu
         
         IconButton email = new IconButton("background-image:url(../email.jpg);");
         tbr = new ToolBar();
-        Image image = new Image(Resources.INSTANCE.email2());//To dziala ale zle wyglada
+//        Image image = new Image(Resources.INSTANCE.email2());//To dziala ale zle wyglada
         Menu mi = new Menu();
         MenuBarItem mbr = new MenuBarItem("", mi);
         mbr.setStyleName(".customImgButton");

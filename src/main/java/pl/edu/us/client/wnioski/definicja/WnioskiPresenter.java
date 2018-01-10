@@ -9,9 +9,11 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.fileupload.FileItem;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.Image;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.web.bindery.event.shared.EventBus;
+import com.gwtplatform.dispatch.rpc.shared.DispatchAsync;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
@@ -27,6 +29,8 @@ import pl.edu.us.client.NameTokens;
 import pl.edu.us.client.main.BasePresenter;
 import pl.edu.us.client.main.handlers.ActionCallback;
 import pl.edu.us.client.main.handlers.RpcMasking;
+import pl.edu.us.shared.action.WczytanePliki;
+import pl.edu.us.shared.action.WczytanePlikiResult;
 import pl.edu.us.shared.dto.wnioski.WniosekDTO;
 import pl.edu.us.shared.enums.Message;
 import pl.edu.us.shared.services.wnioski.WnioskiService;
@@ -49,13 +53,15 @@ public class WnioskiPresenter extends BasePresenter<WnioskiPresenter.MyView, Wni
     private final RpcMasking rpcMasking;
     private final WnioskiServiceAsync wnioskiService = GWT.create(WnioskiService.class);
 //    private Provider<HttpSession> sessionProvider ;
+    private final DispatchAsync dispatcher;
 
     @Inject
-    public WnioskiPresenter(EventBus eventBus, MyView view, MyProxy proxy, final RpcMasking rpcMasking) {
+    public WnioskiPresenter(EventBus eventBus, MyView view, MyProxy proxy, final RpcMasking rpcMasking, final DispatchAsync dispatcher) {
         super(eventBus, view, proxy);
         getView().setUiHandlers(this);
         this.rpcMasking = rpcMasking;
         this.rpcMasking.setMaskedComponent((Component) getView().asWidget());
+        this.dispatcher = dispatcher;
 //this.sessionProvider = sessionProvider;
     }
 
@@ -66,6 +72,19 @@ public class WnioskiPresenter extends BasePresenter<WnioskiPresenter.MyView, Wni
         pobierzWnioski();
     }
 
+    public void pobierzZdjecie(){
+        dispatcher.execute(new WczytanePliki(),
+            rpcMasking.call(Message.LOADING,
+                new ActionCallback<WczytanePlikiResult>() {
+                    @Override
+                    public void onSuccess(WczytanePlikiResult result) {
+                        Image img = new Image(result.getData().get(0).getObraz());
+//                        podgladPanel.clear();
+//                        podgladPanel.add(img);
+                     getView().getPanel().getPodgladPanel().add(img);
+                    }
+                }));
+    }
     private void pobierzWnioski() {
         getView().getModel().wyczysc();
         wnioskiService.getWnioski(rpcMasking.call(Message.LOADING,

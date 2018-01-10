@@ -1,14 +1,11 @@
 package pl.edu.us.client.wnioski.definicja;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Hidden;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.inject.Inject;
+import com.gwtplatform.dispatch.rpc.shared.DispatchAsync;
+import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
@@ -27,19 +24,14 @@ import com.sencha.gxt.widget.core.client.form.FileUploadField;
 import com.sencha.gxt.widget.core.client.form.FormPanel;
 import com.sencha.gxt.widget.core.client.form.FormPanel.Encoding;
 import com.sencha.gxt.widget.core.client.form.FormPanel.Method;
-import com.sencha.gxt.widget.core.client.info.Info;
 
-import gwtupload.client.IFileInput.FileInputType;
-import gwtupload.client.IUploadStatus.Status;
 import gwtupload.client.IUploader;
+import gwtupload.client.IUploader.OnFinishUploaderHandler;
 import gwtupload.client.IUploader.UploaderConstants;
-import gwtupload.client.PreloadedImage;
 import gwtupload.client.PreloadedImage.OnLoadPreloadedImageHandler;
 import gwtupload.client.SingleUploader;
-import gwtupload.client.SingleUploaderModal;
-import jsupload.client.ChismesUploadProgress;
-import pl.edu.us.client.main.AppKontekst;
 import pl.edu.us.client.main.BazowyPanel;
+import pl.edu.us.shared.dto.ObrazDTO;
 import pl.edu.us.shared.dto.wnioski.WniosekDTO;
 
 public class WnioskiMainPanel extends BazowyPanel {
@@ -53,18 +45,26 @@ public class WnioskiMainPanel extends BazowyPanel {
     private FileUploadField fileUploadField = new FileUploadField();
     private FormPanel fp = new FormPanel();
     private ContentPanel podgladPanel = new ContentPanel();
+    private SingleUploader uploader;
+    private PlikiProxy proxy;
+    private final DispatchAsync dispatcher;
+
 //    @Inject
-    protected UploaderConstants i18nStrs;
-    
+//    protected UploaderConstants i18nStrs;
+    public static final UploaderConstants I18N_CONSTANTS = GWT.create(UploaderConstantsPl.class);
+
     OnLoadPreloadedImageHandler showImage; /*= new OnLoadPreloadedImageHandler() {
-//        public void onLoad(PreloadedImage img) {
-////              img.setWidth("75px");
-//            podgladPanel.add(img);
-//        }
-//    };*/
+                                           //        public void onLoad(PreloadedImage img) {
+                                           ////              img.setWidth("75px");
+                                           //            podgladPanel.add(img);
+                                           //        }
+                                           //    };*/
+
     @Inject
-    public WnioskiMainPanel(final WnioskiModel model) {
+    public WnioskiMainPanel(final WnioskiModel model, DispatchAsync dispatcher) {
         this.model = model;
+        this.dispatcher = dispatcher;
+        proxy = new PlikiProxy(this, dispatcher);
         nowy.setVisible(false);
         usun.setVisible(false);
         zatwierdz.setVisible(false);
@@ -90,7 +90,7 @@ public class WnioskiMainPanel extends BazowyPanel {
 //                WniosekDTO dto = model.getWniosek();
 //                dto.setNazwaObrazu(fileUploadField.getValue());
 //                GWT.log(fileUploadField.getValue());
-                
+
             }
         });
         fp.setWidget(vl);
@@ -100,26 +100,28 @@ public class WnioskiMainPanel extends BazowyPanel {
         fp.setHeight(100);
         fp.addSubmitCompleteHandler(new SubmitCompleteHandler() {
             public void onSubmitComplete(SubmitCompleteEvent event) {
-                String resultHtml = event.getResults();
-
-                Info.display("Upload Response", resultHtml);
-
-                System.out.println(resultHtml);
+//                String resultHtml = event.getResults();
+//
+//                Info.display("Upload Response", resultHtml);
+//
+//                System.out.println(resultHtml);
 //                Image image = new Image("./img/"+"monica.txt");
 //                image.setSize("300px", "300px");
-                
+
 //                if (kontekst.getObraz() != null && model.getWniosek() != null) {
 //                    WniosekDTO wniosek = model.getWniosek();
 //                    wniosek.setWzor(kontekst.getObraz().getBs());
-                Image image = new Image("img/"+resultHtml);
+//                Image image = new Image("img/"+resultHtml);
 
 //                Image img = new Image(resultHtml);
-                podgladPanel.clear();
-                podgladPanel.add(image);
+//                podgladPanel.clear();
+//                podgladPanel.add(image);
 //                }
             }
         });
-        
+        utworzUploadera();
+        fp.add(uploader);
+
         getBorderLayoutContainer().setWestWidget(gridPanel, westData);
 
         getBorderLayoutContainer().setCenterWidget(fp);
@@ -157,50 +159,50 @@ public class WnioskiMainPanel extends BazowyPanel {
             }
         });
         // Configurable servlet path to experiment with different options
-        String servletPath = Window.Location.getParameter("servlet");
-        if (servletPath == null) {
-          servletPath = //GWT.getHostPageBaseURL()+
-              "/usosweb/servlet.gupld";
-        }
-        showImage = new OnLoadPreloadedImageHandler() {
-            public void onLoad(PreloadedImage img) {
-//                  img.setWidth("75px");
-                podgladPanel.add(img);
-            }
-        };
-        IUploader.OnFinishUploaderHandler onFinishUploaderHandler = new IUploader.OnFinishUploaderHandler() {
-            public void onFinish(IUploader uploader) {
-              if (uploader.getStatus() == Status.SUCCESS) {
-                String msg = uploader.getServerMessage().getMessage();
-                if (msg != null && msg.startsWith("data:")) {
-                  new PreloadedImage(msg, showImage);
-                } else {
-                  for (String url : uploader.getServerMessage().getUploadedFileUrls()) {
-                    new PreloadedImage(url, showImage);
-                  }
-                }
-              }
-            }
-          };
-        SingleUploader single1 = new SingleUploaderModal();
-        single1.setServletPath(servletPath);
-
-        // This enables php apc progress mechanism
-        single1.add(new Hidden("APC_UPLOAD_PROGRESS", single1.getInputName()), 0);
-        single1.avoidEmptyFiles(false);
-        single1.addOnFinishUploadHandler(onFinishUploaderHandler);
-        single1.setMultipleSelection(false);
-        fp.add(single1);
+//        String servletPath = null;//Window.Location.getParameter("servlet");
+//        if (servletPath == null) {
+//          servletPath =
+//              "servlet.gupld";
+//        }
+//        showImage = new OnLoadPreloadedImageHandler() {
+//            public void onLoad(PreloadedImage img) {
+////                  img.setWidth("75px");
+//                podgladPanel.add(img);
+//            }
+//        };
+//        IUploader.OnFinishUploaderHandler onFinishUploaderHandler = new IUploader.OnFinishUploaderHandler() {
+//            public void onFinish(IUploader uploader) {
+//              if (uploader.getStatus() == Status.SUCCESS) {
+//                String msg = uploader.getServerMessage().getMessage();
+//                if (msg != null && msg.startsWith("data:")) {
+//                  new PreloadedImage(msg, showImage);
+//                } else {
+//                  for (String url : uploader.getServerMessage().getUploadedFileUrls()) {
+//                    new PreloadedImage(url, showImage);
+//                  }
+//                }
+//              }
+//            }
+//          };
+//        SingleUploader single1 = new SingleUploaderModal();
+//        single1.setServletPath(servletPath);
+//
+//        // This enables php apc progress mechanism
+//        single1.add(new Hidden("APC_UPLOAD_PROGRESS", single1.getInputName()), 0);
+//        single1.avoidEmptyFiles(false);
+//        single1.addOnFinishUploadHandler(onFinishUploaderHandler);
+//        single1.setMultipleSelection(false);
+//        fp.add(single1);
 
 //        SingleUploader single2 = new SingleUploaderModal(FileInputType.ANCHOR, new ChismesUploadProgress(true));
 //        single2.setServletPath(servletPath);
 //        single2.addOnFinishUploadHandler(onFinishUploaderHandler);
 //        add(single2);
 
-        SingleUploader single3 = new SingleUploader(FileInputType.BUTTON);
-        single3.addOnFinishUploadHandler(onFinishUploaderHandler);
-        single3.setServletPath(servletPath);
-        fp.add(single3);
+//        SingleUploader single3 = new SingleUploader(FileInputType.BUTTON);
+//        single3.addOnFinishUploadHandler(onFinishUploaderHandler);
+//        single3.setServletPath(servletPath);
+//        fp.add(single3);
 
 //        Label customButton = new Label();
 //        customButton.setStyleName("customButton");
@@ -245,10 +247,32 @@ public class WnioskiMainPanel extends BazowyPanel {
 //        RootPanel.get("thumbnails").add(panelImages);
     }
 
- 
+    private void utworzUploadera() {
+        uploader = new SingleUploader();
+        uploader.setI18Constants(I18N_CONSTANTS);
+        uploader.setAvoidRepeatFiles(false);
+        uploader.setServletPath("uploader.fileUpload");
+        uploader.addOnFinishUploadHandler(new OnFinishUploaderHandler() {
+            @Override
+            public void onFinish(IUploader uploader) {
+                proxy.load(null, new AsyncCallback<PagingLoadResult<ObrazDTO>>() {
 
+                    @Override
+                    public void onSuccess(PagingLoadResult<ObrazDTO> result) {
+                        Image img = new Image(result.getData().get(0).getObraz());
+                        podgladPanel.clear();
+                        podgladPanel.add(img);
+                    }
 
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        // TODO Auto-generated method stub
 
+                    }
+                });
+            }
+        });
+    }
 
     public void initialState() {
         zapisz.setEnabled(false);
@@ -262,5 +286,9 @@ public class WnioskiMainPanel extends BazowyPanel {
 
     public WnioskiGridPanel getGridPanel() {
         return gridPanel;
+    }
+
+    public ContentPanel getPodgladPanel() {
+        return podgladPanel;
     }
 }
