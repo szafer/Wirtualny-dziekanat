@@ -6,8 +6,6 @@ import java.util.List;
 
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.i18n.client.NumberFormat;
-import com.google.gwt.safecss.shared.SafeStyles;
-import com.google.gwt.safecss.shared.SafeStylesUtils;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.ContentPanel;
@@ -59,7 +57,7 @@ public class MojePrzedmiotyGridPanel extends ContentPanel implements IsWidget, E
             columns.add(ocena2Col);
         }
 //        columns.add(maxGrupaCol);
-
+        
         ColumnModel<UPrzedmiotDTO> cm = new ColumnModel<UPrzedmiotDTO>(columns);
         grid = new Grid<UPrzedmiotDTO>(store, cm);
         grid.setColumnReordering(true);
@@ -68,10 +66,10 @@ public class MojePrzedmiotyGridPanel extends ContentPanel implements IsWidget, E
         grid.getView().setStripeRows(true);
         grid.getView().setColumnLines(true);
         grid.getView().setShowDirtyCells(true);
+
         // State manager, make this grid stateful
         grid.setStateful(true);
         grid.setStateId("filterGridExample");
-
 
         NumericFilter<UPrzedmiotDTO, Float> ocena1Filter = new NumericFilter<UPrzedmiotDTO, Float>(props.ocena1(),
             new FloatPropertyEditor());
@@ -86,7 +84,6 @@ public class MojePrzedmiotyGridPanel extends ContentPanel implements IsWidget, E
 
         StringFilter<UPrzedmiotDTO> semFilter = new StringFilter<UPrzedmiotDTO>(props.semestrNazwa());
         semFilter.setActive(true, false);
-
 
         GridFilters<UPrzedmiotDTO> filters = new GridFilters<UPrzedmiotDTO>();
         filters.initPlugin(grid);

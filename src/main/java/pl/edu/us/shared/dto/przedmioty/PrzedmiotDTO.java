@@ -1,8 +1,10 @@
 package pl.edu.us.shared.dto.przedmioty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pl.edu.us.shared.dto.SlownikDTO;
+import pl.edu.us.shared.model.przedmioty.Przedmiot;
 
 public class PrzedmiotDTO extends SlownikDTO {
 
@@ -10,6 +12,11 @@ public class PrzedmiotDTO extends SlownikDTO {
 
     public PrzedmiotDTO() {
         super();
+        studenci = new ArrayList<UPrzedmiotDTO>();
+    }
+
+    public PrzedmiotDTO(Przedmiot p) {
+        super(p.getId(), p.getNazwa());
     }
 
     private UPrzedmiotDTO wykladowca;

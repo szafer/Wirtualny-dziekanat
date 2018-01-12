@@ -33,16 +33,18 @@ public class PrzedmiotyServiceImpl implements PrzedmiotyService {
 
     @SuppressWarnings("unchecked")
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+//    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public List<UPrzedmiotDTO> getPrzedmiotyStudentow(Integer przedmiot) {
         List<UPrzedmiot> lista = uPrzedmiotDAO.getEntityManager()
             .createNamedQuery(UPrzedmiot.DAJ_STUDENTOW_PRZEDMIOTU)
             .setParameter("przedmiot", przedmiot)
             .getResultList();
         List<UPrzedmiotDTO> wynik = new ArrayList<UPrzedmiotDTO>();
-        ModelMapper mapper = new ModelMapper();
+//        ModelMapper mapper = new ModelMapper();
         for (UPrzedmiot p : lista) {
-            UPrzedmiotDTO pDto = mapper.map(p, UPrzedmiotDTO.class);
+//            UPrzedmiotDTO pDto = mapper.map(p, UPrzedmiotDTO.class);
+            UserDTO uDto = new UserDTO(p.getUzytkownik());
+            UPrzedmiotDTO pDto = new UPrzedmiotDTO(p, uDto);
             pDto.setSemestr(pDto.getDataSemestru().getMonth() < 6 ? Semestr.LETNI : Semestr.ZIMOWY);
             wynik.add(pDto);
         }
@@ -107,12 +109,20 @@ public class PrzedmiotyServiceImpl implements PrzedmiotyService {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public List<PrzedmiotDTO> getKierunki() {
         List<Przedmiot> lista = przedmiotDAO.findAll();
-        ModelMapper mapper = new ModelMapper();
+//        ModelMapper mapper = new ModelMapper();
         List<PrzedmiotDTO> wynik = new ArrayList<PrzedmiotDTO>();
         for (Przedmiot p : lista) {
-            PrzedmiotDTO pDto = mapper.map(p, PrzedmiotDTO.class);
+
+            PrzedmiotDTO pDto = new PrzedmiotDTO(p);
             pDto.setStudenci(getPrzedmiotyStudentow(pDto.getId()));
             pDto.setWykladowca(getWykladowca(pDto.getId()));
+
+            for (UPrzedmiotDTO s : pDto.getStudenci()) {
+                s.setPrzedmiot(pDto);
+            }
+            if (pDto.getWykladowca() != null) {
+                pDto.getWykladowca().setPrzedmiot(pDto);
+            }
             wynik.add(pDto);
         }
         return wynik;
@@ -127,10 +137,14 @@ public class PrzedmiotyServiceImpl implements PrzedmiotyService {
             .setMaxResults(1)
             .getResultList();
         if (!lista.isEmpty()) {
-            ModelMapper mapper = new ModelMapper();
-            UPrzedmiotDTO wynik = mapper.map(lista.get(0), UPrzedmiotDTO.class);
-            wynik.setSemestr(wynik.getDataSemestru().getMonth() < 6 ? Semestr.LETNI : Semestr.ZIMOWY);
-            return wynik;
+            UserDTO uDto = new UserDTO(lista.get(0).getUzytkownik());
+            UPrzedmiotDTO pDto = new UPrzedmiotDTO(lista.get(0), uDto);
+            pDto.setSemestr(pDto.getDataSemestru().getMonth() < 6 ? Semestr.LETNI : Semestr.ZIMOWY);
+
+//            ModelMapper mapper = new ModelMapper();
+//            UPrzedmiotDTO wynik = mapper.map(lista.get(0), UPrzedmiotDTO.class);
+//            wynik.setSemestr(wynik.getDataSemestru().getMonth() < 6 ? Semestr.LETNI : Semestr.ZIMOWY);
+            return pDto;
         }
         return null;
     }
