@@ -6,7 +6,7 @@ package pl.edu.us.shared.enums;
  */
 public enum Rola implements KodNazwaProvider {
 
-    STUDENT("Student"), NAUCZYCIEL("Nauczyciel"), ADMIN("Administrator");
+    STUDENT("Student"), NAUCZYCIEL("Wykładowca"), ADMIN("Administrator");
 
     private String kod;
 

@@ -45,15 +45,15 @@ public class MenuBuilder {
 
         MenuBar menuBar = new MenuBar();
         menuBar.add(buildDaneOsoboweMenu());
-//        if (rola != null) {
-//            if (rola == Rola.ADMIN) {
+        if (rola != null) {
+            if (rola == Rola.ADMIN) {
         menuBar.add(buildAdminMenu());
-//            } else if (rola == Rola.NAUCZYCIEL) {
+            } else if (rola == Rola.NAUCZYCIEL) {
         menuBar.add(buildPracownikMenu());
-//            } else {
+            } else {
         menuBar.add(buildStudentMenu());
-//            }
-//        }
+            }
+        }
         menuBar.add(buildWiadomosciMenu());
         menuBar.add(buildWydrukiMenu());
         menuBar.add(buildHelpMenu());
