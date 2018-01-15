@@ -7,23 +7,26 @@ import com.sencha.gxt.core.client.ValueProvider;
 
 import pl.edu.us.shared.dto.wiadomosci.OdbiorcaDTO;
 
-public interface OdbiorcaProperties extends AccProperties<OdbiorcaDTO>{
+public interface OdbiorcaProperties extends AccProperties<OdbiorcaDTO> {
 
     @Path("nadawca.imie")
     ValueProvider<OdbiorcaDTO, String> nadawcaImie();
-    
+
     @Path("nadawca.nazwisko")
     ValueProvider<OdbiorcaDTO, String> nadawcaNazwisko();
 
     @Path("nadawca.temat")
     ValueProvider<OdbiorcaDTO, String> nadawcaTemat();
-    
+
     ValueProvider<OdbiorcaDTO, Date> dataOdbioru();
 
     ValueProvider<OdbiorcaDTO, Boolean> odebrano();
-    
+
     ValueProvider<OdbiorcaDTO, Boolean> email();
 
+    ValueProvider<OdbiorcaDTO, String> imie();
+
+    ValueProvider<OdbiorcaDTO, String> nazwisko();
 //    private Integer userId;
 //    private Nadawca nadawca;
 //    private Boolean odebrano;

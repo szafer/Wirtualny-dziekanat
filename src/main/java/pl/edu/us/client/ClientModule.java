@@ -2,13 +2,9 @@ package pl.edu.us.client;
 
 import com.google.inject.Singleton;
 import com.gwtplatform.dispatch.rpc.client.gin.RpcDispatchAsyncModule;
-import com.gwtplatform.mvp.client.annotations.ErrorPlace;
-import com.gwtplatform.mvp.client.annotations.UnauthorizedPlace;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 import com.gwtplatform.mvp.client.gin.DefaultModule;
 
-import pl.edu.us.client.details.DetailPresenter;
-import pl.edu.us.client.details.DetailView;
 import pl.edu.us.client.main.ContentPagePresenter;
 import pl.edu.us.client.main.ContentPageView;
 import pl.edu.us.client.main.MainPagePresenter;
@@ -81,9 +77,6 @@ public class ClientModule extends AbstractPresenterModule {
 
         bindPresenter(ContentPagePresenter.class, ContentPagePresenter.MyView.class, ContentPageView.class,
             ContentPagePresenter.MyProxy.class);
-
-        bindPresenter(DetailPresenter.class, DetailPresenter.MyView.class, DetailView.class,
-            DetailPresenter.MyProxy.class);
 
         // Uzytkownicy
         bindPresenter(UzytkownicyPresenter.class, UzytkownicyPresenter.MyView.class,

@@ -16,4 +16,5 @@ public class ServerModule extends HandlerModule {
         bindHandler(WczytanePliki.class, WczytanePlikiActionHandler.class);
 
     }
+
 }

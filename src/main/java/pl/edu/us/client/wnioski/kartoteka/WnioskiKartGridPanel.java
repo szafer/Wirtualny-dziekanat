@@ -18,8 +18,10 @@ import com.sencha.gxt.data.shared.LabelProvider;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.form.BigDecimalField;
+import com.sencha.gxt.widget.core.client.form.ComboBox;
 import com.sencha.gxt.widget.core.client.form.DateTimePropertyEditor;
 import com.sencha.gxt.widget.core.client.form.NumberPropertyEditor.BigDecimalPropertyEditor;
+import com.sencha.gxt.widget.core.client.grid.CellSelectionModel;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
@@ -54,6 +56,7 @@ public class WnioskiKartGridPanel extends ContentPanel {
     private ComboBoxCell<StatusWniosku> comboStatus;
     private WnioskiKartModel model;
     private UWniosekProperties props;
+    BigDecimalField bdKwota = new BigDecimalField();
 
     public WnioskiKartGridPanel(WnioskiKartModel model) {
         this.model = model;
@@ -68,8 +71,8 @@ public class WnioskiKartGridPanel extends ContentPanel {
         nazwiskoCol = new ColumnConfig<UWniosekDTO, String>(props.uzytkownikNazwisko(), 150, "Nazwisko");
 //userCol = new ColumnConfig<UWniosekDTO, UserDTO>(props.uzytkownik(), 209, "Student");
         typCol = new ColumnConfig<UWniosekDTO, WniosekDTO>(props.wniosek(), 130, "Typ wniosku");
-        statusCol = new ColumnConfig<UWniosekDTO, StatusWniosku>(props.status(), 130, "Status wniosku");
-        dataRozpCol = new ColumnConfig<UWniosekDTO, Date>(props.dataRozpatrzenia(), 130, "Data wniosku");
+        statusCol = new ColumnConfig<UWniosekDTO, StatusWniosku>(props.status(), 220, "Status wniosku");
+        dataRozpCol = new ColumnConfig<UWniosekDTO, Date>(props.dataRozpatrzenia(), 130, "Data rozpatrzenia");
         dataZlozCol = new ColumnConfig<UWniosekDTO, Date>(props.dataZlozenia(), 130, "Data wniosku");
         kwotaCol = new ColumnConfig<UWniosekDTO, BigDecimal>(props.kwota(), 100, "Kwota");
 
@@ -95,7 +98,7 @@ public class WnioskiKartGridPanel extends ContentPanel {
         comboStatus.setForceSelection(true);
         comboStatus.setWidth(200);
         statusCol.setCell(comboStatus);
-        
+
         List<ColumnConfig<UWniosekDTO, ?>> columns = new ArrayList<ColumnConfig<UWniosekDTO, ?>>();
         columns.add(idCol);
         columns.add(dataZlozCol);
@@ -114,7 +117,7 @@ public class WnioskiKartGridPanel extends ContentPanel {
         grid.getView().setStripeRows(true);
         grid.getView().setColumnLines(true);
         grid.getView().setShowDirtyCells(true);
-//        grid.setSelectionModel(new CellSelectionModel<WniosekDTO>());
+        grid.setSelectionModel(new CellSelectionModel<UWniosekDTO>());
         grid.getColumnModel().getColumn(0).setHideable(false);
         grid.getColumnModel().getColumn(1).setHideable(false);
         grid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -147,9 +150,9 @@ public class WnioskiKartGridPanel extends ContentPanel {
 
         editing = new GridInlineEditing<UWniosekDTO>(grid);
         editing.setClicksToEdit(ClicksToEdit.TWO);
-        BigDecimalField bdf = new BigDecimalField();
-        editing.addEditor(kwotaCol, bdf);
-
+        editing.addEditor(kwotaCol, bdKwota);
+        
+//        editing.addEditor(statusCol, new ComboBox<StatusWniosku>(comboStatus));
         add(grid);
     }
 
@@ -165,5 +168,21 @@ public class WnioskiKartGridPanel extends ContentPanel {
 
     public GridInlineEditing<UWniosekDTO> getEditing() {
         return editing;
+    }
+
+    public ColumnConfig<UWniosekDTO, BigDecimal> getKwotaCol() {
+        return kwotaCol;
+    }
+
+    public ComboBoxCell<StatusWniosku> getComboStatus() {
+        return comboStatus;
+    }
+
+    public BigDecimalField getBdKwota() {
+        return bdKwota;
+    }
+
+    public DateCell getDataRCell() {
+        return dataRCell;
     }
 }

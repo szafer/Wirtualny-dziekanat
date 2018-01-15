@@ -11,9 +11,6 @@ public class NameTokens {
     public static final String passchange = "!passchange";
     public static final String daneUzytkownika = "!daneUzytkownika";
     public static final String mojePrzedmioty = "!mojePrzedmioty";
-    
-    public static final String details = "!details";//FIXME nieuzywane
-    public static final String def = "!def";//FIXME nieuzywane
 
     //Menu administratora
     public static final String admin = "!admin";

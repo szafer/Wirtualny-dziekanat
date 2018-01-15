@@ -47,8 +47,7 @@ public class WiadomosciPresenter extends BasePresenter<WiadomosciPresenter.MyVie
     private AppKontekst kontekst;
     private final MenuPresenter menuPresenter;
     private final RpcMasking rpcMasking;
-    private final WnioskiServiceAsync wnioskiService = GWT.create(WnioskiService.class);
-    private final UserServiceAsync userService = GWT.create(UserService.class);
+//    private final UserServiceAsync userService = GWT.create(UserService.class);
     private final WiadomosciServiceAsync wiadomosciService = GWT.create(WiadomosciService.class);
 
     @Inject
@@ -60,6 +59,7 @@ public class WiadomosciPresenter extends BasePresenter<WiadomosciPresenter.MyVie
         this.rpcMasking.setMaskedComponent((Component) getView().asWidget());
         this.kontekst = kontekst;
         this.menuPresenter = menuPesenter;
+        kontekst.setLock(true);
     }
 
     @Override
@@ -70,6 +70,7 @@ public class WiadomosciPresenter extends BasePresenter<WiadomosciPresenter.MyVie
     }
 
     private void pobierzWiadomosci() {
+
         getView().getModel().wyczysc();
         wiadomosciService.getWiadomosci(kontekst.getUser().getId(), rpcMasking.call(Message.LOADING,
             new ActionCallback<UserMessagesDTO>() {
@@ -79,7 +80,6 @@ public class WiadomosciPresenter extends BasePresenter<WiadomosciPresenter.MyVie
                     if (result != null) {
                         menuPresenter.loadMessages(null);//czyści toolbar
                         getView().getModel().ladujDane(result);
-
                     }
                 }
 
@@ -130,6 +130,7 @@ public class WiadomosciPresenter extends BasePresenter<WiadomosciPresenter.MyVie
 
     @Override
     public void wykonajZamknij() {
+        kontekst.setLock(false);
         removeFromParentSlot();
     }
 

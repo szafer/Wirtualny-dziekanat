@@ -17,4 +17,6 @@ public interface WnioskiService extends RemoteService{
 
     List<UWniosekDTO> pobierzWnioskiStudentow();
 
+    List<UWniosekDTO> zapiszWnoiski(List<UWniosekDTO> doZapisu);
+
 }

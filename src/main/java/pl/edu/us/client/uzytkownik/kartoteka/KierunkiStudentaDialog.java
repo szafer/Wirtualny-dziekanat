@@ -32,7 +32,6 @@ import com.sencha.gxt.widget.core.client.grid.editing.GridRowEditing;
 import com.sencha.gxt.widget.core.client.grid.filters.GridFilters;
 import com.sencha.gxt.widget.core.client.info.Info;
 
-import pl.edu.us.client.accesproperties.KierunekProperties;
 import pl.edu.us.shared.enums.TypSemestru;
 
 public class KierunkiStudentaDialog<Kierunek> extends Dialog implements IsWidget, Editor<Kierunek> {
@@ -50,7 +49,7 @@ public class KierunkiStudentaDialog<Kierunek> extends Dialog implements IsWidget
 
 	@SuppressWarnings("unchecked")
 	@Inject
-	public KierunkiStudentaDialog(ListStore<Kierunek> store, KierunekProperties props,
+	public KierunkiStudentaDialog(ListStore<Kierunek> store, /*KierunekProperties props,*/
 			final UzytkownicyModel model) {
 		this.store = store;
 		this.model = model;
@@ -64,12 +63,12 @@ public class KierunkiStudentaDialog<Kierunek> extends Dialog implements IsWidget
 		// selectionModel.setSelectionMode(SelectionMode.SIMPLE);
 		// selectionModel.getColumn().setHeader("Z");
 		// selectionModel.getColumn().setWidth(50);
-		nameCol = new ColumnConfig<Kierunek, String>((ValueProvider<? super Kierunek, String>) props.nazwa(), 250,
+		nameCol = new ColumnConfig<Kierunek, String>((ValueProvider<? super Kierunek, String>) null, 250,
 				"Kierunek studiów");
-		rokOdCol = new ColumnConfig<Kierunek, Integer>((ValueProvider<? super Kierunek, Integer>) props.rokOd(), 80,
+		rokOdCol = new ColumnConfig<Kierunek, Integer>((ValueProvider<? super Kierunek, Integer>)null, 80,
 				"Rok");
 		semCol = new ColumnConfig<Kierunek, TypSemestru>(
-				(ValueProvider<? super Kierunek, TypSemestru>) props.typSemestru(), 100, "Semestr");
+				(ValueProvider<? super Kierunek, TypSemestru>) null, 100, "Semestr");
 		List<ColumnConfig<Kierunek, ?>> columns = new ArrayList<ColumnConfig<Kierunek, ?>>();
 		// columns.add(selectionModel.getColumn());
 		semCombo = new SimpleComboBox<TypSemestru>(new StringLabelProvider<TypSemestru>());

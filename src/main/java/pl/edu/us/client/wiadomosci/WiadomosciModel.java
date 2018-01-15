@@ -34,11 +34,11 @@ public class WiadomosciModel {
     private UserDTO user;
 
     private ListStore<OdbiorcaDTO> storeOdebrane;
-    private ListStore<OdbiorcaDTO> storeNowe;
+//    private ListStore<OdbiorcaDTO> storeNowe;
     private ListStore<NadawcaDTO> storeWyslane;
 
     FolderDto root = new FolderDto(1, "Wiadomości");
-    FolderDto nowe = new FolderDto(2, "Nowe");
+//    FolderDto nowe = new FolderDto(2, "Nowe");
     FolderDto wyslane = new FolderDto(3, "Wysłane");
     FolderDto odebrane = new FolderDto(4, "Odebrane");
 
@@ -49,11 +49,11 @@ public class WiadomosciModel {
     public WiadomosciModel() {
 
         storeOdebrane = new ListStore<OdbiorcaDTO>(odbProp.key());
-        storeNowe = new ListStore<OdbiorcaDTO>(odbProp.key());
+//        storeNowe = new ListStore<OdbiorcaDTO>(odbProp.key());
         storeWyslane = new ListStore<NadawcaDTO>(nadProp.key());
 
         storeTypySkrzynek = new TreeStore<BaseDto>(new WiadomoscKeyProvider());
-        root.addChild(nowe);
+//        root.addChild(nowe);
         root.addChild(odebrane);
         root.addChild(wyslane);
         storeTypySkrzynek.add(root);
@@ -66,7 +66,7 @@ public class WiadomosciModel {
     }
 
     public void wyczysc() {
-        storeNowe.clear();
+//        storeNowe.clear();
         storeOdebrane.clear();
         storeWyslane.clear();
     }
@@ -102,9 +102,9 @@ public class WiadomosciModel {
         }
     }
 
-    public ListStore<OdbiorcaDTO> getStoreNowe() {
-        return storeNowe;
-    }
+//    public ListStore<OdbiorcaDTO> getStoreNowe() {
+//        return storeNowe;
+//    }
 
     public ListStore<OdbiorcaDTO> getStoreOdebrane() {
         return storeOdebrane;
@@ -125,6 +125,6 @@ public class WiadomosciModel {
     public void ladujDane(UserMessagesDTO result) {
         wyslane.setWyslane(result.getNadane());
         odebrane.setOdebrane(result.getOdebrane());
-        nowe.setNowe(result.getNowe());
+//        nowe.setNowe(result.getNowe());
     }
 }

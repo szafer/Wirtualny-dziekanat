@@ -1,5 +1,7 @@
 package pl.edu.us.client.wnioski.kartoteka;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -11,14 +13,18 @@ import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
+import com.sencha.gxt.data.shared.Store;
+import com.sencha.gxt.data.shared.Store.Record;
 import com.sencha.gxt.widget.core.client.Component;
 import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
+import com.sencha.gxt.widget.core.client.info.Info;
 
 import pl.edu.us.client.NameTokens;
 import pl.edu.us.client.main.BasePresenter;
+import pl.edu.us.client.main.handlers.ActionCallback;
 import pl.edu.us.client.main.handlers.RpcMasking;
-import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.dto.wnioski.UWniosekDTO;
+import pl.edu.us.shared.enums.Message;
 import pl.edu.us.shared.services.wnioski.WnioskiService;
 import pl.edu.us.shared.services.wnioski.WnioskiServiceAsync;
 
@@ -55,7 +61,7 @@ public class WnioskiKartPresenter extends BasePresenter<WnioskiKartPresenter.MyV
     }
 
     private void pobierzWnioski() {
-        wnioskiService.pobierzWnioskiStudentow(new AsyncCallback<List<UWniosekDTO>>() {
+        wnioskiService.pobierzWnioskiStudentow(rpcMasking.call(Message.LOADING, new AsyncCallback<List<UWniosekDTO>>() {
             @Override
             public void onSuccess(List<UWniosekDTO> result) {
                 if (result != null)
@@ -66,20 +72,41 @@ public class WnioskiKartPresenter extends BasePresenter<WnioskiKartPresenter.MyV
             public void onFailure(Throwable caught) {
                 new AlertMessageBox("Wnioski", "Błąd pobierania danych: <br>" + caught.getMessage()).show();
             }
-        });
+        }));
 
     }
 
     @Override
     public void wykonajZapisz() {
-        // TODO Auto-generated method stub
+        List<UWniosekDTO> doZapisu = new ArrayList<UWniosekDTO>();
+        Collection<Store<UWniosekDTO>.Record> lista = getView().getModel().getStoreWnioski().getModifiedRecords();
+        for (Record r : lista) {
+            r.commit(false);
+            doZapisu.add((UWniosekDTO) r.getModel());
+        }
+        wnioskiService.zapiszWnoiski(doZapisu, rpcMasking.call(Message.SAVING,
+            new ActionCallback<List<UWniosekDTO>>() {
+
+                @Override
+                public void onSuccess(List<UWniosekDTO> result) {
+                    Info.display("Kartoteka wniosków", "Zapisano dane");
+                    getView().getModel().wyczysc();
+                    getView().getPanel().initialState();
+                    getView().getModel().getStoreWnioski().addAll(result);
+                }
+
+                @Override
+                public void onFailure(Throwable caught) {
+                    new AlertMessageBox("Kartoteka wniosków", "Błąd zapisywania danych: <br>" + caught.getMessage()).show();
+                }
+            }));
 
     }
 
     @Override
     public void wykonajAnuluj() {
-        // TODO Auto-generated method stub
-
+        getView().getModel().getStoreWnioski().rejectChanges();
+        getView().getPanel().initialState();
     }
 
     @Override
