@@ -2,6 +2,7 @@ package pl.edu.us.shared.dto.wnioski;
 
 import pl.edu.us.shared.dto.DTO;
 import pl.edu.us.shared.enums.TypWniosku;
+import pl.edu.us.shared.model.wnioski.Wniosek;
 
 public class WniosekDTO extends DTO {
 
@@ -13,6 +14,12 @@ public class WniosekDTO extends DTO {
 
     public WniosekDTO() {
         super();
+    }
+
+    public WniosekDTO(Wniosek w) {
+        this.setId(w.getId());
+        this.setNazwaObrazu(w.getNazwaObrazu());
+        this.setTyp(w.getTyp());
     }
 
     @Override

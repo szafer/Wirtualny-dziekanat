@@ -24,7 +24,7 @@ import pl.edu.us.shared.model.User;
     @NamedQuery(name = UPrzedmiot.DAJ_STUDENTOW_PRZEDMIOTU, query = "Select u from UPrzedmiot u "
         + " where u.uzytkownik.rola = pl.edu.us.shared.enums.Rola.STUDENT "
         + " and u.przedmiot.id = :przedmiot "
-        + " order by u.uzytkownik.nazwisko, u.uzytkownik.imie "),
+        + " order by u.dataSemestru desc, u.uzytkownik.nazwisko, u.uzytkownik.imie "),
     @NamedQuery(name = UPrzedmiot.DAJ_WYKLADOWCE, query = "Select u from UPrzedmiot u "
         + " where u.uzytkownik.rola = pl.edu.us.shared.enums.Rola.NAUCZYCIEL "
         + " and u.przedmiot.id = :przedmiot "

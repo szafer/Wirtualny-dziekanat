@@ -5,6 +5,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.inject.Inject;
 import com.sencha.gxt.cell.core.client.form.ComboBoxCell.TriggerAction;
 import com.sencha.gxt.widget.core.client.FramedPanel;
+import com.sencha.gxt.widget.core.client.container.CenterLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.form.ComboBox;
 import com.sencha.gxt.widget.core.client.form.DateField;
@@ -25,7 +26,7 @@ import pl.edu.us.shared.enums.Plec;
 import pl.edu.us.shared.enums.Rola;
 import pl.edu.us.shared.model.User;
 
-public class DaneUzytkownikaPanel extends FramedPanel implements /* IsWidget, */Editor<UserDTO>, FieldListener {
+public class DaneUzytkownikaPanel extends CenterLayoutContainer implements /* IsWidget, */Editor<UserDTO>, FieldListener {
 
     private final DaneUzytkownikaModel model;
     private TextField imie, nazwisko, ulica, kodPocztowy, miasto, email, login, nrDomu, nrMieszkania;
@@ -43,7 +44,7 @@ public class DaneUzytkownikaPanel extends FramedPanel implements /* IsWidget, */
         this.model = model;
         this.mainPanel = daneUzytkownikaMainPanel;
         setBorders(true);
-        setHeadingText("Moje dane");
+//        setHeadingText("Moje dane");
         createForm1();
 
     }

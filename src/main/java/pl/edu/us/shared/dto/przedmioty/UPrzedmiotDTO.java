@@ -5,6 +5,7 @@ import java.util.Date;
 
 import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.enums.Semestr;
+import pl.edu.us.shared.model.przedmioty.UPrzedmiot;
 
 public class UPrzedmiotDTO implements Serializable {
 
@@ -21,6 +22,14 @@ public class UPrzedmiotDTO implements Serializable {
 
     public UPrzedmiotDTO() {
 
+    }
+
+    public UPrzedmiotDTO(UPrzedmiot p, UserDTO uDto) {
+       this.id = p.getId();
+       this.dataSemestru = p.getDataSemestru();
+       this.ocena1 = p.getOcena1();
+       this.ocena2 = p.getOcena2();
+       this.uzytkownik = uDto;
     }
 
     public Integer getId() {

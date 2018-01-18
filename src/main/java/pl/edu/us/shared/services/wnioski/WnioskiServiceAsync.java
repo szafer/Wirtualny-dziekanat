@@ -15,5 +15,6 @@ public interface WnioskiServiceAsync {
 
     void pobierzWnioskiStudentow(AsyncCallback<List<UWniosekDTO>> asyncCallback);
 
-   
+    void zapiszWnoiski(List<UWniosekDTO> doZapisu, AsyncCallback<List<UWniosekDTO>> callback);
+
 }

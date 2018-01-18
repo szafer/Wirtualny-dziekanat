@@ -25,7 +25,7 @@ public class WiadomosciServiceImpl implements WiadomosciService {
     @Autowired
     private NadawcaDAO nadawcaDAO;
 
-    @Autowired 
+    @Autowired
     private OdbiorcaDAO odbiorcaDAO;
     @Autowired
     private UserDAO userDAO;
@@ -72,7 +72,7 @@ public class WiadomosciServiceImpl implements WiadomosciService {
             nDto.setImie(o.getUser().getImie());
             nDto.setNazwisko(o.getUser().getNazwisko());
             nowe.add(nDto);
-            
+
         }
         wiadomosci.setNadane(nadane);
         wiadomosci.setOdebrane(odebrane);
@@ -89,6 +89,7 @@ public class WiadomosciServiceImpl implements WiadomosciService {
         List<Odbiorca> wiad = nadawcaDAO.getEntityManager()
             .createNamedQuery(Odbiorca.NOWE_WIADOMOSCI)
             .setParameter("userId", userId)
+            .setMaxResults(1)
             .getResultList();
         List<OdbiorcaDTO> nowe = new ArrayList<OdbiorcaDTO>(wiad.size());
         for (Odbiorca o : wiad) {

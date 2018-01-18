@@ -20,7 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OrderBy;
 
 import pl.edu.us.shared.enums.Plec;
 import pl.edu.us.shared.enums.Rola;
@@ -47,7 +47,7 @@ public class User extends Person {
     public static final String POBIERZ_HASLO_PO_EMAIL = "User.POBIERZ_HASLO_PO_EMAIL";
     public static final String DAJ_USERA_PO_LOGINIE = "User.DAJ_USERA_PO_LOGINIE";
     public static final String CZY_EMAIL_WYSTEPUJE = "User.CZY_EMAIL_WYSTEPUJE";
-    
+
 //    public static final String ID = "id";
 //    public static final String IMIE = "imie";
 //    public static final String NAZWISKO = "nazwisko";
@@ -97,11 +97,11 @@ public class User extends Person {
 //    @JoinTable(name = "U_WNIOSEK", joinColumns = { @JoinColumn(name = "UZYTKOWNIK_ID", nullable = false, updatable = false) }, inverseJoinColumns = {
 //        @JoinColumn(name = "WNIOSEK_ID", nullable = false, updatable = false) })
 //    private List<Wniosek> wnioski;
-
+//    @OrderBy("dataZlozenia DESC")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "uzytkownik", cascade = CascadeType.ALL)
 //    @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private List<UWniosek> wnioskiUzytkownika;
-
+//    @OrderBy("przedmiotyUzytkownika.dataSemestru DESC")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "uzytkownik", cascade = CascadeType.ALL)
 //    @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private List<UPrzedmiot> przedmiotyUzytkownika;

@@ -40,7 +40,7 @@ public class UWniosekDTO extends DTO implements Serializable {
         super(uw.getId());
         this.uzytkownik = new UserDTO(uw.getUzytkownik());
         this.wniosek = wniosek;
-        this.zlozonyWniosek = uw.getZlozonyWniosek();
+//        this.zlozonyWniosek = uw.getZlozonyWniosek();//TODO za duzo pamieci
         this.dataZlozenia = uw.getDataZlozenia();
         this.status = uw.getStatus();
         this.dataRozpatrzenia = uw.getDataRozpatrzenia();

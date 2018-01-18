@@ -10,6 +10,8 @@ public class DaneUzytkownikaMainPanel extends BazowyPanel {
 
     @Inject
     public DaneUzytkownikaMainPanel(DaneUzytkownikaModel model) {
+        setHeaderVisible(true);
+        setHeadingHtml("Moje dane");
         panel = new DaneUzytkownikaPanel(model, this);
         getBorderLayoutContainer().setCenterWidget(panel);
         nowy.setVisible(false);

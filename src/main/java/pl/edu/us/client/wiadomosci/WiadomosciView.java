@@ -40,26 +40,18 @@ public class WiadomosciView extends BaseView<WiadomosciUiHandlers> implements Wi
             @Override
             public void onSelection(SelectionEvent<BaseDto> event) {
                 BaseDto dto = event.getSelectedItem();
-//                model.wyczysc();
-                if (dto.getName() == "Wysłane") {
-//                    panel.getCenterPanel().getCp().clear();
-//                    panel.getCenterPanel().getCp().clear();(panel.getCenterPanel().getNadawcaPanel(), new BorderLayoutData(500));
-//
-//                    panel.getCenterPanel().getBlc().setNorthWidget(panel.getCenterPanel().getNadawcaPanel(), new BorderLayoutData(500));
-                    panel.getCenterPanel().ustawWyslane();
-                } else {
-                    panel.getCenterPanel().ustawOdebrane();
-//                    panel.getCenterPanel().getBlc().setNorthWidget(panel.getCenterPanel().getOdebranePanel(), new BorderLayoutData(500));
-                }
-                if (!dto.getOdebrane().isEmpty()) {
+//                if (dto.getName() == "Wysłane") {
+//                    panel.getCenterPanel().ustawWyslane();
+//                } else {
+//                    panel.getCenterPanel().ustawOdebrane();
+//                }
+                if (!dto.getOdebrane().isEmpty() || !dto.getNowe().isEmpty()) {
                     model.getStoreOdebrane().clear();
                     model.getStoreOdebrane().addAll(dto.getOdebrane());
+                    model.getStoreOdebrane().addAll(dto.getNowe());
                 } else if (!dto.getWyslane().isEmpty()) {
                     model.getStoreWyslane().clear();
                     model.getStoreWyslane().addAll(dto.getWyslane());
-                } else if (!dto.getNowe().isEmpty()) {
-                    model.getStoreNowe().clear();
-                    model.getStoreNowe().addAll(dto.getNowe());
                 }
             }
         });
@@ -76,8 +68,12 @@ public class WiadomosciView extends BaseView<WiadomosciUiHandlers> implements Wi
 
                     dto.setDataOdbioru(new Date());
                     dto.setOdebrano(true);
+                    model.getStoreOdebrane().update(dto);
                     getUiHandlers().notifyOdebrano(dto);
-
+//                    model.nowe.getNowe().remove(dto);
+                    model.odebrane.getOdebrane().add(dto);
+//                    model.getStoreTypySkrzynek().update(model.nowe);
+                    model.getStoreTypySkrzynek().update(model.odebrane);
                 }
             }
         });

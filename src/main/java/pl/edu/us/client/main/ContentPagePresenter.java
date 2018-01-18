@@ -19,10 +19,9 @@ import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gwtplatform.mvp.client.proxy.RevealRootContentEvent;
-import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
+import com.sencha.gxt.widget.core.client.info.Info;
 
 import pl.edu.us.client.NameTokens;
-import pl.edu.us.client.details.DetailPresenter;
 import pl.edu.us.shared.dto.wiadomosci.OdbiorcaDTO;
 import pl.edu.us.shared.services.wiadomosci.WiadomosciService;
 import pl.edu.us.shared.services.wiadomosci.WiadomosciServiceAsync;
@@ -40,10 +39,8 @@ public class ContentPagePresenter extends Presenter<ContentPagePresenter.MyView,
     }
 
     private final MenuPresenter menuPresenter;
-    private final DetailPresenter detailPresenter;
     private AppKontekst kontekst;
     private static final int MESSAGE_TIME = 30 * 1000;//1min
-
     WiadomosciServiceAsync messageService = GWT.create(WiadomosciService.class);
 
     @ProxyCodeSplit
@@ -53,10 +50,9 @@ public class ContentPagePresenter extends Presenter<ContentPagePresenter.MyView,
 
     @Inject
     public ContentPagePresenter(EventBus eventBus, MyView view, MyProxy proxy, final MenuPresenter menuPesenter,
-        final DetailPresenter detailPresenter, AppKontekst kontekst) {
+        AppKontekst kontekst) {
         super(eventBus, view, proxy);
         this.menuPresenter = menuPesenter;
-        this.detailPresenter = detailPresenter;
         this.kontekst = kontekst;
         getView().setUiHandlers(this);
 
@@ -66,7 +62,6 @@ public class ContentPagePresenter extends Presenter<ContentPagePresenter.MyView,
     protected void onBind() {
         super.onBind();
         setInSlot(TYPE_MENU, menuPresenter);
-//        setInSlot(TYPE_CONTENT, detailPresenter);
     }
 
     @Override
@@ -93,9 +88,14 @@ public class ContentPagePresenter extends Presenter<ContentPagePresenter.MyView,
 
             @Override
             public void onSuccess(List<OdbiorcaDTO> result) {
-                if (result != null) {
-                  menuPresenter.loadMessages(result);
-                }
+                if (!kontekst.isLock())
+                    if (result != null && result.size() > 0) {
+                        menuPresenter.loadMessages(result);
+                        if (!kontekst.getNowe().contains(result.get(0))) {
+                            kontekst.getNowe().add(result.get(0));
+                            Info.display("Wiadomości", "Masz nową wiadomość.");
+                        }
+                    }
             }
 
             @Override

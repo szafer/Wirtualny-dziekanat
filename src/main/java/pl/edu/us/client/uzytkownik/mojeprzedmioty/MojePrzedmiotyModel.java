@@ -9,7 +9,6 @@ import pl.edu.us.client.accesproperties.UPrzedmiotProperties;
 import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.dto.przedmioty.PrzedmiotDTO;
 import pl.edu.us.shared.dto.przedmioty.UPrzedmiotDTO;
-import pl.edu.us.shared.enums.Semestr;
 
 @Singleton
 public class MojePrzedmiotyModel {
@@ -33,7 +32,7 @@ public class MojePrzedmiotyModel {
 
     public void setUser(UserDTO user) {
         this.user = user;
-        if (user != null) {           
+        if (user != null) {
             storePrzedmiotyUsera.addAll(user.getPrzedmiotyUzytkownika());
         } else
             storePrzedmiotyUsera.clear();

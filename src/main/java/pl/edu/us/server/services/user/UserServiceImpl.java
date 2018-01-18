@@ -106,11 +106,11 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public List<UserDTO> getUsers() {
-        ModelMapper mapper = new ModelMapper();
+//        ModelMapper mapper = new ModelMapper();
         List<User> users = userDAO.findAll();
         List<UserDTO> wynik = new ArrayList<UserDTO>(users.size());
         for (User u : users) {
-            wynik.add(mapper.map(u, UserDTO.class));
+            wynik.add(new UserDTO(u));
         }
         return wynik;
     }
@@ -202,6 +202,15 @@ public class UserServiceImpl implements UserService {
                 for (UPrzedmiotDTO up : user.getPrzedmiotyUzytkownika()) {
                     up.setSemestr(up.getDataSemestru().getMonth() < 6 ? Semestr.LETNI : Semestr.ZIMOWY);
                 }
+//                List<UPrzedmiotDTO> lista = user.getPrzedmiotyUzytkownika();
+//                Collections.sort(lista, new Comparator<UPrzedmiotDTO>() {
+//
+//                    @Override
+//                    public int compare(UPrzedmiotDTO o1, UPrzedmiotDTO o2) {
+//                        return o1.getDataSemestru().before(o2.getDataSemestru()) ? 1 : 0;
+//                    }
+//                });
+//                user.setPrzedmiotyUzytkownika(lista);
             }
             if (user.getWnioskiUzytkownika() != null && !user.getWnioskiUzytkownika().isEmpty()) {
                 for (UWniosekDTO uw : user.getWnioskiUzytkownika()) {

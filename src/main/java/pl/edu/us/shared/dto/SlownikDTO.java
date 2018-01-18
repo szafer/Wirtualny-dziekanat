@@ -6,8 +6,12 @@ public class SlownikDTO extends DTO {
 
     private String nazwa;
 
+    public SlownikDTO(Integer integer, String string) {
+        super(integer);
+        this.nazwa = string;
+    }
+
     public SlownikDTO() {
-        super();
     }
 
     @Override

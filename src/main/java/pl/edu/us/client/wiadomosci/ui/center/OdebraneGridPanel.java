@@ -52,8 +52,8 @@ public class OdebraneGridPanel extends ContentPanel {
         setHeadingHtml("Odebrane");
 
         dataOdbCol = new ColumnConfig<OdbiorcaDTO, Date>(props.dataOdbioru(), 130, "Data odbioru");
-        nadImieCol = new ColumnConfig<OdbiorcaDTO, String>(props.nadawcaImie(), 100, "Imię");
-        nadNazCol = new ColumnConfig<OdbiorcaDTO, String>(props.nadawcaNazwisko(), 150, "Nazwisko");
+        nadImieCol = new ColumnConfig<OdbiorcaDTO, String>(props.imie(), 100, "Imię");
+        nadNazCol = new ColumnConfig<OdbiorcaDTO, String>(props.nazwisko(), 150, "Nazwisko");
         nadTematCol = new ColumnConfig<OdbiorcaDTO, String>(props.nadawcaTemat(), 500, "Temat");
 
         dataZlozCell = new DateCell();

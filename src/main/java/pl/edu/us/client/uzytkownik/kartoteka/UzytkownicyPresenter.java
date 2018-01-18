@@ -66,11 +66,6 @@ public class UzytkownicyPresenter extends
 //        pobierzUzytkownikow();
     }
 
-    @Override
-    protected void onReveal() {
-        // TODO Auto-generated method stub
-        super.onReveal();
-    }
 /*
  * Metoda zastąpiona loaderem z maskowaniem
  */
@@ -99,25 +94,6 @@ public class UzytkownicyPresenter extends
             r.commit(false);
             doZapisu.add((UserDTO) r.getModel());
         }
-//        doZapisu.addAll(getView().getModel().getUsers().getAll());
-//        List<Student> doUsuniecia = new ArrayList<Student>();// getView().getModel().getStudents().getAll();
-//        doUsuniecia.addAll(getView().getModel().getDoUsunieccia().getAll());
-//        userService.zapisz(doZapisu, new AsyncCallback<List<UserDTO>>() {
-//
-//            @Override
-//            public void onFailure(Throwable caught) {
-//                // TODO Auto-generated method stub
-//                System.out.println(caught.getLocalizedMessage());
-//            }
-//
-//            @Override
-//            public void onSuccess(List<UserDTO> result) {
-//                Info.display("Użytkowncy", "Zapisano dane");
-////                getView().getModel().getStoreUsers().clear();
-////                getView().getModel().getStoreUsers().addAll(result);
-//            }
-//        });
-
         userService.zapisz(doZapisu, rpcMasking.call(Message.SAVING,
             new ActionCallback<List<UserDTO>>() {
 

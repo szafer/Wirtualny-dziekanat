@@ -17,8 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.edu.us.server.ServerUtils;
 import pl.edu.us.server.dao.UWniosekDAO;
 import pl.edu.us.server.dao.WniosekDAO;
+import pl.edu.us.shared.dto.przedmioty.UPrzedmiotDTO;
 import pl.edu.us.shared.dto.wnioski.UWniosekDTO;
 import pl.edu.us.shared.dto.wnioski.WniosekDTO;
+import pl.edu.us.shared.model.przedmioty.UPrzedmiot;
 import pl.edu.us.shared.model.wnioski.UWniosek;
 import pl.edu.us.shared.model.wnioski.Wniosek;
 import pl.edu.us.shared.services.wnioski.WnioskiService;
@@ -61,15 +63,6 @@ public class WnioskiServiceImpl implements WnioskiService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public List<WniosekDTO> zapisz(List<WniosekDTO> doZapisu) throws Exception {
-//      HttpSession httpSession = request.getSession();
-//      FileItem fileItem = (FileItem) httpSession.getAttribute("IMG");
-//      FileItem fileItem = kontekst.getItem();
-//      if(fileItem!=null){
-//          raportyImg.setRozmiarObrazu(fileItem.getSize());
-//          raportyImg.setNazwaObrazu(fileItem.getName());
-//          raportyImg.setRozszerzenieObrazu(fileItem.getContentType());
-//          raportyImg.setObraz(fileItem.get());
-//      }
         ModelMapper mapper = new ModelMapper();
         for (WniosekDTO dto : doZapisu) {
             Wniosek p = mapper.map(dto, Wniosek.class);
@@ -85,32 +78,37 @@ public class WnioskiServiceImpl implements WnioskiService {
         return new ArrayList<WniosekDTO>();
     }
 
-//    public String getImageData(byte[] bytes) {
-//        byte[] b = new byte[bytes.length];
-//        for (int i = 0; i < bytes.length; i++) {
-//            b[i] = bytes[i];
-//        }
-////        String base64 = Base64Utils.toBase64(b);
-////        base64 = "data:image/png;base64," + base64;
-////        return base64;
-//        String base64 = Base64.encodeBase64String(bytes);
-//        base64 = "data:image/png;base64," + base64;
-//        return base64;
-//    }
-
     @Override
     public List<UWniosekDTO> pobierzWnioskiStudentow() {
-        ModelMapper mapper = new ModelMapper();
+//        ModelMapper mapper = new ModelMapper();
         List<UWniosek> wnioski = uWniosekDAO.findAll();
         List<UWniosekDTO> wynik = new ArrayList<UWniosekDTO>(wnioski.size());
         for (UWniosek w : wnioski) {
-            WniosekDTO wniosek = mapper.map(w.getWniosek(), WniosekDTO.class);
+            WniosekDTO wniosek = new WniosekDTO(w.getWniosek());
             UWniosekDTO wDto = new UWniosekDTO(w, wniosek);
             if (wDto.getZlozonyWniosek() != null) {
-                wDto.setImage(ServerUtils.getImageData(wDto.getZlozonyWniosek()));
+//                wDto.setImage(ServerUtils.getImageData(wDto.getZlozonyWniosek()));
             }
             wynik.add(wDto);
         }
         return wynik;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public List<UWniosekDTO> zapiszWnoiski(List<UWniosekDTO> doZapisu) {
+        ModelMapper mapper = new ModelMapper();
+        for (UWniosekDTO dto : doZapisu) {
+            UWniosek p = mapper.map(dto, UWniosek.class);
+            if (p.getId() == null)
+                uWniosekDAO.persist(p);
+            else if (p.getId() < 1) {
+                p.setId(null);
+                uWniosekDAO.persist(p);
+            } else {
+                uWniosekDAO.merge(p);
+            }
+        }
+        return pobierzWnioskiStudentow();
     }
 }

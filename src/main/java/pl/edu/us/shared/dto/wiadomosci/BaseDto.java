@@ -54,7 +54,12 @@ public class BaseDto implements Serializable, TreeStore.TreeNode<BaseDto> {
 
     @Override
     public String toString() {
-        return (name != null ? name : super.toString()) + " " + (!nowe.isEmpty() ? nowe.size() : !odebrane.isEmpty() ? odebrane.size() : wyslane.size());
+        if (name == "Odebrane") {
+            return name + " " + odebrane.size() + " "
+                + (!nowe.isEmpty() ? nowe.size() == 1 ? "1 nowa wiadomość" : nowe.size() + " nowych wiadomości" : "");
+        } else {
+            return name + " " + wyslane.size();
+        }
     }
 
     public List<OdbiorcaDTO> getNowe() {
