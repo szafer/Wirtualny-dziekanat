@@ -48,13 +48,15 @@ public class MenuBuilder {
         if (rola != null) {
             if (rola == Rola.ADMIN) {
         menuBar.add(buildAdminMenu());
+        menuBar.add(buildWiadomosciMenu());
             } else if (rola == Rola.NAUCZYCIEL) {
         menuBar.add(buildPracownikMenu());
             } else {
         menuBar.add(buildStudentMenu());
+        menuBar.add(buildWiadomosciMenu());
             }
         }
-        menuBar.add(buildWiadomosciMenu());
+        
         menuBar.add(buildWydrukiMenu());
         menuBar.add(buildHelpMenu());
         menuBar.add(buildZamknijMenu());
