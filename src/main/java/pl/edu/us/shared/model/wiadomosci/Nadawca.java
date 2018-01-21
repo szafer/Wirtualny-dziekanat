@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import pl.edu.us.shared.dto.wiadomosci.NadawcaDTO;
 import pl.edu.us.shared.model.Persistent;
 import pl.edu.us.shared.model.User;
 
@@ -53,10 +54,16 @@ public class Nadawca implements Persistent<Integer> {
     @Temporal(TemporalType.DATE)
     private Date data;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "nadawca", cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "nadawca", cascade = CascadeType.ALL)
     private List<Odbiorca> odbiorcy;
 
     public Nadawca() {
+    }
+
+    public Nadawca(NadawcaDTO dto) {
+        this.temat = dto.getTemat();
+        this.wiadomosc = dto.getWiadomosc();
+        this.data = dto.getData();
     }
 
     @Override

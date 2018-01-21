@@ -1,12 +1,15 @@
 package pl.edu.us.client.wiadomosci;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
+import com.sencha.gxt.widget.core.client.event.HideEvent;
+import com.sencha.gxt.widget.core.client.event.HideEvent.HideHandler;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 import com.sencha.gxt.widget.core.client.selection.SelectionChangedEvent;
@@ -15,6 +18,7 @@ import com.sencha.gxt.widget.core.client.selection.SelectionChangedEvent.Selecti
 import pl.edu.us.client.main.AppKontekst;
 import pl.edu.us.client.main.BaseView;
 import pl.edu.us.client.wiadomosci.ui.WiadomosciMainPanel;
+import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.dto.wiadomosci.BaseDto;
 import pl.edu.us.shared.dto.wiadomosci.NadawcaDTO;
 import pl.edu.us.shared.dto.wiadomosci.OdbiorcaDTO;
@@ -39,12 +43,13 @@ public class WiadomosciView extends BaseView<WiadomosciUiHandlers> implements Wi
 
             @Override
             public void onSelection(SelectionEvent<BaseDto> event) {
+                panel.getCenterPanel().getWiadomoscPanel().clear();
                 BaseDto dto = event.getSelectedItem();
-//                if (dto.getName() == "Wysłane") {
-//                    panel.getCenterPanel().ustawWyslane();
-//                } else {
-//                    panel.getCenterPanel().ustawOdebrane();
-//                }
+                if (dto.getName() == "Wysłane") {
+                    panel.getCenterPanel().ustawWyslane();
+                } else {
+                    panel.getCenterPanel().ustawOdebrane();
+                }
                 if (!dto.getOdebrane().isEmpty() || !dto.getNowe().isEmpty()) {
                     model.getStoreOdebrane().clear();
                     model.getStoreOdebrane().addAll(dto.getOdebrane());
@@ -55,24 +60,28 @@ public class WiadomosciView extends BaseView<WiadomosciUiHandlers> implements Wi
                 }
             }
         });
-        panel.getCenterPanel().getOdebranePanel().getGrid().getSelectionModel().addSelectionChangedHandler(new SelectionChangedHandler<OdbiorcaDTO>() {
+        panel.getCenterPanel().getOdebranePanel().getGrid().getSelectionModel().addSelectionHandler(new SelectionHandler<OdbiorcaDTO>() {
 
             @Override
-            public void onSelectionChanged(SelectionChangedEvent<OdbiorcaDTO> event) {
-                OdbiorcaDTO dto = event.getSelection().get(0);
-                if (dto.getNadawca() != null && dto.getNadawca().getWiadomosc() != null)
+            public void onSelection(SelectionEvent<OdbiorcaDTO> event) {
+                OdbiorcaDTO dto = event.getSelectedItem();
+                if (dto.getNadawca() != null && dto.getNadawca().getWiadomosc() != null) {
                     panel.getCenterPanel().getWiadomoscPanel().setText(dto.getNadawca().getWiadomosc());
-                else
+                    panel.getCenterPanel().getBtnOdpowiedz().setEnabled(true);
+                } else {
                     panel.getCenterPanel().getWiadomoscPanel().clear();
+                    panel.getCenterPanel().getBtnOdpowiedz().setEnabled(false);
+                }
                 if (!dto.getOdebrano()) {
-
-                    dto.setDataOdbioru(new Date());
+                    Date dd = new Date();
+                    Date d = new java.sql.Date(dd.getTime());
+                    dto.setDataOdbioru(d);
                     dto.setOdebrano(true);
                     model.getStoreOdebrane().update(dto);
                     getUiHandlers().notifyOdebrano(dto);
-//                    model.nowe.getNowe().remove(dto);
+
+                    model.odebrane.getNowe().remove(dto);
                     model.odebrane.getOdebrane().add(dto);
-//                    model.getStoreTypySkrzynek().update(model.nowe);
                     model.getStoreTypySkrzynek().update(model.odebrane);
                 }
             }
@@ -88,32 +97,34 @@ public class WiadomosciView extends BaseView<WiadomosciUiHandlers> implements Wi
                     panel.getCenterPanel().getWiadomoscPanel().clear();
             }
         });
-//        panel.getGridPanel().getGrid().getSelectionModel().addBeforeSelectionHandler(new BeforeSelectionHandler<UWniosekDTO>() {
-//
-//            @Override
-//            public void onBeforeSelection(BeforeSelectionEvent<UWniosekDTO> event) {
-//                UWniosekDTO wniosek = event.getItem();
-//                model.setWniosek(wniosek);
-//                panel.getGridPanel().getComboTyp().setReadOnly(wniosek.getStatus() != StatusWniosku.OCZEKJACY);
-//            }
-//        });
-//        panel.getGridPanel().getGrid().getSelectionModel().addSelectionChangedHandler(new SelectionChangedHandler<UWniosekDTO>() {
-//
-//            @Override
-//            public void onSelectionChanged(SelectionChangedEvent<UWniosekDTO> event) {
-//                UWniosekDTO wniosek = panel.getGridPanel().getGrid().getSelectionModel().getSelectedItem();
-//                model.setWniosek(wniosek);
-//                if (wniosek != null && wniosek.getId() != null && wniosek.getImage() != null) {
-//                    Image image = new Image(wniosek.getImage());
-//                    int width = (int) panel.getWniosekPanel().getBody().getWidth(true);
-//                    image.setPixelSize(width, image.getHeight() * width / image.getWidth());
-//                    panel.getWniosekPanel().clear();
-//                    panel.getWniosekPanel().add(image);
-//                } else {
-//                    panel.getWniosekPanel().clear();
-//                }
-//            }
-//        });
+        panel.getCenterPanel().getDialog().addHideHandler(new HideHandler() {
+
+            @Override
+            public void onHide(HideEvent event) {
+                String temat = panel.getCenterPanel().getDialog().getTxtTemat().getValue();
+                String wiadomosc = panel.getCenterPanel().getDialog().getTxtWiadomosc().getValue();
+                List<UserDTO> lista = panel.getCenterPanel().getDialog().getGrid().getSelectionModel().getSelectedItems();
+                if (temat != null && !temat.isEmpty() && wiadomosc != null && !wiadomosc.isEmpty()
+                    && lista.size() > 0) {
+                    NadawcaDTO nad = new NadawcaDTO();
+                    nad.setWiadomosc(wiadomosc);
+                    nad.setTemat(temat);
+                    nad.setUserId(model.getUser().getId());
+                    List<OdbiorcaDTO> odbiorcy = new ArrayList<OdbiorcaDTO>();
+                    for (UserDTO u : lista) {
+                        OdbiorcaDTO o = new OdbiorcaDTO();
+                        o.setUserId(u.getId());
+                        o.setEmail(u.getPowiadomic());
+                        o.setNadawca(nad);
+                        odbiorcy.add(o);
+                    }
+                    nad.setOdbiorcy(odbiorcy);
+                    model.setNowaWiadomosc(nad);
+                    getUiHandlers().wyslij(nad);
+                } else
+                    model.setNowaWiadomosc(null);
+            }
+        });
         panel.getZapisz().addSelectHandler(new SelectHandler() {
 
             @Override
@@ -151,5 +162,18 @@ public class WiadomosciView extends BaseView<WiadomosciUiHandlers> implements Wi
     @Override
     public WiadomosciMainPanel getPanel() {
         return panel;
+    }
+
+    @Override
+    public void odnotujWyslanie() {
+        NadawcaDTO dto = model.getNowaWiadomosc();
+        Date dd = new Date();
+        Date d = new java.sql.Date(dd.getTime());
+        dto.setData(d);
+        model.wyslane.getWyslane().add(dto);
+        model.getStoreWyslane().add(dto);
+        model.getStoreTypySkrzynek().update(model.wyslane);
+        model.getStoreTypySkrzynek().update(model.getRoot());
+
     }
 }

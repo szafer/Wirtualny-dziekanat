@@ -38,18 +38,13 @@ import pl.edu.us.shared.enums.StatusWniosku;
 
 public class NadawcaGridPanel extends ContentPanel {
 
-    private DateCell dataZlozCell, dataRCell;
-    private ComboBoxCell<WniosekDTO> comboTypCell;
-    private ComboBox<WniosekDTO> comboTyp;
-    private DateField df;
-
+    private DateCell dataZlozCell;;
+//
     private ColumnConfig<NadawcaDTO, String> temat;
-    private ColumnConfig<NadawcaDTO, Date> dataNadCol;//, dataRozpatrzeniaCol;
+    private ColumnConfig<NadawcaDTO, Date> dataNadCol;
 
     private Grid<NadawcaDTO> grid;
     private ListStore<NadawcaDTO> store;
-
-    private TextButton btnNowa = new TextButton("Nowa wiadomość");
 
     private WiadomosciModel model;
     private NadawcaProperties props;
@@ -59,7 +54,7 @@ public class NadawcaGridPanel extends ContentPanel {
         this.store = model.getStoreWyslane();
         this.props = model.getNadProp();
 
-        setHeadingHtml("Wysłane");
+        setHeaderVisible(false);
 
         dataNadCol = new ColumnConfig<NadawcaDTO, Date>(props.data(), 130, "Data nadania");
         temat = new ColumnConfig<NadawcaDTO, String>(props.temat(), 500, "Temat");
@@ -68,7 +63,7 @@ public class NadawcaGridPanel extends ContentPanel {
         dataZlozCell.setPropertyEditor(new DateTimePropertyEditor(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT)));
         dataZlozCell.setWidth(120);
         dataZlozCell.setReadOnly(true);
-        dataNadCol.setCell(dataZlozCell);
+//        dataNadCol.setCell(dataZlozCell);
 
         List<ColumnConfig<NadawcaDTO, ?>> columns = new ArrayList<ColumnConfig<NadawcaDTO, ?>>();
         columns.add(dataNadCol);
@@ -87,7 +82,7 @@ public class NadawcaGridPanel extends ContentPanel {
         grid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         // State manager, make this grid stateful
         grid.setStateful(true);
-        grid.setStateId("filterGridExample");
+//        grid.setStateId("filterGridExample");
 
         StringFilter<NadawcaDTO> nameFilter = new StringFilter<NadawcaDTO>(props.temat());
         DateFilter<NadawcaDTO> dataZFilter = new DateFilter<NadawcaDTO>(props.data());
@@ -98,25 +93,11 @@ public class NadawcaGridPanel extends ContentPanel {
         filters.addFilter(dataZFilter);
         filters.addFilter(nameFilter);
 
-        ToolBar tb = new ToolBar();
-        tb.add(btnNowa);
-
-        VerticalLayoutContainer vlc = new VerticalLayoutContainer();
-        vlc.add(tb, new VerticalLayoutData(1, -1));
-        vlc.add(grid, new VerticalLayoutData(1, 1));
-        add(vlc);
-//        setHeight(500);
+        add(grid);
     }
 
     public Grid<NadawcaDTO> getGrid() {
         return grid;
     }
 
-    public TextButton getBtnDodaj() {
-        return btnNowa;
-    }
-
-    public ComboBox<WniosekDTO> getComboTyp() {
-        return comboTyp;
-    }
 }

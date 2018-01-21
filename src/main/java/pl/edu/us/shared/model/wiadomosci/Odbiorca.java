@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import pl.edu.us.shared.dto.wiadomosci.OdbiorcaDTO;
 import pl.edu.us.shared.model.Persistent;
 import pl.edu.us.shared.model.User;
 
@@ -58,6 +59,11 @@ public class Odbiorca implements Persistent<Integer> {
 
     public Odbiorca() {
 
+    }
+
+    public Odbiorca(OdbiorcaDTO odb, Nadawca nadawca) {
+        this.nadawca = nadawca;
+        this.email = odb.getEmail();
     }
 
     @Override

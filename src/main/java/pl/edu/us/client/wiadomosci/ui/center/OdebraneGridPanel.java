@@ -30,16 +30,12 @@ import pl.edu.us.shared.dto.wiadomosci.OdbiorcaDTO;
 
 public class OdebraneGridPanel extends ContentPanel {
 
-    private DateField df;
-
     private ColumnConfig<OdbiorcaDTO, String> nadImieCol, nadNazCol, nadTematCol;
     private ColumnConfig<OdbiorcaDTO, Date> dataOdbCol;;
 
     private Grid<OdbiorcaDTO> grid;
     private ListStore<OdbiorcaDTO> store;
     private DateCell dataZlozCell;
-
-    private TextButton btnOdpowiedz = new TextButton("Odpowiedz");
 
     private WiadomosciModel model;
     private OdbiorcaProperties props;
@@ -49,7 +45,7 @@ public class OdebraneGridPanel extends ContentPanel {
         this.store = model.getStoreOdebrane();
         this.props = model.getOdbProp();
 
-        setHeadingHtml("Odebrane");
+        setHeaderVisible(false);
 
         dataOdbCol = new ColumnConfig<OdbiorcaDTO, Date>(props.dataOdbioru(), 130, "Data odbioru");
         nadImieCol = new ColumnConfig<OdbiorcaDTO, String>(props.imie(), 100, "Imię");
@@ -60,7 +56,7 @@ public class OdebraneGridPanel extends ContentPanel {
         dataZlozCell.setPropertyEditor(new DateTimePropertyEditor(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT)));
         dataZlozCell.setWidth(120);
         dataZlozCell.setReadOnly(true);
-        dataOdbCol.setCell(dataZlozCell);
+//        dataOdbCol.setCell(dataZlozCell);
 
         List<ColumnConfig<OdbiorcaDTO, ?>> columns = new ArrayList<ColumnConfig<OdbiorcaDTO, ?>>();
         columns.add(nadTematCol);
@@ -93,22 +89,11 @@ public class OdebraneGridPanel extends ContentPanel {
         filters.addFilter(createFilter(props.nadawcaNazwisko()));
         filters.addFilter(createFilter(props.nadawcaTemat()));
 
-        ToolBar tb = new ToolBar();
-        tb.add(btnOdpowiedz);
-
-        VerticalLayoutContainer vlc = new VerticalLayoutContainer();
-        vlc.add(tb, new VerticalLayoutData(1, -1));
-        vlc.add(grid, new VerticalLayoutData(1, 1));
-        add(vlc);
-//        setHeight(500);
+        add(grid);
     }
 
     public Grid<OdbiorcaDTO> getGrid() {
         return grid;
-    }
-
-    public TextButton getBtnDodaj() {
-        return btnOdpowiedz;
     }
 
     private StringFilter<OdbiorcaDTO> createFilter(ValueProvider<OdbiorcaDTO, String> provider) {

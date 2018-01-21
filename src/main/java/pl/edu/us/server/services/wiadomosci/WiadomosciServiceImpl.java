@@ -1,6 +1,7 @@
 package pl.edu.us.server.services.wiadomosci;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.edu.us.server.dao.NadawcaDAO;
 import pl.edu.us.server.dao.OdbiorcaDAO;
 import pl.edu.us.server.dao.UserDAO;
+import pl.edu.us.server.services.user.Mail;
 import pl.edu.us.shared.dto.wiadomosci.NadawcaDTO;
 import pl.edu.us.shared.dto.wiadomosci.OdbiorcaDTO;
 import pl.edu.us.shared.dto.wiadomosci.UserMessagesDTO;
@@ -109,6 +111,33 @@ public class WiadomosciServiceImpl implements WiadomosciService {
         ModelMapper mapper = new ModelMapper();
         Odbiorca odb = mapper.map(dto, Odbiorca.class);
         odbiorcaDAO.merge(odb);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void wyslij(NadawcaDTO dto) throws Exception {
+        Nadawca n = new Nadawca(dto);
+        n.setUser(userDAO.findById(dto.getUserId()));
+        n.setData(new Date());
+        List<Odbiorca> odbiorcy = new ArrayList<Odbiorca>();
+        for (OdbiorcaDTO odb : dto.getOdbiorcy()) {
+            Odbiorca o = new Odbiorca(odb, n);
+            o.setUser(userDAO.findById(odb.getUserId()));
+            o.setOdebrano(false);
+
+            if (odb.getEmail()) {
+                try {
+                    new Mail().send(o.getUser().getEmail(), n.getTemat(), n.getWiadomosc());
+                } catch (Exception e) {
+                    throw new Exception("Nie udało się wysłać wiadomości do użytkownika"
+                        + ": " + o.getUser().toString() + " na adres: " + o.getUser().getEmail());
+                }
+            }
+            odbiorcy.add(o);
+        }
+        n.setOdbiorcy(odbiorcy);
+        nadawcaDAO.persist(n);
+
     }
 
 }

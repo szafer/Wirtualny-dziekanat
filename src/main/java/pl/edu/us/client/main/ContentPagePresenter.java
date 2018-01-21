@@ -90,11 +90,11 @@ public class ContentPagePresenter extends Presenter<ContentPagePresenter.MyView,
             public void onSuccess(List<OdbiorcaDTO> result) {
                 if (!kontekst.isLock())
                     if (result != null && result.size() > 0) {
-                        menuPresenter.loadMessages(result);
-                        if (!kontekst.getNowe().contains(result.get(0))) {
-                            kontekst.getNowe().add(result.get(0));
-                            Info.display("Wiadomości", "Masz nową wiadomość.");
-                        }
+                        Info.display("Wiadomości", "Masz nową wiadomość.");
+//                        menuPresenter.loadMessages(result);
+//                        if (!kontekst.getNowe().contains(result.get(0))) {
+//                            kontekst.getNowe().add(result.get(0));
+//                        }
                     }
             }
 

@@ -1,6 +1,10 @@
 package pl.edu.us.client.wiadomosci;
 
+import java.util.List;
+
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -11,7 +15,6 @@ import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.sencha.gxt.widget.core.client.Component;
 import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
-import com.sencha.gxt.widget.core.client.info.Info;
 
 import pl.edu.us.client.NameTokens;
 import pl.edu.us.client.main.AppKontekst;
@@ -20,6 +23,8 @@ import pl.edu.us.client.main.MenuPresenter;
 import pl.edu.us.client.main.handlers.ActionCallback;
 import pl.edu.us.client.main.handlers.RpcMasking;
 import pl.edu.us.client.wiadomosci.ui.WiadomosciMainPanel;
+import pl.edu.us.shared.dto.UserDTO;
+import pl.edu.us.shared.dto.wiadomosci.NadawcaDTO;
 import pl.edu.us.shared.dto.wiadomosci.OdbiorcaDTO;
 import pl.edu.us.shared.dto.wiadomosci.UserMessagesDTO;
 import pl.edu.us.shared.enums.Message;
@@ -27,8 +32,6 @@ import pl.edu.us.shared.services.user.UserService;
 import pl.edu.us.shared.services.user.UserServiceAsync;
 import pl.edu.us.shared.services.wiadomosci.WiadomosciService;
 import pl.edu.us.shared.services.wiadomosci.WiadomosciServiceAsync;
-import pl.edu.us.shared.services.wnioski.WnioskiService;
-import pl.edu.us.shared.services.wnioski.WnioskiServiceAsync;
 
 public class WiadomosciPresenter extends BasePresenter<WiadomosciPresenter.MyView, WiadomosciPresenter.MyProxy> implements
     WiadomosciUiHandlers {
@@ -37,6 +40,8 @@ public class WiadomosciPresenter extends BasePresenter<WiadomosciPresenter.MyVie
         WiadomosciModel getModel();
 
         WiadomosciMainPanel getPanel();
+
+        void odnotujWyslanie();
     }
 
     @ProxyCodeSplit
@@ -49,6 +54,10 @@ public class WiadomosciPresenter extends BasePresenter<WiadomosciPresenter.MyVie
     private final RpcMasking rpcMasking;
 //    private final UserServiceAsync userService = GWT.create(UserService.class);
     private final WiadomosciServiceAsync wiadomosciService = GWT.create(WiadomosciService.class);
+    private final UserServiceAsync userService = GWT.create(UserService.class);
+
+    private static final int MESSAGE_TIME = 30 * 1000;//1min
+    private Timer timer;
 
     @Inject
     public WiadomosciPresenter(EventBus eventBus, MyView view, MyProxy proxy, final RpcMasking rpcMasking, AppKontekst kontekst,
@@ -66,71 +75,118 @@ public class WiadomosciPresenter extends BasePresenter<WiadomosciPresenter.MyVie
     protected void onReset() {
         super.onReset();
         getView().getModel().wyczysc();
-        pobierzWiadomosci();
+        pobierzDaneUzytkownika();
+
+        utworzTimer();
     }
 
-    private void pobierzWiadomosci() {
+    private void utworzTimer() {
+        timer = new Timer() {
+            @Override
+            public void run() {
+                pobierzWiadomosci(true);
+            }
 
-        getView().getModel().wyczysc();
-        wiadomosciService.getWiadomosci(kontekst.getUser().getId(), rpcMasking.call(Message.LOADING,
-            new ActionCallback<UserMessagesDTO>() {
+        };
+        timer.scheduleRepeating(MESSAGE_TIME);
+    }
 
-                @Override
-                public void onSuccess(UserMessagesDTO result) {
-                    if (result != null) {
-                        menuPresenter.loadMessages(null);//czyści toolbar
-                        getView().getModel().ladujDane(result);
+    private void pobierzDaneUzytkownika() {
+
+        userService.pobierzDaneUzytkownika(Cookies.getCookie("loggedUser"), rpcMasking.call(Message.SAVING, new AsyncCallback<UserDTO>() {
+
+            @Override
+            public void onSuccess(UserDTO result) {
+                getView().getModel().setUser(result);
+                pobierzUzytkownikow();
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+                getView().getModel().setUser(null);
+                new AlertMessageBox("Wiadomości", "Błąd pobierania wiadomości: <br>" + caught.getMessage()).show();
+            }
+        }));
+    }
+
+    private void pobierzWiadomosci(final Boolean tylkoNowe) {
+//        getView().getModel().wyczysc();
+        if (!tylkoNowe) {
+            wiadomosciService.getWiadomosci(1
+//            kontekst.getUser().getId()
+                , rpcMasking.call(Message.LOADING,
+                    new ActionCallback<UserMessagesDTO>() {
+
+                        @Override
+                        public void onSuccess(UserMessagesDTO result) {
+                            if (result != null) {
+                                menuPresenter.loadMessages(null);//czyści toolbar
+                                getView().getModel().ladujDane(result, tylkoNowe);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable caught) {
+                            new AlertMessageBox("Wiadomości", "Błąd pobierania wiadomości: <br>" + caught.getMessage()).show();
+                        }
+                    }));
+        } else {
+            wiadomosciService.getWiadomosci(1
+//            kontekst.getUser().getId()
+                ,
+                new ActionCallback<UserMessagesDTO>() {
+
+                    @Override
+                    public void onSuccess(UserMessagesDTO result) {
+                        if (result != null) {
+                            menuPresenter.loadMessages(null);//czyści toolbar
+                            getView().getModel().ladujDane(result, tylkoNowe);
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(Throwable caught) {
-                    new AlertMessageBox("Wnioski", "Błąd pobierania danych: <br>" + caught.getMessage()).show();
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        new AlertMessageBox("Wiadomości", "Błąd pobierania wiadomości: <br>" + caught.getMessage()).show();
+                    }
+                });
+        }
+    }
+
+    /*
+     * Metoda zastąpiona loaderem z maskowaniem
+     */
+    private void pobierzUzytkownikow() {
+        userService.getUsers(rpcMasking.call(Message.LOADING, new AsyncCallback<List<UserDTO>>() {
+            @Override
+            public void onSuccess(List<UserDTO> result) {
+                if (result != null) {
+                    getView().getModel().getStoreOdbiorcy().addAll(result);
+                    if (kontekst.getUser() != null)
+                        getView().getModel().getStoreOdbiorcy().remove(getView().getModel().getUser());
                 }
-            }));
+                pobierzWiadomosci(false);
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+
+            }
+        }));
 
     }
 
     @Override
     public void wykonajZapisz() {
-//        UserDTO user = getView().getModel().getUser();
-//        List<UWniosekDTO> zmiany = new ArrayList<UWniosekDTO>();
-//        Collection<Store<UWniosekDTO>.Record> wykladowca = getView().getModel().getStoreWnioskiUzytkownika().getModifiedRecords();
-//        for (Record r : wykladowca) {
-//            r.commit(false);
-//            UWniosekDTO wyk = (UWniosekDTO) r.getModel();
-//            zmiany.add((UWniosekDTO) r.getModel());
-//        }
-//        if (user.getWnioskiUzytkownika() != null) {
-//            user.getWnioskiUzytkownika().addAll(zmiany);
-//        } else
-//            user.setWnioskiUzytkownika(zmiany);
-//
-//        userService.updateUser(user, rpcMasking.call(Message.SAVING, new AsyncCallback<UserDTO>() {
-//
-//            @Override
-//            public void onSuccess(UserDTO result) {
-//                Info.display("Info", "Zapisano wnioski");
-//                pobierzDaneUzytkownika();
-//                getView().getPanel().initialState();
-//            }
-//
-//            @Override
-//            public void onFailure(Throwable caught) {
-//                new AlertMessageBox("Użytkownicy", "Błąd zapisywania danych: <br>" + caught.getMessage()).show();
-//            }
-//        }));
     }
 
     @Override
     public void wykonajAnuluj() {
-//        getView().getModel().getStoreWnioskiUzytkownika().rejectChanges();
-//        getView().getPanel().getWniosekPanel().clear();
     }
 
     @Override
     public void wykonajZamknij() {
         kontekst.setLock(false);
+        timer.cancel();
         removeFromParentSlot();
     }
 
@@ -140,9 +196,7 @@ public class WiadomosciPresenter extends BasePresenter<WiadomosciPresenter.MyVie
 
             @Override
             public void onSuccess(Void result) {
-//              Info.display("Info", "Zapisano wnioski");
-//              pobierzDaneUzytkownika();
-//              getView().getPanel().initialState();
+
             }
 
             @Override
@@ -150,5 +204,23 @@ public class WiadomosciPresenter extends BasePresenter<WiadomosciPresenter.MyVie
 //              new AlertMessageBox("Użytkownicy", "Błąd zapisywania danych: <br>" + caught.getMessage()).show();
             }
         });
+    }
+
+    @Override
+    public void wyslij(NadawcaDTO nowaWiadomosc) {
+        wiadomosciService.wyslij(nowaWiadomosc,
+            rpcMasking.call(Message.LOADING,
+                new ActionCallback<Void>() {
+
+                    @Override
+                    public void onSuccess(Void result) {
+                        getView().odnotujWyslanie();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        new AlertMessageBox("Wiadomości", "Błąd wysyłania wiadomości: <br>" + caught.getMessage()).show();
+                    }
+                }));
     }
 }

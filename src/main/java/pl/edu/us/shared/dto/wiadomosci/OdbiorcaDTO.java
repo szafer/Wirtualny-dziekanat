@@ -2,9 +2,9 @@ package pl.edu.us.shared.dto.wiadomosci;
 
 import java.util.Date;
 
-import pl.edu.us.shared.model.wiadomosci.Nadawca;
+import pl.edu.us.shared.dto.DTO;
 
-public class OdbiorcaDTO extends WiadomoscDTO {
+public class OdbiorcaDTO extends DTO {
 
     private static final long serialVersionUID = 6099193096136912146L;
     private Integer userId;
@@ -80,4 +80,16 @@ public class OdbiorcaDTO extends WiadomoscDTO {
     public String toString() {
         return nazwisko + " " + imie;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        OdbiorcaDTO other = (OdbiorcaDTO) obj;
+        if (getId() == null) {
+            if (other.getId() != null)
+                return false;
+        } else if (!getId().equals(other.getId()))
+            return false;
+        return true;
+    }
+
 }

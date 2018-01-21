@@ -3,7 +3,9 @@ package pl.edu.us.shared.dto.wiadomosci;
 import java.util.Date;
 import java.util.List;
 
-public class NadawcaDTO extends WiadomoscDTO {
+import pl.edu.us.shared.dto.DTO;
+
+public class NadawcaDTO extends DTO {
 
     private static final long serialVersionUID = -809042943471730072L;
 

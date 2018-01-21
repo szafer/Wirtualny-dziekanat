@@ -6,7 +6,7 @@ import java.util.List;
 public class FolderDto extends BaseDto {
 
     private static final long serialVersionUID = -5428786067694623522L;
-    private List<BaseDto> children = new ArrayList<BaseDto>();
+    private List<FolderDto> children = new ArrayList<FolderDto>();
 
     public FolderDto() {
 
@@ -17,15 +17,34 @@ public class FolderDto extends BaseDto {
     }
 
     @Override
-    public List<BaseDto> getChildren() {
+    public List<FolderDto> getChildren() {
         return children;
     }
 
-    public void setChildren(List<BaseDto> children) {
+    public void setChildren(List<FolderDto> children) {
         this.children = children;
     }
 
-    public void addChild(BaseDto child) {
+    public void addChild(FolderDto child) {
         children.add(child);
+    }
+
+    @Override
+    public String toString() {
+        if (super.getName() == "Wiadomości") {
+            return super.getName() + " " + getChildrenSize();
+        } else
+            return super.toString();
+
+    }
+
+    public Integer getChildrenSize() {
+        int s = 0;
+        for (FolderDto d : children) {
+            s += d.getNowe().size();
+            s += d.getOdebrane().size();
+            s += d.getWyslane().size();
+        }
+        return s;
     }
 }

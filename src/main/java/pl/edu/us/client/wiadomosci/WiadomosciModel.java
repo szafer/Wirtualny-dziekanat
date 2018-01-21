@@ -1,6 +1,6 @@
 package pl.edu.us.client.wiadomosci;
 
-import java.util.Arrays;
+import java.util.Date;
 
 import com.google.gwt.core.client.GWT;
 import com.google.inject.Inject;
@@ -10,10 +10,7 @@ import com.sencha.gxt.data.shared.TreeStore;
 
 import pl.edu.us.client.accesproperties.NadawcaProperties;
 import pl.edu.us.client.accesproperties.OdbiorcaProperties;
-import pl.edu.us.client.accesproperties.StatusWnioskuProperties;
-import pl.edu.us.client.accesproperties.TypWnioskuProperties;
-import pl.edu.us.client.accesproperties.UWniosekProperties;
-import pl.edu.us.client.accesproperties.WniosekProperties;
+import pl.edu.us.client.accesproperties.UserProperties;
 import pl.edu.us.client.main.grid.WiadomoscKeyProvider;
 import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.dto.wiadomosci.BaseDto;
@@ -22,9 +19,6 @@ import pl.edu.us.shared.dto.wiadomosci.NadawcaDTO;
 import pl.edu.us.shared.dto.wiadomosci.OdbiorcaDTO;
 import pl.edu.us.shared.dto.wiadomosci.UserMessagesDTO;
 import pl.edu.us.shared.dto.wnioski.UWniosekDTO;
-import pl.edu.us.shared.dto.wnioski.WniosekDTO;
-import pl.edu.us.shared.enums.StatusWniosku;
-import pl.edu.us.shared.enums.TypWniosku;
 
 @Singleton
 public class WiadomosciModel {
@@ -32,28 +26,28 @@ public class WiadomosciModel {
     private TreeStore<BaseDto> storeTypySkrzynek;
     private UWniosekDTO wniosek;
     private UserDTO user;
+    private ListStore<UserDTO> storeOdbiorcy;
 
     private ListStore<OdbiorcaDTO> storeOdebrane;
 //    private ListStore<OdbiorcaDTO> storeNowe;
     private ListStore<NadawcaDTO> storeWyslane;
-
+    private NadawcaDTO nowaWiadomosc;
     FolderDto root = new FolderDto(1, "Wiadomości");
-//    FolderDto nowe = new FolderDto(2, "Nowe");
     FolderDto wyslane = new FolderDto(3, "Wysłane");
     FolderDto odebrane = new FolderDto(4, "Odebrane");
 
     OdbiorcaProperties odbProp = GWT.create(OdbiorcaProperties.class);
     NadawcaProperties nadProp = GWT.create(NadawcaProperties.class);
+    UserProperties uProp = GWT.create(UserProperties.class);
 
     @Inject
     public WiadomosciModel() {
-
+        storeOdbiorcy = new ListStore<>(uProp.key());
         storeOdebrane = new ListStore<OdbiorcaDTO>(odbProp.key());
-//        storeNowe = new ListStore<OdbiorcaDTO>(odbProp.key());
         storeWyslane = new ListStore<NadawcaDTO>(nadProp.key());
 
         storeTypySkrzynek = new TreeStore<BaseDto>(new WiadomoscKeyProvider());
-//        root.addChild(nowe);
+
         root.addChild(odebrane);
         root.addChild(wyslane);
         storeTypySkrzynek.add(root);
@@ -66,9 +60,9 @@ public class WiadomosciModel {
     }
 
     public void wyczysc() {
-//        storeNowe.clear();
         storeOdebrane.clear();
         storeWyslane.clear();
+        storeOdbiorcy.clear();
     }
 
     public UWniosekDTO getWniosek() {
@@ -102,10 +96,6 @@ public class WiadomosciModel {
         }
     }
 
-//    public ListStore<OdbiorcaDTO> getStoreNowe() {
-//        return storeNowe;
-//    }
-
     public ListStore<OdbiorcaDTO> getStoreOdebrane() {
         return storeOdebrane;
     }
@@ -122,9 +112,38 @@ public class WiadomosciModel {
         return nadProp;
     }
 
-    public void ladujDane(UserMessagesDTO result) {
-        wyslane.setWyslane(result.getNadane());
-        odebrane.setOdebrane(result.getOdebrane());
-//        nowe.setNowe(result.getNowe());
+    public void ladujDane(UserMessagesDTO result, Boolean tylkoNowe) {
+        if (!tylkoNowe) {
+            wyslane.setWyslane(result.getNadane());
+            odebrane.setOdebrane(result.getOdebrane());
+        }
+        for (OdbiorcaDTO odb : result.getNowe()) {
+            if (!odebrane.getNowe().contains(odb))
+                odebrane.getNowe().add(odb);
+        }
+        storeTypySkrzynek.update(wyslane);
+        storeTypySkrzynek.update(odebrane);
+        storeTypySkrzynek.update(root);
+
+    }
+
+    public ListStore<UserDTO> getStoreOdbiorcy() {
+        return storeOdbiorcy;
+    }
+
+    public UserProperties getuProp() {
+        return uProp;
+    }
+
+    public NadawcaDTO getNowaWiadomosc() {
+        return nowaWiadomosc;
+    }
+
+    public void setNowaWiadomosc(NadawcaDTO nowaWiadomosc) {
+        this.nowaWiadomosc = nowaWiadomosc;
+    }
+
+    public FolderDto getRoot() {
+        return root;
     }
 }

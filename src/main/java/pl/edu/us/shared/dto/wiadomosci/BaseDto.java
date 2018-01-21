@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.safecss.shared.SafeStylesUtils;
 import com.sencha.gxt.data.shared.TreeStore;
 import com.sencha.gxt.data.shared.TreeStore.TreeNode;
 
@@ -55,7 +56,7 @@ public class BaseDto implements Serializable, TreeStore.TreeNode<BaseDto> {
     @Override
     public String toString() {
         if (name == "Odebrane") {
-            return name + " " + odebrane.size() + " "
+            return name + " " + odebrane.size() + " " 
                 + (!nowe.isEmpty() ? nowe.size() == 1 ? "1 nowa wiadomość" : nowe.size() + " nowych wiadomości" : "");
         } else {
             return name + " " + wyslane.size();

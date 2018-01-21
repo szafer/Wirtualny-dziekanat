@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import pl.edu.us.shared.dto.wiadomosci.NadawcaDTO;
 import pl.edu.us.shared.dto.wiadomosci.OdbiorcaDTO;
 import pl.edu.us.shared.dto.wiadomosci.UserMessagesDTO;
 
@@ -17,5 +18,7 @@ public interface WiadomosciService extends RemoteService{
     List<OdbiorcaDTO> getNoweWiadomosci(Integer userId);
 
     void updateMessage(OdbiorcaDTO dto);
+
+    void wyslij(NadawcaDTO dto) throws Exception;
 
 }

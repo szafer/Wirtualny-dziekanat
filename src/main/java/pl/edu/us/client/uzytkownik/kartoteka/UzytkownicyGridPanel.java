@@ -194,9 +194,7 @@ public class UzytkownicyGridPanel extends ContentPanel {
         columns.add(powiadomicCol);
         ustawPoziom(columns);
 
-        ColumnModel<UserDTO> cm = new ColumnModel<UserDTO>(columns) {
-
-        };
+        ColumnModel<UserDTO> cm = new ColumnModel<UserDTO>(columns);
         grid = new Grid<UserDTO>(store, cm) {
             @Override
             protected void onAfterFirstAttach() {
