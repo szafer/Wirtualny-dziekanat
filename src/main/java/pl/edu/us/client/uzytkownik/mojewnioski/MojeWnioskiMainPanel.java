@@ -2,14 +2,14 @@ package pl.edu.us.client.uzytkownik.mojewnioski;
 
 import java.util.Date;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.inject.Inject;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
-import com.sencha.gxt.widget.core.client.event.BeforeStartEditEvent;
-import com.sencha.gxt.widget.core.client.event.BeforeStartEditEvent.BeforeStartEditHandler;
 import com.sencha.gxt.widget.core.client.event.CancelEditEvent;
 import com.sencha.gxt.widget.core.client.event.CancelEditEvent.CancelEditHandler;
 import com.sencha.gxt.widget.core.client.event.CompleteEditEvent;
@@ -18,7 +18,15 @@ import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 import com.sencha.gxt.widget.core.client.event.StartEditEvent;
 import com.sencha.gxt.widget.core.client.event.StartEditEvent.StartEditHandler;
-import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
+import com.sencha.gxt.widget.core.client.event.SubmitCompleteEvent;
+import com.sencha.gxt.widget.core.client.event.SubmitCompleteEvent.SubmitCompleteHandler;
+import com.sencha.gxt.widget.core.client.form.DateField;
+import com.sencha.gxt.widget.core.client.form.FieldLabel;
+import com.sencha.gxt.widget.core.client.form.FormPanel;
+import com.sencha.gxt.widget.core.client.form.FormPanel.Encoding;
+import com.sencha.gxt.widget.core.client.form.FormPanel.Method;
+import com.sencha.gxt.widget.core.client.form.TextField;
+import com.sencha.gxt.widget.core.client.info.Info;
 
 import pl.edu.us.client.main.BazowyPanel;
 import pl.edu.us.shared.dto.wnioski.UWniosekDTO;
@@ -29,10 +37,11 @@ public class MojeWnioskiMainPanel extends BazowyPanel {
     private BorderLayoutData westData;
     private MojeWnioskiModel model;
     private MojeWnioskiGridPanel gridPanel;
-    private ContentPanel centerPanel;
+    private FormPanel centerPanel;
 //    private ContentPanel rightContainer;
     private TextButton btnDrukuj = new TextButton("Drukuj");
-
+    private TextField imie, nazwisko;
+    private DateField data;
     private ContentPanel wniosekPanel;
     private static int AUTO_ID = 0;
 
@@ -51,7 +60,7 @@ public class MojeWnioskiMainPanel extends BazowyPanel {
 
         centerPanel = createCenterPanel();
         getBorderLayoutContainer().setCenterWidget(centerPanel);
-        
+
         gridPanel.getEditing().addStartEditHandler(new StartEditHandler<UWniosekDTO>() {
 
             @Override
@@ -93,19 +102,106 @@ public class MojeWnioskiMainPanel extends BazowyPanel {
                 gridPanel.getComboTyp().setReadOnly(false);
             }
         });
+
     }
 
-    private ContentPanel createCenterPanel() {
-        ContentPanel cp = new ContentPanel();
+//    /* chapter12/MyJTable.java */
+//    public void createPdf(boolean shapes) {
+//       Document document = new Document();
+//       try {
+//          PdfWriter writer;
+//          if (shapes)
+//             writer = PdfWriter.getInstance(document,
+//                new FileOutputStream("my_jtable_shapes.pdf"));
+//          else
+//             writer = PdfWriter.getInstance(document,
+//                new FileOutputStream("my_jtable_fonts.pdf"));
+//          document.open();
+//          PdfContentByte cb = writer.getDirectContent();
+//          PdfTemplate tp = cb.createTemplate(500, 500);
+//          Graphics2D g2;
+//          if (shapes)
+//             g2 = tp.createGraphicsShapes(500, 500);
+//          else
+//             g2 = tp.createGraphics(500, 500);
+//          table.print(g2);
+//          g2.dispose();
+//          cb.addTemplate(tp, 30, 300);
+//          } catch (Exception e) {
+//          System.err.println(e.getMessage());
+//       }
+//       document.close();
+//    }
+    private FormPanel createCenterPanel() {
+//        VerticalLayoutContainer vl = new VerticalLayoutContainer();
+//        vl.add(btnDrukuj);
+//        ContentPanel cp = new ContentPanel();
+        imie = new TextField();
+        imie.setReadOnly(true);
+        imie.setName("imie");
+
+        nazwisko = new TextField();
+        nazwisko.setReadOnly(true);
+        nazwisko.setName("nazwisko");
+
+        data = new DateField();
+        data.setName("data");
+        data.setReadOnly(true);
 
         wniosekPanel = new ContentPanel();
-        ToolBar tb = new ToolBar();
-        tb.add(btnDrukuj);
+//        wniosekPanel.setN
+        wniosekPanel.setHeaderVisible(false);
+//        ToolBar tb = new ToolBar();
+//        tb.add(btnDrukuj);
+        final FormPanel fp = new FormPanel();
+        fp.setAction(GWT.getHostPageBaseURL() + "raport_img");
+        fp.setEncoding(Encoding.MULTIPART);
+        fp.setMethod(Method.GET);
+        fp.setHeight(100);
+        fp.addSubmitCompleteHandler(new SubmitCompleteHandler() {
+            public void onSubmitComplete(SubmitCompleteEvent event) {
+
+//                String resultHtml = event.getResults();
+////
+//                Info.display("Upload Response", resultHtml);
+////
+//                Window.open(GWT.getHostPageBaseURL() + "raport_img" + "?imie=Marek Szafraniec", "_blank", "resizable=yes");
+
+            }
+        });
+
+        btnDrukuj.addSelectHandler(new SelectHandler() {
+
+            @Override
+            public void onSelect(SelectEvent event) {
+//                if (!fp.isValid())
+//                    return;
+//                fp.set
+                Window.open(GWT.getHostPageBaseURL() + "raport_img" + "?" + budujRequest(), "_blank", "resizable=yes");
+
+//                fp.submit();
+//                WniosekDTO dto = model.getWniosek();
+//                dto.setNazwaObrazu(fileUploadField.getValue());
+//                GWT.log(fileUploadField.getValue());
+            }
+        });
         VerticalLayoutContainer vlc = new VerticalLayoutContainer();
-        vlc.add(tb, new VerticalLayoutData(1, -1));
+        vlc.add(btnDrukuj, new VerticalLayoutData(1, -1));
+        vlc.add(new FieldLabel(imie, "Imię"));
+        vlc.add(new FieldLabel(nazwisko, "Nazwisko"));
+        vlc.add(new FieldLabel(data, "Data urodzenia"));
         vlc.add(wniosekPanel, new VerticalLayoutData(1, 1));
-        cp.add(vlc);
-        return cp;
+        fp.setWidget(vlc);
+//        cp.add(vlc);
+        return fp;
+    }
+
+    private String budujRequest() {
+        String s = "";
+        s += "imie=" + imie.getText();
+        s += "&nazwisko=" + nazwisko.getText();
+        s += "&data=" + data.getValue();
+        return s;
     }
 
     public void initialState() {
@@ -124,5 +220,17 @@ public class MojeWnioskiMainPanel extends BazowyPanel {
 
     public ContentPanel getWniosekPanel() {
         return wniosekPanel;
+    }
+
+    public TextField getImie() {
+        return imie;
+    }
+
+    public TextField getNazwisko() {
+        return nazwisko;
+    }
+
+    public DateField getData() {
+        return data;
     }
 }

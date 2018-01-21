@@ -13,7 +13,7 @@ public class DispatchServletModule extends ServletModule {
     public void configureServlets() {
         String address = "/" + ActionImpl.DEFAULT_SERVICE_NAME + "*";
 
-         serve("/usosweb/usosweb/raport_img").with(RaportyImgServlet.class);
+         serve("/raport_img").with(RaportyImgServlet.class);
          serve("/instrukcja").with(InstrukcjaServlet.class);
          serve(address).with(DispatchServiceImpl.class);
 

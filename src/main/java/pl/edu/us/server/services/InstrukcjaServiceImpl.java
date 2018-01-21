@@ -4,7 +4,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.google.inject.Inject;
 
 import pl.edu.us.server.dao.InstrukcjaDAO;
 import pl.edu.us.shared.model.Instrukcja;
@@ -13,7 +13,8 @@ import pl.edu.us.shared.services.instrukcja.InstrukcjaService;
 //@Service("instrukcjaService")
 @Stateless
 public class InstrukcjaServiceImpl implements InstrukcjaService {
-    @Autowired
+  
+    @Inject
     private InstrukcjaDAO instrukcjaDAO;
 //    InstrukcjaServiceAsync instrService = GWT.create(InstrukcjaService.class);
 

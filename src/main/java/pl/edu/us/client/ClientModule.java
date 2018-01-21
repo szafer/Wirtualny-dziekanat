@@ -18,8 +18,6 @@ import pl.edu.us.client.symulacja.przychodykoszty.PrzychodyKosztyPresenter;
 import pl.edu.us.client.symulacja.przychodykoszty.PrzychodyKosztyView;
 import pl.edu.us.client.symulacja.przychodykosztykierunki.PKKierunkiPresenter;
 import pl.edu.us.client.symulacja.przychodykosztykierunki.PKKierunkiView;
-import pl.edu.us.client.symulacja.przychodykosztyroczne.PKRocznePresenter;
-import pl.edu.us.client.symulacja.przychodykosztyroczne.PKRoczneView;
 import pl.edu.us.client.uzytkownik.daneuzytkownika.DaneUzytkownikaPresenter;
 import pl.edu.us.client.uzytkownik.daneuzytkownika.DaneUzytkownikaView;
 import pl.edu.us.client.uzytkownik.hasloprzypomnienie.PassRemindPresenter;
@@ -101,8 +99,6 @@ public class ClientModule extends AbstractPresenterModule {
         // Symulacja
         bindPresenter(PrzychodyKosztyPresenter.class, PrzychodyKosztyPresenter.MyView.class, PrzychodyKosztyView.class,
             PrzychodyKosztyPresenter.MyProxy.class);
-        bindPresenter(PKRocznePresenter.class, PKRocznePresenter.MyView.class, PKRoczneView.class,
-            PKRocznePresenter.MyProxy.class);
         bindPresenter(PKKierunkiPresenter.class, PKKierunkiPresenter.MyView.class, PKKierunkiView.class,
             PKKierunkiPresenter.MyProxy.class);
     }

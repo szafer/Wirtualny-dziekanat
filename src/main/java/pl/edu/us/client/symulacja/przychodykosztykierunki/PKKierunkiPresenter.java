@@ -19,71 +19,72 @@ import pl.edu.us.shared.services.przychodykoszty.PrzychodyKosztyService;
 import pl.edu.us.shared.services.przychodykoszty.PrzychodyKosztyServiceAsync;
 
 public class PKKierunkiPresenter extends
-BasePresenter<PKKierunkiPresenter.MyView, PKKierunkiPresenter.MyProxy> implements
-PKKierunkiUiHandlers {
+    BasePresenter<PKKierunkiPresenter.MyView, PKKierunkiPresenter.MyProxy> implements
+    PKKierunkiUiHandlers {
 
-public interface MyView extends View, HasUiHandlers<PKKierunkiUiHandlers> {
+    public interface MyView extends View, HasUiHandlers<PKKierunkiUiHandlers> {
 
-PKKierunkiModel getModel();
+        PKKierunkiModel getModel();
 
-		void filtrujChart();
+        void filtrujChart();
 
-		void filtrujStoreRok();
+        void filtrujStoreRok();
 
-		void filtrujStoreKierunki();
-}
+        void filtrujStoreKierunki();
+    }
 
-@ProxyCodeSplit
-@NameToken(NameTokens.przychodykosztykierunki)
-public interface MyProxy extends ProxyPlace<PKKierunkiPresenter> {
-}
+    @ProxyCodeSplit
+    @NameToken(NameTokens.przychodykosztykierunki)
+    public interface MyProxy extends ProxyPlace<PKKierunkiPresenter> {
+    }
 
-	private final PrzychodyKosztyServiceAsync service = GWT.create(PrzychodyKosztyService.class);
+    private final PrzychodyKosztyServiceAsync service = GWT.create(PrzychodyKosztyService.class);
 
-@Inject
-public PKKierunkiPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
-super(eventBus, view, proxy);
-getView().setUiHandlers(this);
+    @Inject
+    public PKKierunkiPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
+        super(eventBus, view, proxy);
+        getView().setUiHandlers(this);
 
-}
+    }
 
-	@Override
-	protected void onReset() {
-		super.onReset();
-		getView().getModel().wyczysc();
-		pobierzPrzychody();
-	}
+    @Override
+    protected void onReset() {
+        super.onReset();
+        getView().getModel().wyczysc();
+        pobierzPrzychody();
+    }
 
-	private void pobierzPrzychody() {
-		service.getPrzychody(new AsyncCallback<List<ViPrzychod>>() {
-			@Override
-			public void onSuccess(List<ViPrzychod> result) {
-				if (result != null)
-				getView().getModel().getStoreAll().addAll(result);
-			}
+    private void pobierzPrzychody() {
+        service.getPrzychody(new AsyncCallback<List<ViPrzychod>>() {
+            @Override
+            public void onSuccess(List<ViPrzychod> result) {
+                if (result != null)
+                    getView().getModel().getStoreAll().addAll(result);
+            }
 
-			@Override
-			public void onFailure(Throwable caught) {
-				System.out.println("fail");
-			}
-		});
-		// getView().getModel().getStorePrzychodyAll().addAll(getPrzychody());
-	}
-@Override
-public void wykonajZapisz() {
+            @Override
+            public void onFailure(Throwable caught) {
+                System.out.println("fail");
+            }
+        });
+        // getView().getModel().getStorePrzychodyAll().addAll(getPrzychody());
+    }
+
+    @Override
+    public void wykonajZapisz() {
 // TODO Auto-generated method stub
 
-}
+    }
 
-@Override
-public void wykonajAnuluj() {
+    @Override
+    public void wykonajAnuluj() {
 // TODO Auto-generated method stub
 
-}
+    }
 
-	@Override
-	public void wykonajZamknij() {
-		// TODO Auto-generated method stub
+    @Override
+    public void wykonajZamknij() {
+        removeFromParentSlot();
 
-	}
+    }
 }

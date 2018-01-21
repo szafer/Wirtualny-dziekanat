@@ -31,6 +31,5 @@ public class NameTokens {
 
     //Moduł symulacji
     public static final String przychodykoszty = "!przychodykoszty";
-    public static final String przychodykosztyroczne = "!przychodykosztyroczne";
     public static final String przychodykosztykierunki = "!przychodykosztykierunki";
 }

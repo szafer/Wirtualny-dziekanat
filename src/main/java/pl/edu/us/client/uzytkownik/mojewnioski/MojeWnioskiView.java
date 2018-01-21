@@ -35,6 +35,7 @@ public class MojeWnioskiView extends BaseView<MojeWnioskiUiHandlers> implements 
             public void onBeforeSelection(BeforeSelectionEvent<UWniosekDTO> event) {
                 UWniosekDTO wniosek = event.getItem();
                 model.setWniosek(wniosek);
+//                panel.getGri
                 panel.getGridPanel().getComboTyp().setReadOnly(wniosek.getStatus() != StatusWniosku.OCZEKJACY);
             }
         });
@@ -50,8 +51,14 @@ public class MojeWnioskiView extends BaseView<MojeWnioskiUiHandlers> implements 
                     image.setPixelSize(width, image.getHeight() * width / image.getWidth());
                     panel.getWniosekPanel().clear();
                     panel.getWniosekPanel().add(image);
+                    panel.getImie().setText(wniosek.getUzytkownik().getImie());
+                    panel.getNazwisko().setText(wniosek.getUzytkownik().getNazwisko());
+                    panel.getData().setValue(wniosek.getDataZlozenia());
                 } else {
                     panel.getWniosekPanel().clear();
+                    panel.getImie().clear();
+                    panel.getNazwisko().clear();
+                    panel.getData().clear();
                 }
             }
         });

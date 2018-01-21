@@ -138,6 +138,7 @@ public class MenuBuilder {
         adminMenu.add(createMenuItem("Użytkownicy", NameTokens.kartotekaUzytkownikow));
         adminMenu.add(createMenuItem("Przedmioty", NameTokens.przedmioty));//Dodawanie i edycja przedmiotow
         adminMenu.add(createMenuItem("Wnioski", NameTokens.wnioski));
+//        adminMenu.add(createMenuItem("Statystyki", NameTokens.przychodykosztykierunki));
         return adminbarItem;
     }
 

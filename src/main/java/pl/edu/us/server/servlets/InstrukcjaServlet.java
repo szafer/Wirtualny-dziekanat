@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.ejb.EJB;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -18,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.common.io.ByteStreams;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import pl.edu.us.shared.services.instrukcja.InstrukcjaService;
@@ -30,7 +30,7 @@ public class InstrukcjaServlet extends HttpServlet {
 
 //    @Autowired
 //    private InstrukcjaDAO instrukcjaDAO;
-    @EJB
+    @Inject
     InstrukcjaService instrukcjaService;//= new InstrukcjaServiceImpl();
     private EntityManagerFactory factory;
 
