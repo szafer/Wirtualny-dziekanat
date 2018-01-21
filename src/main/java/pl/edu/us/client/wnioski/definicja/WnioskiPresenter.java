@@ -91,8 +91,9 @@ public class WnioskiPresenter extends BasePresenter<WnioskiPresenter.MyView, Wni
                 public void onSuccess(List<WniosekDTO> result) {
                     getView().getModel().wyczysc();
                     getView().getPanel().initialState();
-                    getView().getModel().getStoreWnioski().addAll(result);
+//                    getView().getModel().getStoreWnioski().addAll(result);
                     Info.display("Zapisano", "Zapisano dane");
+                    pobierzWnioski();
                 }
 
                 @Override

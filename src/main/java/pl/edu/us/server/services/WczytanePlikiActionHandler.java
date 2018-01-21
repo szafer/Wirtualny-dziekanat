@@ -1,6 +1,7 @@
 package pl.edu.us.server.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,7 +54,12 @@ public class WczytanePlikiActionHandler implements ActionHandler<WczytanePliki, 
     }
 
     private List<FileItem> dajPliki() {
-        return UploadServlet.getSessionFileItems(provider.get()) == null ? new ArrayList<FileItem>() : UploadServlet.getSessionFileItems(provider.get());
+        ArrayList<FileItem> lista = (ArrayList<FileItem>) (UploadServlet.getSessionFileItems(provider.get()) == null ? new ArrayList<FileItem>()
+            : UploadServlet.getSessionFileItems(provider.get()));
+        if (lista.isEmpty())
+            return lista;
+        else
+            return Arrays.asList(lista.get(lista.size() - 1));
     }
 
     @Override
