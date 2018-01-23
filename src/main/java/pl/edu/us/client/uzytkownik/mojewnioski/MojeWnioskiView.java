@@ -54,11 +54,13 @@ public class MojeWnioskiView extends BaseView<MojeWnioskiUiHandlers> implements 
                     panel.getImie().setText(wniosek.getUzytkownik().getImie());
                     panel.getNazwisko().setText(wniosek.getUzytkownik().getNazwisko());
                     panel.getData().setValue(wniosek.getDataZlozenia());
+//                    panel.getBtnDrukuj().setEnabled(true);
                 } else {
                     panel.getWniosekPanel().clear();
                     panel.getImie().clear();
                     panel.getNazwisko().clear();
                     panel.getData().clear();
+//                    panel.getBtnDrukuj().setEnabled(false);
                 }
             }
         });

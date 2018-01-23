@@ -5,7 +5,7 @@ import com.gwtplatform.dispatch.rpc.server.guice.DispatchServiceImpl;
 import com.gwtplatform.dispatch.rpc.shared.ActionImpl;
 
 import pl.edu.us.server.servlets.InstrukcjaServlet;
-import pl.edu.us.server.servlets.RaportyImgServlet;
+import pl.edu.us.server.servlets.DrukujWniosekServlet;
 
 public class DispatchServletModule extends ServletModule {
 
@@ -13,7 +13,7 @@ public class DispatchServletModule extends ServletModule {
     public void configureServlets() {
         String address = "/" + ActionImpl.DEFAULT_SERVICE_NAME + "*";
 
-         serve("/raport_img").with(RaportyImgServlet.class);
+         serve("/wniosek").with(DrukujWniosekServlet.class);
          serve("/instrukcja").with(InstrukcjaServlet.class);
          serve(address).with(DispatchServiceImpl.class);
 

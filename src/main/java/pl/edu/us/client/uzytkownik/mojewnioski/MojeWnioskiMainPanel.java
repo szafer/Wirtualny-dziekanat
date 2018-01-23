@@ -149,12 +149,10 @@ public class MojeWnioskiMainPanel extends BazowyPanel {
         data.setReadOnly(true);
 
         wniosekPanel = new ContentPanel();
-//        wniosekPanel.setN
         wniosekPanel.setHeaderVisible(false);
-//        ToolBar tb = new ToolBar();
-//        tb.add(btnDrukuj);
+
         final FormPanel fp = new FormPanel();
-        fp.setAction(GWT.getHostPageBaseURL() + "raport_img");
+        fp.setAction(GWT.getHostPageBaseURL() + "wniosek");
         fp.setEncoding(Encoding.MULTIPART);
         fp.setMethod(Method.GET);
         fp.setHeight(100);
@@ -174,17 +172,10 @@ public class MojeWnioskiMainPanel extends BazowyPanel {
 
             @Override
             public void onSelect(SelectEvent event) {
-//                if (!fp.isValid())
-//                    return;
-//                fp.set
-                Window.open(GWT.getHostPageBaseURL() + "raport_img" + "?" + budujRequest(), "_blank", "resizable=yes");
-
-//                fp.submit();
-//                WniosekDTO dto = model.getWniosek();
-//                dto.setNazwaObrazu(fileUploadField.getValue());
-//                GWT.log(fileUploadField.getValue());
+                Window.open(GWT.getHostPageBaseURL() + "wniosek" + "?" + budujRequest(), "_blank", "resizable=yes");
             }
         });
+//        btnDrukuj.setEnabled(false);
         VerticalLayoutContainer vlc = new VerticalLayoutContainer();
         vlc.add(btnDrukuj, new VerticalLayoutData(1, -1));
         vlc.add(new FieldLabel(imie, "Imię"));
@@ -198,9 +189,7 @@ public class MojeWnioskiMainPanel extends BazowyPanel {
 
     private String budujRequest() {
         String s = "";
-        s += "imie=" + imie.getText();
-        s += "&nazwisko=" + nazwisko.getText();
-        s += "&data=" + data.getValue();
+        s += "id=" + model.getWniosek().getId();
         return s;
     }
 
@@ -232,5 +221,8 @@ public class MojeWnioskiMainPanel extends BazowyPanel {
 
     public DateField getData() {
         return data;
+    }
+    public TextButton getBtnDrukuj() {
+        return btnDrukuj;
     }
 }

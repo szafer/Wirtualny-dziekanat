@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -30,16 +31,17 @@ public class InstrukcjaServlet extends HttpServlet {
 
 //    @Autowired
 //    private InstrukcjaDAO instrukcjaDAO;
-    @Inject
-    InstrukcjaService instrukcjaService;//= new InstrukcjaServiceImpl();
+//    @Inject
+//    InstrukcjaService instrukcjaService;//= new InstrukcjaServiceImpl();
+    @PersistenceContext(name = "MyPersistenceUnit")
     private EntityManagerFactory factory;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        if (instrukcjaService != null) {
-            byte[] pdftest = instrukcjaService.pobierz();
-        }
+//        if (instrukcjaService != null) {
+//            byte[] pdftest = instrukcjaService.pobierz();
+//        }
 
         byte[] pdf = create();
         if (pdf != null) {

@@ -61,7 +61,7 @@ public class WnioskiMainPanel extends BazowyPanel {
         westData = new BorderLayoutData(500);
         westData.setCollapsible(true);
 
-        eastData = new BorderLayoutData(800);
+        eastData = new BorderLayoutData(750);
         eastData.setCollapsible(false);
         podgladPanel.setHeadingText("Wzór");
 
@@ -176,8 +176,11 @@ public class WnioskiMainPanel extends BazowyPanel {
     public void ustawObraz(String obraz) {
         podgladPanel.clear();
         if (obraz != null) {
-            Image img = new Image(obraz);
-            podgladPanel.add(img);
+            Image image = new Image(obraz);
+            int width = (int) podgladPanel.getBody().getWidth(true);
+            image.setPixelSize(width, image.getHeight() * width / image.getWidth());
+            podgladPanel.add(image);
+            podgladPanel.forceLayout();
         }
     }
 
