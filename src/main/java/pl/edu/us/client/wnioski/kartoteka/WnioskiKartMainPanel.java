@@ -2,10 +2,12 @@ package pl.edu.us.client.wnioski.kartoteka;
 
 import java.util.Date;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.Window;
 import com.google.inject.Inject;
 import com.sencha.gxt.data.shared.Store.Record;
 import com.sencha.gxt.widget.core.client.ContentPanel;
@@ -18,9 +20,12 @@ import com.sencha.gxt.widget.core.client.event.CancelEditEvent.CancelEditHandler
 import com.sencha.gxt.widget.core.client.event.CollapseEvent;
 import com.sencha.gxt.widget.core.client.event.CollapseEvent.CollapseHandler;
 import com.sencha.gxt.widget.core.client.event.CompleteEditEvent;
+import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.CompleteEditEvent.CompleteEditHandler;
+import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 import com.sencha.gxt.widget.core.client.event.StartEditEvent;
 import com.sencha.gxt.widget.core.client.event.StartEditEvent.StartEditHandler;
+import com.sencha.gxt.widget.core.client.info.Info;
 import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
 
 import pl.edu.us.client.main.BazowyPanel;
@@ -44,14 +49,15 @@ public class WnioskiKartMainPanel extends BazowyPanel {
         usun.setVisible(false);
         zatwierdz.setVisible(false);
         initialState();
+
         gridPanel = new WnioskiKartGridPanel(model);
 
         getBorderLayoutContainer().setCenterWidget(gridPanel);
 
-        eastData = new BorderLayoutData(700);
-        eastData.setCollapsible(true);
-        rightContainer = createRightPanel();
-        getBorderLayoutContainer().setEastWidget(rightContainer, eastData);
+//        eastData = new BorderLayoutData(700);
+//        eastData.setCollapsible(true);
+//        rightContainer = createRightPanel();
+//        getBorderLayoutContainer().setEastWidget(rightContainer, eastData);
         gridPanel.getEditing().addStartEditHandler(new StartEditHandler<UWniosekDTO>() {
 
             @Override
@@ -108,19 +114,43 @@ public class WnioskiKartMainPanel extends BazowyPanel {
                 setSaveEnabled(true);
             }
         });
+        gridPanel.getBtnDrukuj().addSelectHandler(new SelectHandler() {
+
+            @Override
+            public void onSelect(SelectEvent event) {
+                UWniosekDTO dto = gridPanel.getGrid().getSelectionModel().getSelectedItem();
+                if (dto != null)
+                    Window.open(GWT.getHostPageBaseURL() + "wniosek" + "?id=" + dto.getId(), "_blank", "resizable=yes");
+                else
+                    Info.display("Drukuj", "Proszę wybrać wniosek");
+            }
+        });
+        gridPanel.getBtnDrukujKart().addSelectHandler(new SelectHandler() {
+
+            @Override
+            public void onSelect(SelectEvent event) {
+                Window.print();
+            }
+        });
+//        btnDrukuj.setEnabled(false);
     }
 
-    private ContentPanel createRightPanel() {
-        ContentPanel cp = new ContentPanel();
-        wniosekPanel = new ContentPanel();
-        ToolBar tb = new ToolBar();
-        tb.add(btnDrukuj);
-        VerticalLayoutContainer vlc = new VerticalLayoutContainer();
-        vlc.add(tb, new VerticalLayoutData(1, -1));
-        vlc.add(wniosekPanel, new VerticalLayoutData(1, 1));
-        cp.add(vlc);
-        return cp;
+    private String budujRequest() {
+        String s = "";
+        s += "id=" + model.getWniosek().getId();
+        return s;
     }
+//    private ContentPanel createRightPanel() {
+//        ContentPanel cp = new ContentPanel();
+//        wniosekPanel = new ContentPanel();
+//        ToolBar tb = new ToolBar();
+//        tb.add(btnDrukuj);
+//        VerticalLayoutContainer vlc = new VerticalLayoutContainer();
+//        vlc.add(tb, new VerticalLayoutData(1, -1));
+//        vlc.add(wniosekPanel, new VerticalLayoutData(1, 1));
+//        cp.add(vlc);
+//        return cp;
+//    }
 
     public void initialState() {
         zapisz.setEnabled(false);

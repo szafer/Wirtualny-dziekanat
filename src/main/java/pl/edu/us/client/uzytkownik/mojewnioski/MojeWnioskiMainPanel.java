@@ -5,9 +5,12 @@ import java.util.Date;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.inject.Inject;
+import com.sencha.gxt.cell.core.client.ButtonCell.ButtonScale;
+import com.sencha.gxt.core.client.util.Margins;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
+import com.sencha.gxt.widget.core.client.container.CenterLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
 import com.sencha.gxt.widget.core.client.event.CancelEditEvent;
@@ -18,15 +21,11 @@ import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.event.SelectEvent.SelectHandler;
 import com.sencha.gxt.widget.core.client.event.StartEditEvent;
 import com.sencha.gxt.widget.core.client.event.StartEditEvent.StartEditHandler;
-import com.sencha.gxt.widget.core.client.event.SubmitCompleteEvent;
-import com.sencha.gxt.widget.core.client.event.SubmitCompleteEvent.SubmitCompleteHandler;
+import com.sencha.gxt.widget.core.client.form.BigDecimalField;
 import com.sencha.gxt.widget.core.client.form.DateField;
 import com.sencha.gxt.widget.core.client.form.FieldLabel;
 import com.sencha.gxt.widget.core.client.form.FormPanel;
-import com.sencha.gxt.widget.core.client.form.FormPanel.Encoding;
-import com.sencha.gxt.widget.core.client.form.FormPanel.Method;
 import com.sencha.gxt.widget.core.client.form.TextField;
-import com.sencha.gxt.widget.core.client.info.Info;
 
 import pl.edu.us.client.main.BazowyPanel;
 import pl.edu.us.shared.dto.wnioski.UWniosekDTO;
@@ -37,11 +36,13 @@ public class MojeWnioskiMainPanel extends BazowyPanel {
     private BorderLayoutData westData;
     private MojeWnioskiModel model;
     private MojeWnioskiGridPanel gridPanel;
-    private FormPanel centerPanel;
+    private ContentPanel centerPanel;
 //    private ContentPanel rightContainer;
     private TextButton btnDrukuj = new TextButton("Drukuj");
     private TextField imie, nazwisko;
-    private DateField data;
+    private DateField data, dataR;
+    private BigDecimalField kwota;
+
     private ContentPanel wniosekPanel;
     private static int AUTO_ID = 0;
 
@@ -58,8 +59,10 @@ public class MojeWnioskiMainPanel extends BazowyPanel {
 
         getBorderLayoutContainer().setWestWidget(gridPanel, westData);
 
-        centerPanel = createCenterPanel();
-        getBorderLayoutContainer().setCenterWidget(centerPanel);
+//        centerPanel =new ContentPanel();
+//        centerPanel.setHeadingText("Szczegóły wniosku");
+//        centerPanel.add(createCenterPanel());
+        getBorderLayoutContainer().setCenterWidget(createCenterPanel());
 
         gridPanel.getEditing().addStartEditHandler(new StartEditHandler<UWniosekDTO>() {
 
@@ -105,37 +108,11 @@ public class MojeWnioskiMainPanel extends BazowyPanel {
 
     }
 
-//    /* chapter12/MyJTable.java */
-//    public void createPdf(boolean shapes) {
-//       Document document = new Document();
-//       try {
-//          PdfWriter writer;
-//          if (shapes)
-//             writer = PdfWriter.getInstance(document,
-//                new FileOutputStream("my_jtable_shapes.pdf"));
-//          else
-//             writer = PdfWriter.getInstance(document,
-//                new FileOutputStream("my_jtable_fonts.pdf"));
-//          document.open();
-//          PdfContentByte cb = writer.getDirectContent();
-//          PdfTemplate tp = cb.createTemplate(500, 500);
-//          Graphics2D g2;
-//          if (shapes)
-//             g2 = tp.createGraphicsShapes(500, 500);
-//          else
-//             g2 = tp.createGraphics(500, 500);
-//          table.print(g2);
-//          g2.dispose();
-//          cb.addTemplate(tp, 30, 300);
-//          } catch (Exception e) {
-//          System.err.println(e.getMessage());
-//       }
-//       document.close();
-//    }
     private FormPanel createCenterPanel() {
-//        VerticalLayoutContainer vl = new VerticalLayoutContainer();
-//        vl.add(btnDrukuj);
-//        ContentPanel cp = new ContentPanel();
+        CenterLayoutContainer cp = new CenterLayoutContainer();
+        
+        FormPanel fp = new FormPanel();
+        
         imie = new TextField();
         imie.setReadOnly(true);
         imie.setName("imie");
@@ -148,25 +125,16 @@ public class MojeWnioskiMainPanel extends BazowyPanel {
         data.setName("data");
         data.setReadOnly(true);
 
+        dataR = new DateField();
+        dataR.setName("data");
+        dataR.setReadOnly(true);
+
+        kwota = new BigDecimalField();
+        kwota.setEditable(false);
+
         wniosekPanel = new ContentPanel();
         wniosekPanel.setHeaderVisible(false);
 
-        final FormPanel fp = new FormPanel();
-        fp.setAction(GWT.getHostPageBaseURL() + "wniosek");
-        fp.setEncoding(Encoding.MULTIPART);
-        fp.setMethod(Method.GET);
-        fp.setHeight(100);
-        fp.addSubmitCompleteHandler(new SubmitCompleteHandler() {
-            public void onSubmitComplete(SubmitCompleteEvent event) {
-
-//                String resultHtml = event.getResults();
-////
-//                Info.display("Upload Response", resultHtml);
-////
-//                Window.open(GWT.getHostPageBaseURL() + "raport_img" + "?imie=Marek Szafraniec", "_blank", "resizable=yes");
-
-            }
-        });
 
         btnDrukuj.addSelectHandler(new SelectHandler() {
 
@@ -175,15 +143,27 @@ public class MojeWnioskiMainPanel extends BazowyPanel {
                 Window.open(GWT.getHostPageBaseURL() + "wniosek" + "?" + budujRequest(), "_blank", "resizable=yes");
             }
         });
-//        btnDrukuj.setEnabled(false);
+        btnDrukuj.setEnabled(false);
+
+        TextButton printButton = new TextButton("Print");
+        printButton.addSelectHandler(new SelectHandler() {
+
+            @Override
+            public void onSelect(SelectEvent event) {
+                Window.print();
+            }
+        });
+        btnDrukuj.setScale(ButtonScale.LARGE);
+        btnDrukuj.setWidth(100);
         VerticalLayoutContainer vlc = new VerticalLayoutContainer();
-        vlc.add(btnDrukuj, new VerticalLayoutData(1, -1));
         vlc.add(new FieldLabel(imie, "Imię"));
         vlc.add(new FieldLabel(nazwisko, "Nazwisko"));
-        vlc.add(new FieldLabel(data, "Data urodzenia"));
-        vlc.add(wniosekPanel, new VerticalLayoutData(1, 1));
-        fp.setWidget(vlc);
-//        cp.add(vlc);
+        vlc.add(new FieldLabel(data, "Data urodzenia"));        
+        vlc.add(new FieldLabel(kwota, "Przyznane stypendium"), new VerticalLayoutData(-1, -1, new Margins(30, 0, 0, 0)));
+        vlc.add(new FieldLabel(dataR, "Data rozpatrzenia wniosku"));
+        vlc.add(btnDrukuj, new VerticalLayoutData(-1, -1, new Margins(30, 0, 0, 156)));
+        cp.add(vlc);
+        fp.setWidget(cp);
         return fp;
     }
 
@@ -222,7 +202,14 @@ public class MojeWnioskiMainPanel extends BazowyPanel {
     public DateField getData() {
         return data;
     }
+
     public TextButton getBtnDrukuj() {
         return btnDrukuj;
+    }
+    public DateField getDataR() {
+        return dataR;
+    }
+    public BigDecimalField getKwota() {
+        return kwota;
     }
 }

@@ -25,11 +25,14 @@ import pl.edu.us.shared.enums.TypWniosku;
 
 public final class ServerUtils {
 
-    private String tab = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t";
     public static final String FONT = "FreeSans.ttf";
+    public static final String JDBC_DRIVER = "oracle.jdbc.OracleDriver";
+    public static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:xe";
 
-//    Font f2 = FontFactory.getFont("FreeSans.ttf", BaseFont.IDENTITY_H, true);
-
+    //  Database credentials
+    public static final String USER = "PZI";
+    public static final String PASS = "PZI";
+    
     public static String getImageData(byte[] bytes) {
         String base64 = Base64.encodeBase64String(bytes);
         base64 = "data:image/png;base64," + base64;

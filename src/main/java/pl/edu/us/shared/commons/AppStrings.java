@@ -25,4 +25,5 @@ public class AppStrings {
     
     public static final String odblokowanie_konta_subj = "Usosweb: Odblokowanie konta";
     public static final String odblokowanie_konta = "Twoje konto zostało odblokowane.";
+    public static final String max_liczba_znakow = "Maksymalna liczba znaków wynosi: ";
 }

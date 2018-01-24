@@ -43,7 +43,7 @@ public class DaneUzytkownikaPanel extends CenterLayoutContainer implements /* Is
         super();
         this.model = model;
         this.mainPanel = daneUzytkownikaMainPanel;
-        setBorders(true);
+//        setBorders(true);
 //        setHeadingText("Moje dane");
         createForm1();
 

@@ -118,8 +118,11 @@ public class WiadomosciModel {
             odebrane.setOdebrane(result.getOdebrane());
         }
         for (OdbiorcaDTO odb : result.getNowe()) {
-            if (!odebrane.getNowe().contains(odb))
+            if (!odebrane.getNowe().contains(odb)){
                 odebrane.getNowe().add(odb);
+                storeOdebrane.add(odb);
+            }
+                
         }
         storeTypySkrzynek.update(wyslane);
         storeTypySkrzynek.update(odebrane);

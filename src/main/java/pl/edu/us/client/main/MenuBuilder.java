@@ -47,16 +47,16 @@ public class MenuBuilder {
         menuBar.add(buildDaneOsoboweMenu());
         if (rola != null) {
             if (rola == Rola.ADMIN) {
-        menuBar.add(buildAdminMenu());
-        menuBar.add(buildWiadomosciMenu());
+                menuBar.add(buildAdminMenu());
+                menuBar.add(buildWiadomosciMenu());
             } else if (rola == Rola.NAUCZYCIEL) {
-        menuBar.add(buildPracownikMenu());
+                menuBar.add(buildPracownikMenu());
             } else {
-        menuBar.add(buildStudentMenu());
-        menuBar.add(buildWiadomosciMenu());
+                menuBar.add(buildStudentMenu());
+                menuBar.add(buildWiadomosciMenu());
             }
         }
-        
+
         menuBar.add(buildWydrukiMenu());
         menuBar.add(buildHelpMenu());
         menuBar.add(buildZamknijMenu());
@@ -72,6 +72,14 @@ public class MenuBuilder {
             @Override
             public void onSelection(SelectionEvent<Item> event) {
                 Window.open(GWT.getHostPageBaseURL() + "instrukcja", "_blank", "resizable=yes");
+            }
+        });
+        MenuItem item2 = new MenuItem("Dokumentacja");
+        intrukcjaMenu.add(item2);
+        item2.addSelectionHandler(new SelectionHandler<Item>() {
+            @Override
+            public void onSelection(SelectionEvent<Item> event) {
+                Window.open(GWT.getHostPageBaseURL() + "dokumentacja", "_blank", "resizable=yes");
             }
         });
         return wiaromosciMenuBarItem;

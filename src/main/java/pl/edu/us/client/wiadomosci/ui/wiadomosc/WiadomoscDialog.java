@@ -1,8 +1,11 @@
 package pl.edu.us.client.wiadomosci.ui.wiadomosc;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import com.google.gwt.editor.client.Editor;
+import com.google.gwt.editor.client.EditorError;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.safecss.shared.SafeStyles;
@@ -21,6 +24,8 @@ import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.Verti
 import com.sencha.gxt.widget.core.client.form.Field;
 import com.sencha.gxt.widget.core.client.form.FieldLabel;
 import com.sencha.gxt.widget.core.client.form.TextArea;
+import com.sencha.gxt.widget.core.client.form.Validator;
+import com.sencha.gxt.widget.core.client.form.error.DefaultEditorError;
 import com.sencha.gxt.widget.core.client.grid.CheckBoxSelectionModel;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
@@ -33,6 +38,7 @@ import pl.edu.us.client.main.grid.KodFilter;
 import pl.edu.us.client.main.handlers.FieldHandler;
 import pl.edu.us.client.main.handlers.FieldHandler.FieldListener;
 import pl.edu.us.client.wiadomosci.WiadomosciModel;
+import pl.edu.us.shared.commons.AppStrings;
 import pl.edu.us.shared.dto.UserDTO;
 import pl.edu.us.shared.enums.Rola;
 
@@ -113,12 +119,31 @@ public class WiadomoscDialog extends Dialog implements FieldListener {
         });
         txtTemat = new TextArea();
         txtTemat.setAllowBlank(false);
-//        txtTemat.setWidth(350);
+        txtTemat.addValidator(new Validator<String>() {
+            
+            @Override
+            public List<EditorError> validate(Editor<String> editor, String value) {
+                if (value != null && value.length()>150) {
+                        return Collections.<EditorError> singletonList(new DefaultEditorError(editor, AppStrings.max_liczba_znakow+150, value));
+                }
+                return null;
+            }
+        });
+        txtTemat.setHeight(40);
         txtWiadomosc = new TextArea();
         txtWiadomosc.setAllowBlank(false);
         txtTemat.addValueChangeHandler(listener);
         txtWiadomosc.addValueChangeHandler(listener);
-//        txtWiadomosc.setWidth(350);
+        txtWiadomosc.addValidator(new Validator<String>() {
+            
+            @Override
+            public List<EditorError> validate(Editor<String> editor, String value) {
+                if (value != null && value.length()>2000) {
+                        return Collections.<EditorError> singletonList(new DefaultEditorError(editor, AppStrings.max_liczba_znakow+150, value));
+                }
+                return null;
+            }
+        });
         ContentPanel cpr = new ContentPanel();
         cpr.setHeadingText("Odbiorcy");
 
@@ -126,7 +151,6 @@ public class WiadomoscDialog extends Dialog implements FieldListener {
         BorderLayoutData eastData = new BorderLayoutData();
         eastData.setSize(500);
         eastData.setCollapsible(true);
-//        eastData.setMargins(new Margins(1, 0, 1, 0));
         VerticalLayoutContainer vlc = new VerticalLayoutContainer();
         vlc.add(new FieldLabel(null, "Temat"), new VerticalLayoutData(-1, -1));
         vlc.add(txtTemat, new VerticalLayoutData(1, -1));
@@ -136,10 +160,6 @@ public class WiadomoscDialog extends Dialog implements FieldListener {
         cpr.add(grid);
         blc.setEastWidget(cpr, eastData);
         blc.setCenterWidget(vlc);
-
-//        HorizontalLayoutContainer hlc = new HorizontalLayoutContainer();
-//        hlc.add(vlc);
-//        hlc.add(grid);
 
         add(blc);
 

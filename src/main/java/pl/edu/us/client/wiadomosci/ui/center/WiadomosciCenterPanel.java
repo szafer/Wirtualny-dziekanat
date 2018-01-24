@@ -100,6 +100,7 @@ public class WiadomosciCenterPanel extends ContentPanel {
                         dialog.getGrid().getSelectionModel().select(false, userDto);
                     }
                     dialog.getTxtTemat().setText("Re:" + odebranePanel.getGrid().getSelectionModel().getSelectedItem().getNadawca().getTemat());
+                    dialog.getTxtWiadomosc().setText("\nRe:" + odebranePanel.getGrid().getSelectionModel().getSelectedItem().getNadawca().getWiadomosc());
                 }
             }
         });

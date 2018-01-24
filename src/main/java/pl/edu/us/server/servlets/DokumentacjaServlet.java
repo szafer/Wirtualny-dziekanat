@@ -9,8 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -18,31 +16,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.common.io.ByteStreams;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import pl.edu.us.server.ServerUtils;
-import pl.edu.us.shared.services.instrukcja.InstrukcjaService;
 
 @Singleton
-public class InstrukcjaServlet extends HttpServlet {
+public class DokumentacjaServlet extends HttpServlet {
+
     private static final long serialVersionUID = 376139408976524942L;
-
-//  final  InstrukcjaServiceAsync instrukcjaService = GWT.create(InstrukcjaService.class);
-
-//    @Autowired
-//    private InstrukcjaDAO instrukcjaDAO;
-//    @Inject
-//    InstrukcjaService instrukcjaService;//= new InstrukcjaServiceImpl();
-    @PersistenceContext(name = "MyPersistenceUnit")
-    private EntityManagerFactory factory;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-//        if (instrukcjaService != null) {
-//            byte[] pdftest = instrukcjaService.pobierz();
-//        }
 
         byte[] pdf = create();
         if (pdf != null) {
@@ -54,7 +38,7 @@ public class InstrukcjaServlet extends HttpServlet {
         } else {
             resp.setContentType("text/html;charset=utf-8");
             PrintWriter out = resp.getWriter();
-            out.println("<html><head><title>Wirtualny dziekanat</title></head><body><h1>Brak instrukcji</h1></body></html>");
+            out.println("<html><head><title>Wirtualny dziekanat</title></head><body><h1>Brak dokumentacji</h1></body></html>");
             out.flush();
             out.close();
         }
@@ -75,7 +59,7 @@ public class InstrukcjaServlet extends HttpServlet {
             // Execute SQL query
             stmt = conn.createStatement();
             String sql;
-            sql = "SELECT instrukcja FROM Instrukcja where id = 1";
+            sql = "SELECT instrukcja FROM Instrukcja where id = 2";
             ResultSet rs = stmt.executeQuery(sql);
 
             // Extract data from result set

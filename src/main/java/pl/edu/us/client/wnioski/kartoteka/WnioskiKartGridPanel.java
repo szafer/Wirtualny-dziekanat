@@ -17,6 +17,9 @@ import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.data.shared.LabelProvider;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.ContentPanel;
+import com.sencha.gxt.widget.core.client.button.TextButton;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
+import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
 import com.sencha.gxt.widget.core.client.form.BigDecimalField;
 import com.sencha.gxt.widget.core.client.form.ComboBox;
 import com.sencha.gxt.widget.core.client.form.DateTimePropertyEditor;
@@ -31,6 +34,7 @@ import com.sencha.gxt.widget.core.client.grid.filters.DateFilter;
 import com.sencha.gxt.widget.core.client.grid.filters.GridFilters;
 import com.sencha.gxt.widget.core.client.grid.filters.NumericFilter;
 import com.sencha.gxt.widget.core.client.grid.filters.StringFilter;
+import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
 
 import pl.edu.us.client.accesproperties.UWniosekProperties;
 import pl.edu.us.client.main.grid.BeanFilter;
@@ -57,6 +61,8 @@ public class WnioskiKartGridPanel extends ContentPanel {
     private WnioskiKartModel model;
     private UWniosekProperties props;
     BigDecimalField bdKwota = new BigDecimalField();
+    private TextButton btnDrukuj = new TextButton("Drukuj wniosek");
+    private TextButton btnDrukujKart = new TextButton("Drukuj kartotekę");
 
     public WnioskiKartGridPanel(WnioskiKartModel model) {
         this.model = model;
@@ -67,10 +73,10 @@ public class WnioskiKartGridPanel extends ContentPanel {
 
         idCol = new ColumnConfig<>(props.id(), 30, "ID");
         dataZlozCol = new ColumnConfig<UWniosekDTO, Date>(props.dataZlozenia(), 130, "Data wniosku");
-        imieCol = new ColumnConfig<UWniosekDTO, String>(props.uzytkownikImie(), 100, "Imię");
+        imieCol = new ColumnConfig<UWniosekDTO, String>(props.uzytkownikImie(), 120, "Imię");
         nazwiskoCol = new ColumnConfig<UWniosekDTO, String>(props.uzytkownikNazwisko(), 150, "Nazwisko");
 //userCol = new ColumnConfig<UWniosekDTO, UserDTO>(props.uzytkownik(), 209, "Student");
-        typCol = new ColumnConfig<UWniosekDTO, WniosekDTO>(props.wniosek(), 130, "Typ wniosku");
+        typCol = new ColumnConfig<UWniosekDTO, WniosekDTO>(props.wniosek(), 150, "Typ wniosku");
         statusCol = new ColumnConfig<UWniosekDTO, StatusWniosku>(props.status(), 220, "Status wniosku");
         dataRozpCol = new ColumnConfig<UWniosekDTO, Date>(props.dataRozpatrzenia(), 130, "Data rozpatrzenia");
         dataZlozCol = new ColumnConfig<UWniosekDTO, Date>(props.dataZlozenia(), 130, "Data wniosku");
@@ -151,9 +157,16 @@ public class WnioskiKartGridPanel extends ContentPanel {
         editing = new GridInlineEditing<UWniosekDTO>(grid);
         editing.setClicksToEdit(ClicksToEdit.TWO);
         editing.addEditor(kwotaCol, bdKwota);
-        
+
 //        editing.addEditor(statusCol, new ComboBox<StatusWniosku>(comboStatus));
-        add(grid);
+        ToolBar tb = new ToolBar();
+        tb.add(btnDrukuj);
+        tb.add(btnDrukujKart);
+        VerticalLayoutContainer vlc = new VerticalLayoutContainer();
+        vlc.add(tb, new VerticalLayoutData(1, -1));
+        vlc.add(grid, new VerticalLayoutData(1, 1));
+//        add(grid);
+        add(vlc);
     }
 
     private StringFilter<UWniosekDTO> createFilter(ValueProvider<UWniosekDTO, String> provider) {
@@ -184,5 +197,13 @@ public class WnioskiKartGridPanel extends ContentPanel {
 
     public DateCell getDataRCell() {
         return dataRCell;
+    }
+
+    public TextButton getBtnDrukuj() {
+        return btnDrukuj;
+    }
+
+    public TextButton getBtnDrukujKart() {
+        return btnDrukujKart;
     }
 }

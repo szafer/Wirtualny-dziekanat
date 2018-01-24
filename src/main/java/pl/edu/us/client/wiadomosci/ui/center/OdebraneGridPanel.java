@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
+import com.google.gwt.safecss.shared.SafeStyles;
+import com.google.gwt.safecss.shared.SafeStylesUtils;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.sencha.gxt.cell.core.client.form.DateCell;
 import com.sencha.gxt.core.client.Style.SelectionMode;
 import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.ContentPanel;
-import com.sencha.gxt.widget.core.client.button.TextButton;
-import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
-import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
-import com.sencha.gxt.widget.core.client.form.DateField;
 import com.sencha.gxt.widget.core.client.form.DateTimePropertyEditor;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
@@ -22,7 +23,6 @@ import com.sencha.gxt.widget.core.client.grid.Grid;
 import com.sencha.gxt.widget.core.client.grid.filters.DateFilter;
 import com.sencha.gxt.widget.core.client.grid.filters.GridFilters;
 import com.sencha.gxt.widget.core.client.grid.filters.StringFilter;
-import com.sencha.gxt.widget.core.client.toolbar.ToolBar;
 
 import pl.edu.us.client.accesproperties.OdbiorcaProperties;
 import pl.edu.us.client.wiadomosci.WiadomosciModel;
@@ -46,7 +46,8 @@ public class OdebraneGridPanel extends ContentPanel {
         this.props = model.getOdbProp();
 
         setHeaderVisible(false);
-
+        final SafeStyles boldStyle = SafeStylesUtils.fromTrustedString("font-weight: bold;");
+        final SafeStyles stdStyle = SafeStylesUtils.fromTrustedString("");
         dataOdbCol = new ColumnConfig<OdbiorcaDTO, Date>(props.dataOdbioru(), 130, "Data odbioru");
         nadImieCol = new ColumnConfig<OdbiorcaDTO, String>(props.imie(), 100, "Imię");
         nadNazCol = new ColumnConfig<OdbiorcaDTO, String>(props.nazwisko(), 150, "Nazwisko");
@@ -56,6 +57,78 @@ public class OdebraneGridPanel extends ContentPanel {
         dataZlozCell.setPropertyEditor(new DateTimePropertyEditor(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT)));
         dataZlozCell.setWidth(120);
         dataZlozCell.setReadOnly(true);
+        dataOdbCol.setCell(new AbstractCell<Date>() {
+            @Override
+            public void render(Context context, final Date value, SafeHtmlBuilder sb) {
+                OdbiorcaDTO dto = store.get(context.getIndex());
+                sb.append(new SafeHtml() {
+
+                    @Override
+                    public String asString() {
+                        return value == null ? "" : value.toString();
+                    }
+                });
+                if (dto.getDataOdbioru() == null) {
+                    dataOdbCol.setColumnTextStyle(boldStyle);
+                } else {
+                    dataOdbCol.setColumnTextStyle(stdStyle);
+                }
+            }
+        });
+        nadImieCol.setCell(new AbstractCell<String>() {
+            @Override
+            public void render(Context context, final String value, SafeHtmlBuilder sb) {
+                OdbiorcaDTO dto = store.get(context.getIndex());
+                sb.append(new SafeHtml() {
+
+                    @Override
+                    public String asString() {
+                        return value;
+                    }
+                });
+                if (dto.getDataOdbioru() == null) {
+                    nadImieCol.setColumnTextStyle(boldStyle);
+                } else {
+                    nadImieCol.setColumnTextStyle(stdStyle);
+                }
+            }
+        });
+        nadNazCol.setCell(new AbstractCell<String>() {
+            @Override
+            public void render(Context context, final String value, SafeHtmlBuilder sb) {
+                OdbiorcaDTO dto = store.get(context.getIndex());
+                sb.append(new SafeHtml() {
+
+                    @Override
+                    public String asString() {
+                        return value;
+                    }
+                });
+                if (dto.getDataOdbioru() == null) {
+                    nadNazCol.setColumnTextStyle(boldStyle);
+                } else {
+                    nadNazCol.setColumnTextStyle(stdStyle);
+                }
+            }
+        });
+        nadTematCol.setCell(new AbstractCell<String>() {
+            @Override
+            public void render(Context context, final String value, SafeHtmlBuilder sb) {
+                OdbiorcaDTO dto = store.get(context.getIndex());
+                sb.append(new SafeHtml() {
+
+                    @Override
+                    public String asString() {
+                        return value;
+                    }
+                });
+                if (dto.getDataOdbioru() == null) {
+                    nadTematCol.setColumnTextStyle(boldStyle);
+                } else {
+                    nadTematCol.setColumnTextStyle(stdStyle);
+                }
+            }
+        });
 //        dataOdbCol.setCell(dataZlozCell);
 
         List<ColumnConfig<OdbiorcaDTO, ?>> columns = new ArrayList<ColumnConfig<OdbiorcaDTO, ?>>();

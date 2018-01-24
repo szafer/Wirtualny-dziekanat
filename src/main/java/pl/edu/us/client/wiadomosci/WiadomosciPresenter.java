@@ -93,7 +93,7 @@ public class WiadomosciPresenter extends BasePresenter<WiadomosciPresenter.MyVie
 
     private void pobierzDaneUzytkownika() {
 
-        userService.pobierzDaneUzytkownika(Cookies.getCookie("loggedUser"), rpcMasking.call(Message.SAVING, new AsyncCallback<UserDTO>() {
+        userService.pobierzDaneUzytkownika(Cookies.getCookie("loggedUser"), rpcMasking.call(Message.LOADING, new AsyncCallback<UserDTO>() {
 
             @Override
             public void onSuccess(UserDTO result) {

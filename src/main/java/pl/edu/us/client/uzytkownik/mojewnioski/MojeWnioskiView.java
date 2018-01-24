@@ -35,7 +35,6 @@ public class MojeWnioskiView extends BaseView<MojeWnioskiUiHandlers> implements 
             public void onBeforeSelection(BeforeSelectionEvent<UWniosekDTO> event) {
                 UWniosekDTO wniosek = event.getItem();
                 model.setWniosek(wniosek);
-//                panel.getGri
                 panel.getGridPanel().getComboTyp().setReadOnly(wniosek.getStatus() != StatusWniosku.OCZEKJACY);
             }
         });
@@ -45,22 +44,26 @@ public class MojeWnioskiView extends BaseView<MojeWnioskiUiHandlers> implements 
             public void onSelectionChanged(SelectionChangedEvent<UWniosekDTO> event) {
                 UWniosekDTO wniosek = panel.getGridPanel().getGrid().getSelectionModel().getSelectedItem();
                 model.setWniosek(wniosek);
-                if (wniosek != null && wniosek.getId() != null && wniosek.getImage() != null) {
-                    Image image = new Image(wniosek.getImage());
-                    int width = (int) panel.getWniosekPanel().getBody().getWidth(true);
-                    image.setPixelSize(width, image.getHeight() * width / image.getWidth());
-                    panel.getWniosekPanel().clear();
-                    panel.getWniosekPanel().add(image);
+                if (wniosek != null && wniosek.getId() != null /*&& wniosek.getImage() != null*/) {
+//                    Image image = new Image(wniosek.getImage());
+//                    int width = (int) panel.getWniosekPanel().getBody().getWidth(true);
+//                    image.setPixelSize(width, image.getHeight() * width / image.getWidth());
+//                    panel.getWniosekPanel().clear();
+//                    panel.getWniosekPanel().add(image);
                     panel.getImie().setText(wniosek.getUzytkownik().getImie());
                     panel.getNazwisko().setText(wniosek.getUzytkownik().getNazwisko());
                     panel.getData().setValue(wniosek.getDataZlozenia());
-//                    panel.getBtnDrukuj().setEnabled(true);
+                    panel.getDataR().setValue(wniosek.getDataRozpatrzenia());
+                    panel.getKwota().setValue(wniosek.getKwota());
+                    panel.getBtnDrukuj().setEnabled(true);
                 } else {
                     panel.getWniosekPanel().clear();
                     panel.getImie().clear();
                     panel.getNazwisko().clear();
                     panel.getData().clear();
-//                    panel.getBtnDrukuj().setEnabled(false);
+                    panel.getDataR().clear();
+                    panel.getKwota().clear();
+                    panel.getBtnDrukuj().setEnabled(false);
                 }
             }
         });
