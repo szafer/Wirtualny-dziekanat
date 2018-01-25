@@ -27,11 +27,11 @@ public final class ServerUtils {
 
     public static final String FONT = "FreeSans.ttf";
     public static final String JDBC_DRIVER = "oracle.jdbc.OracleDriver";
-    public static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:xe";
+    public static final String DB_URL = "jdbc:oracle:thin:@jsedb01.coig.com:1521:jst01";
 
     //  Database credentials
-    public static final String USER = "PZI";
-    public static final String PASS = "PZI";
+    public static final String USER = "PPLCADM";
+    public static final String PASS = "PPLCADM";
     
     public static String getImageData(byte[] bytes) {
         String base64 = Base64.encodeBase64String(bytes);
@@ -164,7 +164,7 @@ public final class ServerUtils {
 
         Paragraph par4 = new Paragraph("" + userId);
         par4.setLeading(20f);
-        par4.setIndentationLeft(50f);
+        par4.setIndentationLeft(80f);
         document.add(par4);
 
         Paragraph par5 = new Paragraph("\n\n\n\n\n\n\n\n\n\n\n" + imie + " " + nazwisko);
@@ -290,39 +290,39 @@ public final class ServerUtils {
         Font f = FontFactory.getFont("FreeSans.ttf", BaseFont.IDENTITY_H, true);
         Date d = new Date();
         Paragraph par1 = new Paragraph("Katowice, " + new java.sql.Date(d.getYear(), d.getMonth(), d.getDay()).toString());
-        par1.setLeading(50f);
+        par1.setLeading(35f);
         par1.setAlignment(2);
-        par1.setIndentationRight(40f);
+        par1.setIndentationRight(80f);
         document.add(par1);
         Paragraph par2 = new Paragraph(imie + " " + nazwisko, f);
         par2.setLeading(25f);
-        par2.setIndentationLeft(45f);
+        par2.setIndentationLeft(15f);
         document.add(par2);
 
         Paragraph parEm = new Paragraph("Informatyka niestacjonarne II stopnia", f);
         parEm.setLeading(30f);
-        parEm.setIndentationLeft(45f);
+        parEm.setIndentationLeft(15f);
         document.add(parEm);
 
         Paragraph par3 = new Paragraph("II Rok," + (new Date().getMonth() < 6 ? Semestr.ZIMOWY.toString() : Semestr.LETNI.toString()) + ", Magisterskie", f);
         par3.setLeading(25f);
-        par3.setIndentationLeft(45f);
+        par3.setIndentationLeft(15f);
         document.add(par3);
 
         Paragraph forma = new Paragraph("________");
         forma.setLeading(23f);
-        forma.setIndentationLeft(75f);
+        forma.setIndentationLeft(45f);
         document.add(forma);
 
         Paragraph par4 = new Paragraph("" + userId);
         par4.setLeading(20f);
-        par4.setIndentationLeft(50f);
+        par4.setIndentationLeft(40f);
         document.add(par4);
 
         Paragraph par5 = new Paragraph("\n\n\n\n\n" + imie + " " + nazwisko);
         par5.setAlignment(2);
         par5.setSpacingBefore(260f);
-        par5.setIndentationRight(50f);
+        par5.setIndentationRight(80f);
         document.add(par5);
 
         document.addTitle(typ.getNazwa());
