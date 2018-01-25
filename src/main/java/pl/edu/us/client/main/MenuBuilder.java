@@ -74,14 +74,16 @@ public class MenuBuilder {
                 Window.open(GWT.getHostPageBaseURL() + "instrukcja", "_blank", "resizable=yes");
             }
         });
-        MenuItem item2 = new MenuItem("Dokumentacja");
-        intrukcjaMenu.add(item2);
-        item2.addSelectionHandler(new SelectionHandler<Item>() {
-            @Override
-            public void onSelection(SelectionEvent<Item> event) {
-                Window.open(GWT.getHostPageBaseURL() + "dokumentacja", "_blank", "resizable=yes");
-            }
-        });
+        if (rola == Rola.ADMIN) {
+	        MenuItem item2 = new MenuItem("Dokumentacja");
+	        intrukcjaMenu.add(item2);
+	        item2.addSelectionHandler(new SelectionHandler<Item>() {
+	            @Override
+	            public void onSelection(SelectionEvent<Item> event) {
+	                Window.open(GWT.getHostPageBaseURL() + "dokumentacja", "_blank", "resizable=yes");
+	            }
+	        });
+        }
         return wiaromosciMenuBarItem;
     }
 
