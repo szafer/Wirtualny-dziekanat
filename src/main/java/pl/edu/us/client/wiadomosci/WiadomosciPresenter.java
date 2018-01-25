@@ -112,28 +112,24 @@ public class WiadomosciPresenter extends BasePresenter<WiadomosciPresenter.MyVie
     private void pobierzWiadomosci(final Boolean tylkoNowe) {
 //        getView().getModel().wyczysc();
         if (!tylkoNowe) {
-            wiadomosciService.getWiadomosci(1
-//            kontekst.getUser().getId()
-                , rpcMasking.call(Message.LOADING,
-                    new ActionCallback<UserMessagesDTO>() {
+            wiadomosciService.getWiadomosci(getView().getModel().getUser().getId(), rpcMasking.call(Message.LOADING,
+                new ActionCallback<UserMessagesDTO>() {
 
-                        @Override
-                        public void onSuccess(UserMessagesDTO result) {
-                            if (result != null) {
-                                menuPresenter.loadMessages(null);//czyści toolbar
-                                getView().getModel().ladujDane(result, tylkoNowe);
-                            }
+                    @Override
+                    public void onSuccess(UserMessagesDTO result) {
+                        if (result != null) {
+                            menuPresenter.loadMessages(null);//czyści toolbar
+                            getView().getModel().ladujDane(result, tylkoNowe);
                         }
+                    }
 
-                        @Override
-                        public void onFailure(Throwable caught) {
-                            new AlertMessageBox("Wiadomości", "Błąd pobierania wiadomości: <br>" + caught.getMessage()).show();
-                        }
-                    }));
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        new AlertMessageBox("Wiadomości", "Błąd pobierania wiadomości: <br>" + caught.getMessage()).show();
+                    }
+                }));
         } else {
-            wiadomosciService.getWiadomosci(1
-//            kontekst.getUser().getId()
-                ,
+            wiadomosciService.getWiadomosci(getView().getModel().getUser().getId(),
                 new ActionCallback<UserMessagesDTO>() {
 
                     @Override

@@ -8,6 +8,7 @@ import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.sencha.gxt.data.shared.Store.Record;
 import com.sencha.gxt.widget.core.client.event.HideEvent;
 import com.sencha.gxt.widget.core.client.event.HideEvent.HideHandler;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
@@ -112,9 +113,11 @@ public class WiadomosciView extends BaseView<WiadomosciUiHandlers> implements Wi
                     nad.setUserId(model.getUser().getId());
                     List<OdbiorcaDTO> odbiorcy = new ArrayList<OdbiorcaDTO>();
                     for (UserDTO u : lista) {
+                        Record rr = model.getStoreOdbiorcy().getRecord(u);
                         OdbiorcaDTO o = new OdbiorcaDTO();
                         o.setUserId(u.getId());
-                        o.setEmail(u.getPowiadomic());
+                        Boolean email = (Boolean) rr.getValue(model.getuProp().powiadomic());
+                        o.setEmail(email);
                         o.setNadawca(nad);
                         odbiorcy.add(o);
                     }

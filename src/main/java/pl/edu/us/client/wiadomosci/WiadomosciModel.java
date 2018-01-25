@@ -79,8 +79,6 @@ public class WiadomosciModel {
 
     public void setUser(UserDTO user) {
         this.user = user;
-        if (user != null && user.getWnioskiUzytkownika() != null) {
-        }
     }
 
     public TreeStore<BaseDto> getStoreTypySkrzynek() {

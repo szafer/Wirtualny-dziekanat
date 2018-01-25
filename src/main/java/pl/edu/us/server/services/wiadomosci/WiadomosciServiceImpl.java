@@ -63,16 +63,16 @@ public class WiadomosciServiceImpl implements WiadomosciService {
         }
         for (Odbiorca o : od) {
             OdbiorcaDTO nDto = mapper.map(o, OdbiorcaDTO.class);
-            nDto.setUserId(o.getUser().getId());
-            nDto.setImie(o.getUser().getImie());
-            nDto.setNazwisko(o.getUser().getNazwisko());
+            nDto.setUserId(o.getNadawca().getUser().getId());
+            nDto.setImie(o.getNadawca().getUser().getImie());
+            nDto.setNazwisko(o.getNadawca().getUser().getNazwisko());
             odebrane.add(nDto);
         }
         for (Odbiorca o : wiad) {
             OdbiorcaDTO nDto = mapper.map(o, OdbiorcaDTO.class);
-            nDto.setUserId(o.getUser().getId());
-            nDto.setImie(o.getUser().getImie());
-            nDto.setNazwisko(o.getUser().getNazwisko());
+            nDto.setUserId(o.getNadawca().getUser().getId());
+            nDto.setImie(o.getNadawca().getUser().getImie());
+            nDto.setNazwisko(o.getNadawca().getUser().getNazwisko());
             nowe.add(nDto);
 
         }
